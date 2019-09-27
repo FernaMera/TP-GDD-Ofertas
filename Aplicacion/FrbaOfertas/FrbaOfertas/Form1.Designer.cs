@@ -31,9 +31,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.iniciarSesion = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.nuevoUsuario = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,6 +51,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 192);
             this.label2.Name = "label2";
@@ -63,40 +66,68 @@
             this.textBox1.Size = new System.Drawing.Size(174, 20);
             this.textBox1.TabIndex = 2;
             // 
-            // textBox2
+            // passwordBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(98, 189);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(174, 20);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.UseSystemPasswordChar = true;
+            this.passwordBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.passwordBox.Location = new System.Drawing.Point(98, 189);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.PasswordChar = '*';
+            this.passwordBox.Size = new System.Drawing.Size(174, 20);
+            this.passwordBox.TabIndex = 3;
+            this.passwordBox.UseSystemPasswordChar = true;
             // 
-            // button1
+            // iniciarSesion
             // 
-            this.button1.Location = new System.Drawing.Point(98, 226);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(85, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Iniciar Sesion";
-            this.button1.UseVisualStyleBackColor = true;
+            this.iniciarSesion.Location = new System.Drawing.Point(16, 226);
+            this.iniciarSesion.Name = "iniciarSesion";
+            this.iniciarSesion.Size = new System.Drawing.Size(85, 23);
+            this.iniciarSesion.TabIndex = 4;
+            this.iniciarSesion.Text = "Iniciar Sesion";
+            this.iniciarSesion.UseVisualStyleBackColor = true;
+            this.iniciarSesion.Click += new System.EventHandler(this.iniciarSesion_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(83, 12);
+            this.pictureBox1.ImageLocation = "Imagenes\\Main.png";
+            this.pictureBox1.Location = new System.Drawing.Point(25, 32);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(127, 122);
+            this.pictureBox1.Size = new System.Drawing.Size(247, 107);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.WaitOnLoad = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Showcard Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(93, 2);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(101, 27);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "OFERTAS";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nuevoUsuario
+            // 
+            this.nuevoUsuario.Location = new System.Drawing.Point(188, 226);
+            this.nuevoUsuario.Name = "nuevoUsuario";
+            this.nuevoUsuario.Size = new System.Drawing.Size(84, 23);
+            this.nuevoUsuario.TabIndex = 7;
+            this.nuevoUsuario.Text = "Crear Usuario";
+            this.nuevoUsuario.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.nuevoUsuario);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.iniciarSesion);
+            this.Controls.Add(this.passwordBox);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -113,9 +144,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Button iniciarSesion;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button nuevoUsuario;
     }
 }
 

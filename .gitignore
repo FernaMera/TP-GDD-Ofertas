@@ -1,0 +1,7 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Aplicacion/FrbaOfertas/.vs/FrbaOfertas
+/Aplicacion/FrbaOfertas/FrbaOfertas/obj/Release

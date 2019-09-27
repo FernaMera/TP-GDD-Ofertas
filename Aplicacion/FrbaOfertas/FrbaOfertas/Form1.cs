@@ -21,5 +21,16 @@ namespace FrbaOfertas
         {
 
         }
+
+        private void iniciarSesion_Click(object sender, EventArgs e)
+        {
+            EncriptadorClave encriptador = new EncriptadorClave();
+
+            //DEBUG ONLY
+            MessageBox.Show(encriptador.Encriptar(passwordBox.Text));
+
+            //buscar usuario en base de datos
+            //comparar hashes
+        }
     }
 }
