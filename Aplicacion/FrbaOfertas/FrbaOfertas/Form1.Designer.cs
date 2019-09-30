@@ -35,7 +35,6 @@
             this.iniciarSesion = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.nuevoUsuario = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,7 +77,7 @@
             // 
             // iniciarSesion
             // 
-            this.iniciarSesion.Location = new System.Drawing.Point(16, 226);
+            this.iniciarSesion.Location = new System.Drawing.Point(98, 226);
             this.iniciarSesion.Name = "iniciarSesion";
             this.iniciarSesion.Size = new System.Drawing.Size(85, 23);
             this.iniciarSesion.TabIndex = 4;
@@ -109,21 +108,11 @@
             this.label3.Text = "OFERTAS";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // nuevoUsuario
-            // 
-            this.nuevoUsuario.Location = new System.Drawing.Point(188, 226);
-            this.nuevoUsuario.Name = "nuevoUsuario";
-            this.nuevoUsuario.Size = new System.Drawing.Size(84, 23);
-            this.nuevoUsuario.TabIndex = 7;
-            this.nuevoUsuario.Text = "Crear Usuario";
-            this.nuevoUsuario.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.nuevoUsuario);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.iniciarSesion);
@@ -148,7 +137,6 @@
         private System.Windows.Forms.Button iniciarSesion;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button nuevoUsuario;
     }
 }
 
