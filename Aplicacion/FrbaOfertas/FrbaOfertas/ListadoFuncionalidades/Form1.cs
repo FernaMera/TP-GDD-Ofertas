@@ -12,9 +12,33 @@ namespace FrbaOfertas.ListadoFuncionalidades
 {
     public partial class Ofertas : Form
     {
+        Rol unRol;
+        HashSet<string> funciones;
+
         public Ofertas()
         {
             InitializeComponent();
+
+            List<Button> botones = new List<Button>();
+            botones.Add(abmClienteButton);
+            botones.Add(abmProveedorButton);
+            botones.Add(abmRolButton);
+            botones.Add(comprarOfertaButton);
+            botones.Add(cargarCreditoButton);
+            botones.Add(crearOfertaButton);
+            botones.Add(listadoEstadisticoButton);
+
+            funciones = new HashSet<string>();
+            funciones.Add("Comprar Oferta");
+            funciones.Add("Carga Credito");
+
+            unRol = new Rol(1, "cliente", funciones);
+
+            foreach(Button button in botones)
+            {
+                if (!unRol.TieneFuncion(button.Text))
+                    button.Visible = false;
+            }
         }
 
         private void AbrirFormEnPanel(object form)
