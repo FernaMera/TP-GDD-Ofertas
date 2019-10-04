@@ -31,6 +31,15 @@ namespace FrbaOfertas
 
             //buscar usuario en base de datos
             //comparar hashes
+
+            //si el login es correcto, esconder ventana y abrir nueva
+            /*WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;*/
+
+            this.Hide();
+            var form = new ListadoFuncionalidades.Ofertas();
+            form.Closed += (s, args) => this.Close();
+            form.Show();
         }
     }
 }
