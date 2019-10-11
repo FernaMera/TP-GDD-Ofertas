@@ -41,5 +41,10 @@ namespace FrbaOfertas
             form.Closed += (s, args) => this.Close();
             form.Show();
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }

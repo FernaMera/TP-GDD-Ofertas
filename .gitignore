@@ -5,3 +5,7 @@
 /.vs
 /Aplicacion/FrbaOfertas/.vs/FrbaOfertas
 /Aplicacion/FrbaOfertas/FrbaOfertas/obj/Release
+/Base de Datos
+/Aplicacion/FrbaOfertas/FrbaOfertas/Properties/DataSources
+/Aplicacion/FrbaOfertas/FrbaOfertas/obj/Debug
+/Aplicacion/FrbaOfertas/FrbaOfertas/bin/Debug
