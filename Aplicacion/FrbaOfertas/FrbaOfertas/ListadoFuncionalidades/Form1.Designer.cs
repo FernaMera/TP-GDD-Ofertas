@@ -131,7 +131,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 25, 10, 0);
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 15, 10, 0);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(120, 355);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
@@ -140,9 +140,10 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Showcard Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(13, 25);
+            this.label1.Location = new System.Drawing.Point(13, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 17);
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.label1.Size = new System.Drawing.Size(65, 27);
             this.label1.TabIndex = 7;
             this.label1.Text = "Ofertas";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -165,7 +166,7 @@
             this.Controls.Add(this.panelFunciones);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Ofertas";
-            this.Text = "Form1";
+            this.Text = "Ofertas";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

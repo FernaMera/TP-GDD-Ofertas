@@ -11,6 +11,7 @@ namespace FrbaOfertas
     {
         private int id;
         private string nombre;
+        private string descipcion;
         private HashSet<Funcionalidad> funcionalidades;
         private HashSet<string> funciones;
 

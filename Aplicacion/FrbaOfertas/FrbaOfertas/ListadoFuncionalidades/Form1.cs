@@ -31,6 +31,7 @@ namespace FrbaOfertas.ListadoFuncionalidades
             funciones = new HashSet<string>();
             funciones.Add("Comprar Oferta");
             funciones.Add("Carga Credito");
+            funciones.Add("ABM Rol");
 
             unRol = new Rol(1, "cliente", funciones);
 

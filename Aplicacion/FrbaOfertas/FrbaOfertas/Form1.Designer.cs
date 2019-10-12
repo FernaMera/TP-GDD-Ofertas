@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.nombreUsuarioBox = new System.Windows.Forms.TextBox();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.iniciarSesion = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -41,6 +41,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 160);
             this.label1.Name = "label1";
@@ -59,12 +60,13 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Contraseña:";
             // 
-            // textBox1
+            // nombreUsuarioBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(98, 157);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(174, 20);
-            this.textBox1.TabIndex = 2;
+            this.nombreUsuarioBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.nombreUsuarioBox.Location = new System.Drawing.Point(98, 157);
+            this.nombreUsuarioBox.Name = "nombreUsuarioBox";
+            this.nombreUsuarioBox.Size = new System.Drawing.Size(174, 20);
+            this.nombreUsuarioBox.TabIndex = 2;
             // 
             // passwordBox
             // 
@@ -78,6 +80,7 @@
             // 
             // iniciarSesion
             // 
+            this.iniciarSesion.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.iniciarSesion.Location = new System.Drawing.Point(98, 226);
             this.iniciarSesion.Name = "iniciarSesion";
             this.iniciarSesion.Size = new System.Drawing.Size(85, 23);
@@ -88,6 +91,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.ImageLocation = "Imagenes\\Main.png";
             this.pictureBox1.Location = new System.Drawing.Point(25, 32);
             this.pictureBox1.Name = "pictureBox1";
@@ -99,6 +103,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Showcard Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -111,6 +116,7 @@
             // 
             // linkLabel1
             // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(201, 231);
             this.linkLabel1.Name = "linkLabel1";
@@ -130,7 +136,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.iniciarSesion);
             this.Controls.Add(this.passwordBox);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.nombreUsuarioBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
@@ -145,7 +151,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox nombreUsuarioBox;
         private System.Windows.Forms.TextBox passwordBox;
         private System.Windows.Forms.Button iniciarSesion;
         private System.Windows.Forms.PictureBox pictureBox1;

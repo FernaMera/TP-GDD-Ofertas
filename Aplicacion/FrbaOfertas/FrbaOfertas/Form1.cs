@@ -26,15 +26,23 @@ namespace FrbaOfertas
         {
             EncriptadorClave encriptador = new EncriptadorClave();
 
-            //DEBUG ONLY
-            MessageBox.Show(encriptador.Encriptar(passwordBox.Text));
+            if(nombreUsuarioBox.Text.Equals(""))
+            {
+                MessageBox.Show("Ingrese Nombre de Usuario");
+                return;
+            }
+            if (passwordBox.Text.Equals(""))
+            {
+                MessageBox.Show("Ingrese Contraseña");
+                return;
+            }
 
             //buscar usuario en base de datos
-            //comparar hashes
 
-            //si el login es correcto, esconder ventana y abrir nueva
-            /*WindowState = FormWindowState.Minimized;
-            ShowInTaskbar = false;*/
+            //DEBUG ONLY
+            MessageBox.Show(encriptador.Encriptar(passwordBox.Text));
+            
+            //comparar hashes
 
             this.Hide();
             var form = new ListadoFuncionalidades.Ofertas();
@@ -44,7 +52,10 @@ namespace FrbaOfertas
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            //this.Hide();
+            var form = new CrearUsuario.Form1();
+            //form.Closed += (s, args) => this.Show();
+            form.Show();
         }
     }
 }
