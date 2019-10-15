@@ -88,13 +88,13 @@ CREATE TABLE [Cupones2C2019].[Cliente](
     [apellido] [varchar](255) NOT NULL,
     [dni] [numeric](18,0) UNIQUE NOT NULL,
     [telefono] [numeric](18,0) NOT NULL,
-    [mail] [varchar](255) NOT NULL,
+    [mail] [varchar](255) NOT NULL, -- hay mails repetidos.
     [direccion] [varchar](255) NOT NULL,
     [ciudad] [varchar](255) NOT NULL,
-    [cod_postal] [smallint] NOT NULL,
+    [cod_postal] [smallint],
     [fecha_nac] [datetime] NOT NULL,
     [saldo] [numeric](18,2) NOT NULL DEFAULT 0,
-    [habilitado] [bit] NOT NULL DEFAULT 1,
+    [habilitado] [bit] NOT NULL DEFAULT 1, -- 1 habilitado, 0 inhabilitado
     PRIMARY KEY (id)
 )
 GO
@@ -102,15 +102,15 @@ GO
 CREATE TABLE [Cupones2C2019].[Proveedor](
     [cuit] [char](13),
     [razon_soc] [varchar](255) UNIQUE NOT NULL,
-    [id_usuario] [numeric](18,0) UNIQUE FOREIGN KEY REFERENCES [Cupones2C2019].Usuario(id),
-    [nombre_contacto] [varchar](255) NOT NULL,
+    [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [Cupones2C2019].Usuario(id),
+    [nombre_contacto] [varchar](255), -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
     [rubro] [varchar](255) NOT NULL,
     [telefono] [numeric](18,0) NOT NULL,
-    [mail] [varchar](255) NOT NULL,
+    [mail] [varchar](255), -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
     [direccion] [varchar](255) NOT NULL,
     [ciudad] [varchar](255) NOT NULL,
-    [cod_postal] [smallint] NOT NULL,
-    [habilitado] [bit] NOT NULL DEFAULT 1,
+    [cod_postal] [smallint], -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
+    [habilitado] [bit] NOT NULL DEFAULT 1, -- 1 habilitado, 0 inhabilitado
     PRIMARY KEY (cuit)
 )
 GO
@@ -243,7 +243,83 @@ VALUES ((SELECT id FROM [Cupones2C2019].Rol WHERE nombre = 'Administrador'), (SE
 GO
 
 
+-- Migrar Clientes. El CP NULL indicará que es un dato migrado (controlar en FE) ya que no es un dato en tabla maestra.
+INSERT INTO [Cupones2C2019].Cliente(
+    nombre,
+    apellido,
+    dni,
+    telefono,
+    mail,
+    direccion,
+    ciudad,
+    fecha_nac
+) 
+SELECT DISTINCT
+    Cli_Nombre,
+	Cli_Apellido,
+    Cli_Dni,
+    Cli_Telefono,
+    Cli_Mail,
+    Cli_Direccion,
+    Cli_Ciudad,
+    Cli_Fecha_Nac
+FROM GD2C2019.gd_esquema.Maestra
+GO
 
--- Migrar datos
+
+-- Migrar Proveedores. 
+INSERT INTO [Cupones2C2019].Proveedor(
+    cuit,
+    razon_soc,
+    rubro,
+    telefono,
+    direccion,
+    ciudad
+)
+SELECT DISTINCT 
+    Provee_CUIT,
+    Provee_RS,
+    Provee_Rubro,
+    Provee_Telefono,
+    Provee_Dom,
+    Provee_Ciudad 
+FROM gd_esquema.Maestra
+WHERE Provee_CUIT IS NOT NULL
+GO
+
+-- Cargar Tipo de Pagos
+INSERT INTO [Cupones2C2019].Tipo_Pago(descripcion)
+VALUES ('Débito'), ('Crédito'), ('Efectivo')
+GO
+
+-- Migrar Cargas (Todas las hizo el mismo cliente)
+INSERT INTO [Cupones2C2019].Carga(
+    id_cliente,
+    fecha,
+    monto,
+    id_tipoPago
+) SELECT 
+    (SELECT id FROM [Cupones2C2019].Cliente WHERE dni = (SELECT DISTINCT Cli_Dni FROM gd_esquema.Maestra WHERE Carga_Credito IS NOT NULL)) AS id_cliente,
+    Carga_Credito,
+    Carga_Fecha,
+    (SELECT id FROM [Cupones2C2019].Tipo_Pago WHERE descripcion = Tipo_Pago_Desc) AS id_tipoPago
+FROM gd_esquema.Maestra
+WHERE Carga_Credito IS NOT NULL
+GO
+
+
+
+-- Actualizar saldo del unico cliente que realizo cargas - VER
+
+-- Migrar Facturación
+
+-- Migrar Entregas
+
+
+
+
+
+
+
 
 -- Stored Procedures / Triggers / Funciones
