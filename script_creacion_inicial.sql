@@ -267,7 +267,7 @@ FROM GD2C2019.gd_esquema.Maestra
 GO
 
 
--- Migrar Proveedores. 
+-- Migrar Proveedores. nombre_contacto, mail y codigo postal vacios en tabla maestra.
 INSERT INTO [Cupones2C2019].Proveedor(
     cuit,
     razon_soc,
@@ -300,8 +300,8 @@ INSERT INTO [Cupones2C2019].Carga(
     id_tipoPago
 ) SELECT 
     (SELECT id FROM [Cupones2C2019].Cliente WHERE dni = (SELECT DISTINCT Cli_Dni FROM gd_esquema.Maestra WHERE Carga_Credito IS NOT NULL)) AS id_cliente,
-    Carga_Credito,
     Carga_Fecha,
+    Carga_Credito,
     (SELECT id FROM [Cupones2C2019].Tipo_Pago WHERE descripcion = Tipo_Pago_Desc) AS id_tipoPago
 FROM gd_esquema.Maestra
 WHERE Carga_Credito IS NOT NULL
