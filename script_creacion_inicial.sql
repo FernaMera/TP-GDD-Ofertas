@@ -14,42 +14,42 @@ INNER JOIN sys.schemas     s ON s.schema_id = f.schema_id
 EXEC (@SQL)
 
 -- Drop tablas
-IF OBJECT_ID('[Cupones2C2019].Cupon', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Cupon];
-IF OBJECT_ID('[Cupones2C2019].Compra', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Compra];
-IF OBJECT_ID('[Cupones2C2019].Entrega', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Entrega];
-IF OBJECT_ID('[Cupones2C2019].Oferta', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Oferta];
-IF OBJECT_ID('[Cupones2C2019].Datos_Tarjeta', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Datos_Tarjeta];
-IF OBJECT_ID('[Cupones2C2019].Carga', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Carga];
-IF OBJECT_ID('[Cupones2C2019].Tipo_Pago', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Tipo_Pago];
-IF OBJECT_ID('[Cupones2C2019].Facturacion', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Facturacion];
-IF OBJECT_ID('[Cupones2C2019].Proveedor', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Proveedor];
-IF OBJECT_ID('[Cupones2C2019].Cliente', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Cliente];
-IF OBJECT_ID('[Cupones2C2019].Rol_Usuario', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Rol_Usuario];
-IF OBJECT_ID('[Cupones2C2019].Rol_Funcionalidad', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Rol_Funcionalidad];
-IF OBJECT_ID('[Cupones2C2019].Funcionalidad', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Funcionalidad];
-IF OBJECT_ID('[Cupones2C2019].Rol', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Rol];
-IF OBJECT_ID('[Cupones2C2019].Usuario', 'U') IS NOT NULL DROP TABLE [Cupones2C2019].[Usuario];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Cupon', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cupon];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Compra', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Compra];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Entrega', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Entrega];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Oferta', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Oferta];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Datos_Tarjeta', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Datos_Tarjeta];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Carga', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Carga];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Tipo_Pago', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Tipo_Pago];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Facturacion', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Facturacion];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Proveedor', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Cliente', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cliente];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol_Usuario];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol_Funcionalidad];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Funcionalidad];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Usuario', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Usuario];
 
 
 /* Esquema */
 
-IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Cupones2C2019')
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'SELECT_THISGROUP_FROM_APROBADOS')
 BEGIN
-	EXEC ('CREATE SCHEMA [Cupones2C2019] AUTHORIZATION gdCupon2019')
+	EXEC ('CREATE SCHEMA [SELECT_THISGROUP_FROM_APROBADOS] AUTHORIZATION gdCupon2019')
 END
 GO
 
 
 /* Creacion tablas */
 
-CREATE TABLE [Cupones2C2019].[Funcionalidad](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Funcionalidad](
     [id] [numeric](18, 0) IDENTITY,
 	[descripcion] [varchar](255) NOT NULL,
     PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Rol](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol](
     [id] [numeric](18,0) IDENTITY,
     [nombre] [varchar](255) NOT NULL,
     habilitado [bit] NOT NULL DEFAULT 1,
@@ -57,14 +57,14 @@ CREATE TABLE [Cupones2C2019].[Rol](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Rol_Funcionalidad](
-    [id_rol] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Rol(id),
-    [id_func] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Funcionalidad(id),
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol_Funcionalidad](
+    [id_rol] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Rol(id),
+    [id_func] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad(id),
     PRIMARY KEY (id_func, id_rol)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Usuario](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Usuario](
     [id] [numeric](18,0) IDENTITY,
     [username] [varchar](255) UNIQUE NOT NULL,
     [password] [varchar](255) NOT NULL,
@@ -74,16 +74,16 @@ CREATE TABLE [Cupones2C2019].[Usuario](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Rol_Usuario](
-    [id_rol] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Rol(id),
-    [id_usuario] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Usuario(id),
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol_Usuario](
+    [id_rol] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Rol(id),
+    [id_usuario] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Usuario(id),
     PRIMARY KEY (id_rol, id_usuario),
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Cliente](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cliente](
     [id] [numeric](18,0) IDENTITY,
-    [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [Cupones2C2019].Usuario(id),
+    [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Usuario(id),
     [nombre] [varchar](255) NOT NULL,
     [apellido] [varchar](255) NOT NULL,
     [dni] [numeric](18,0) UNIQUE NOT NULL,
@@ -99,10 +99,10 @@ CREATE TABLE [Cupones2C2019].[Cliente](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Proveedor](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor](
     [cuit] [char](13),
     [razon_soc] [varchar](255) UNIQUE NOT NULL,
-    [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [Cupones2C2019].Usuario(id),
+    [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Usuario(id),
     [nombre_contacto] [varchar](255), -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
     [rubro] [varchar](255) NOT NULL,
     [telefono] [numeric](18,0) NOT NULL,
@@ -115,27 +115,27 @@ CREATE TABLE [Cupones2C2019].[Proveedor](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Facturacion](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Facturacion](
     [numero_factura] [numeric](18,0),
     [fecha_desde] [datetime] NOT NULL,
     [fecha_hasta] [datetime] NOT NULL,
-    [cuit_proveedor] [char](13) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Proveedor(cuit),
+    [cuit_proveedor] [char](13) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(cuit),
     [total] [numeric](18,2) NOT NULL,
     PRIMARY KEY (numero_factura)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Tipo_Pago](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Tipo_Pago](
     [id] [tinyint] IDENTITY,
     [descripcion] [varchar](255) NOT NULL,
     PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Carga](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Carga](
     [id] [numeric](18,0) IDENTITY,
-    [id_cliente] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Cliente(id),
-    [id_tipoPago] [tinyint] NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Tipo_Pago(id),
+    [id_cliente] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cliente(id),
+    [id_tipoPago] [tinyint] NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Tipo_Pago(id),
     [fecha] [datetime] NOT NULL,
     [monto] [numeric](18,2) NOT NULL,
     PRIMARY KEY (id)
@@ -143,18 +143,18 @@ CREATE TABLE [Cupones2C2019].[Carga](
 GO
 
 
-CREATE TABLE [Cupones2C2019].[Datos_Tarjeta](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Datos_Tarjeta](
     [id] [numeric](18,0) IDENTITY,
-    [id_tipoPago] [tinyint] NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Tipo_Pago(id),
+    [id_tipoPago] [tinyint] NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Tipo_Pago(id),
     [numero] [numeric](18,0) NOT NULL,
     [nombre] [varchar](255) NOT NULL,
     PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Oferta](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Oferta](
     [id] [numeric](18,0) IDENTITY,
-    [cuit_prov] [char](13) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Proveedor(cuit),
+    [cuit_prov] [char](13) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(cuit),
     [codigo] [varchar](255) NOT NULL,
     [descripcion] [varchar](255) NOT NULL,
     [fec_public] [datetime] NOT NULL,
@@ -167,9 +167,9 @@ CREATE TABLE [Cupones2C2019].[Oferta](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Cupon](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cupon](
     [codigo_cupon] [numeric](18,0),
-    [id_oferta] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Oferta(id),
+    [id_oferta] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Oferta(id),
     [cod_compra] [numeric](18,0) NOT NULL,
     [id_entrega] [numeric](18,0), -- puede haber cupon sin entregar aun
     [fecha_vencimiento] [datetime] NOT NULL,
@@ -178,19 +178,19 @@ CREATE TABLE [Cupones2C2019].[Cupon](
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Entrega](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Entrega](
     [id] [numeric](18,0) IDENTITY,
     [fecha_consumo] [datetime] NOT NULL,
-    [cupon] [numeric](18,0) UNIQUE NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Cupon(codigo_cupon),
-    [id_cliente] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Cliente(id),
+    [cupon] [numeric](18,0) UNIQUE NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cupon(codigo_cupon),
+    [id_cliente] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cliente(id),
     PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE [Cupones2C2019].[Compra](
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Compra](
     [codigo_compra] [numeric](18,0) IDENTITY,
-    [id_cliente_compra] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Cliente(id),
-    [cod_cupon] [numeric](18,0) UNIQUE NOT NULL FOREIGN KEY REFERENCES [Cupones2C2019].Cupon(codigo_cupon),
+    [id_cliente_compra] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cliente(id),
+    [cod_cupon] [numeric](18,0) UNIQUE NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cupon(codigo_cupon),
     [fecha_compra] [datetime] NOT NULL,
     PRIMARY KEY (codigo_compra)
 )
@@ -200,51 +200,51 @@ GO
 
 
 -- Agregar FK faltantes de Cupon (no se puede al crear la tabla porque no existen las otras tablas)
-ALTER TABLE [Cupones2C2019].Cupon ADD FOREIGN KEY (cod_compra) REFERENCES [Cupones2C2019].Compra(codigo_compra) 
-ALTER TABLE [Cupones2C2019].Cupon ADD FOREIGN KEY (id_entrega) REFERENCES [Cupones2C2019].Entrega(id)
+ALTER TABLE [SELECT_THISGROUP_FROM_APROBADOS].Cupon ADD FOREIGN KEY (cod_compra) REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Compra(codigo_compra) 
+ALTER TABLE [SELECT_THISGROUP_FROM_APROBADOS].Cupon ADD FOREIGN KEY (id_entrega) REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Entrega(id)
 
 
 /* Migracion */
 
 -- Roles
-INSERT INTO [Cupones2C2019].Rol(nombre)
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol(nombre)
 VALUES ('Administrador'), ('Cliente'), ('Proveedor')
 GO
 
 -- Funcionalidades
-INSERT INTO [Cupones2C2019].Funcionalidad(descripcion)
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad(descripcion)
 VALUES ('ABM_Rol'), ('ABM_Cliente'), ('ABM_Proveedor'), ('Carga_Credito'), ('Confeccionar_Oferta'), ('Comprar_Oferta'), ('Consumir_Oferta'), ('Facturacion') 
 GO
 
 -- Funcionalidades por Rol
 -- Administrador puede: todo
-INSERT INTO [Cupones2C2019].Rol_Funcionalidad(id_rol, id_func)
-SELECT 1, id FROM [Cupones2C2019].Funcionalidad 
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
+SELECT 1, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad 
 GO
 -- Cliente puede: cargar credito y comprar oferta
-INSERT INTO [Cupones2C2019].Rol_Funcionalidad(id_rol, id_func)
-SELECT 2, id FROM [Cupones2C2019].Funcionalidad
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
+SELECT 2, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
 WHERE descripcion IN ('Carga_Credito', 'Comprar_Oferta')
 GO
 -- Proveedor puede:
-INSERT INTO [Cupones2C2019].Rol_Funcionalidad(id_rol, id_func)
-SELECT 3, id FROM [Cupones2C2019].Funcionalidad
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
+SELECT 3, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
 WHERE descripcion IN ('Confeccionar_Oferta', 'Consumir_Oferta', 'Facturacion')
 GO
 
 -- Usuarios
-INSERT INTO [Cupones2C2019].Usuario(username, password)
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Usuario(username, password)
 VALUES ('admin', HASHBYTES('SHA2_256', 'w23e'))
 GO
 
 -- Rol por Usuario
-INSERT INTO [Cupones2C2019].Rol_Usuario(id_rol, id_usuario)
-VALUES ((SELECT id FROM [Cupones2C2019].Rol WHERE nombre = 'Administrador'), (SELECT id FROM [Cupones2C2019].Usuario WHERE username = 'admin'))
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario(id_rol, id_usuario)
+VALUES ((SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol WHERE nombre = 'Administrador'), (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = 'admin'))
 GO
 
 
 -- Migrar Clientes. El CP NULL indicará que es un dato migrado (controlar en FE) ya que no es un dato en tabla maestra.
-INSERT INTO [Cupones2C2019].Cliente(
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Cliente(
     nombre,
     apellido,
     dni,
@@ -268,7 +268,7 @@ GO
 
 
 -- Migrar Proveedores. nombre_contacto, mail y codigo postal vacios en tabla maestra.
-INSERT INTO [Cupones2C2019].Proveedor(
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(
     cuit,
     razon_soc,
     rubro,
@@ -288,21 +288,21 @@ WHERE Provee_CUIT IS NOT NULL
 GO
 
 -- Cargar Tipo de Pagos
-INSERT INTO [Cupones2C2019].Tipo_Pago(descripcion)
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Tipo_Pago(descripcion)
 VALUES ('Débito'), ('Crédito'), ('Efectivo')
 GO
 
 -- Migrar Cargas (Todas las hizo el mismo cliente)
-INSERT INTO [Cupones2C2019].Carga(
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Carga(
     id_cliente,
     fecha,
     monto,
     id_tipoPago
 ) SELECT 
-    (SELECT id FROM [Cupones2C2019].Cliente WHERE dni = (SELECT DISTINCT Cli_Dni FROM gd_esquema.Maestra WHERE Carga_Credito IS NOT NULL)) AS id_cliente,
+    (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = (SELECT DISTINCT Cli_Dni FROM gd_esquema.Maestra WHERE Carga_Credito IS NOT NULL)) AS id_cliente,
     Carga_Fecha,
     Carga_Credito,
-    (SELECT id FROM [Cupones2C2019].Tipo_Pago WHERE descripcion = Tipo_Pago_Desc) AS id_tipoPago
+    (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Tipo_Pago WHERE descripcion = Tipo_Pago_Desc) AS id_tipoPago
 FROM gd_esquema.Maestra
 WHERE Carga_Credito IS NOT NULL
 GO
