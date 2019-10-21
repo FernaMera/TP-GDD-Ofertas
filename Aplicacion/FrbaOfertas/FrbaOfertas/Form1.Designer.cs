@@ -30,9 +30,9 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.usuario = new System.Windows.Forms.TextBox();
+            this.contrasenia = new System.Windows.Forms.TextBox();
+            this.iniciar_sesion = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -45,7 +45,6 @@
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Usuario: ";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -56,30 +55,31 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Contraseña:";
             // 
-            // textBox1
+            // usuario
             // 
-            this.textBox1.Location = new System.Drawing.Point(98, 157);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(174, 20);
-            this.textBox1.TabIndex = 2;
+            this.usuario.Location = new System.Drawing.Point(98, 157);
+            this.usuario.Name = "usuario";
+            this.usuario.Size = new System.Drawing.Size(174, 20);
+            this.usuario.TabIndex = 2;
             // 
-            // textBox2
+            // contrasenia
             // 
-            this.textBox2.Location = new System.Drawing.Point(98, 189);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(174, 20);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.UseSystemPasswordChar = true;
+            this.contrasenia.Location = new System.Drawing.Point(98, 189);
+            this.contrasenia.Name = "contrasenia";
+            this.contrasenia.PasswordChar = '*';
+            this.contrasenia.Size = new System.Drawing.Size(174, 20);
+            this.contrasenia.TabIndex = 3;
+            this.contrasenia.UseSystemPasswordChar = true;
             // 
-            // button1
+            // iniciar_sesion
             // 
-            this.button1.Location = new System.Drawing.Point(98, 226);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(85, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Iniciar Sesion";
-            this.button1.UseVisualStyleBackColor = true;
+            this.iniciar_sesion.Location = new System.Drawing.Point(98, 226);
+            this.iniciar_sesion.Name = "iniciar_sesion";
+            this.iniciar_sesion.Size = new System.Drawing.Size(85, 23);
+            this.iniciar_sesion.TabIndex = 4;
+            this.iniciar_sesion.Text = "Iniciar Sesion";
+            this.iniciar_sesion.UseVisualStyleBackColor = true;
+            this.iniciar_sesion.Click += new System.EventHandler(this.iniciar_sesion_Click);
             // 
             // pictureBox1
             // 
@@ -95,9 +95,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.iniciar_sesion);
+            this.Controls.Add(this.contrasenia);
+            this.Controls.Add(this.usuario);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
@@ -112,9 +112,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox usuario;
+        private System.Windows.Forms.TextBox contrasenia;
+        private System.Windows.Forms.Button iniciar_sesion;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
