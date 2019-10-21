@@ -30,6 +30,10 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad', 'U') IS NOT NULL
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Usuario', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Usuario];
 
+-- Drop SP
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
+
+
 
 /* Esquema */
 
@@ -308,18 +312,43 @@ WHERE Carga_Credito IS NOT NULL
 GO
 
 
-
 -- Actualizar saldo del unico cliente que realizo cargas - VER
 
 -- Migrar Facturación
 
 -- Migrar Entregas
 
+-- Stored Procedures
+-- sp_validar_login
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login(@username varchar(255), @password varchar(255))
+AS
+ BEGIN
+    IF ((SELECT habilitado FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = @username) = 0)
+		RETURN -1 -- Código usuario inhablitado
+
+    IF((SELECT intentos_fallidos FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = @username) >= 3)
+        RETURN -2 -- Código usuario más de 3 intentos fallidos
+ 	
+    DECLARE @hash_pass varchar(255)
+	DECLARE @id_usuario numeric(18,0)
+
+	SET @hash_pass = HASHBYTES('SHA2_256', @password)
+	SET @id_usuario = (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = @username AND password = @hash_pass)
+
+	IF (@id_usuario IS NOT NULL)
+		BEGIN 
+		UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Usuario SET intentos_fallidos = 0 WHERE username = @username
+		RETURN @id_usuario
+		END
+	ELSE 	
+		BEGIN 
+		UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Usuario SET intentos_fallidos += 1 WHERE username = @username
+		RETURN -3 -- Codigo usuario/password incorrecto/inexistente
+		END 
+ END
+GO
+
+-- Funciones
 
 
-
-
-
-
-
--- Stored Procedures / Triggers / Funciones
+-- Triggers
