@@ -25,6 +25,7 @@ namespace FrbaOfertas
                 MessageBox.Show("Se debe completar usuario y contraseña", "Login");
                 this.usuario.Clear();
                 this.contrasenia.Clear();
+                return;
             }
 
             var conexion = ConexionDB.getConexion();
