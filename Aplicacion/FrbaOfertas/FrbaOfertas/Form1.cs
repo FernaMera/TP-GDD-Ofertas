@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace FrbaOfertas
 {
@@ -17,37 +18,40 @@ namespace FrbaOfertas
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void iniciar_sesion_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void iniciarSesion_Click(object sender, EventArgs e)
-        {
-            EncriptadorClave encriptador = new EncriptadorClave();
-
-            if(nombreUsuarioBox.Text.Equals(""))
+            if (this.contrasenia.Text.Length == 0 || this.usuario.Text.Length == 0)
             {
-                MessageBox.Show("Ingrese Nombre de Usuario");
-                return;
-            }
-            if (passwordBox.Text.Equals(""))
-            {
-                MessageBox.Show("Ingrese Contraseña");
-                return;
+                MessageBox.Show("Se debe completar usuario y contraseña", "Login");
+                this.usuario.Clear();
+                this.contrasenia.Clear();
             }
 
-            //buscar usuario en base de datos
+            var conexion = ConexionDB.getConexion();
 
-            //DEBUG ONLY
-            MessageBox.Show(encriptador.Encriptar(passwordBox.Text));
-            
-            //comparar hashes
+            SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login", conexion);
 
-            this.Hide();
-            var form = new ListadoFuncionalidades.Ofertas();
-            form.Closed += (s, args) => this.Close();
-            form.Show();
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@username", SqlDbType.VarChar);
+            comando.Parameters.Add("@password", SqlDbType.VarChar);
+            comando.Parameters["@username"].Value = usuario.Text;
+            comando.Parameters["@password"].Value = contrasenia.Text;
+            comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+            conexion.Open();
+            SqlDataReader reader = comando.ExecuteReader();
+            int retorno = (int)comando.Parameters["@ReturnVal"].Value;
+            conexion.Close();
+
+            MessageBox.Show(retorno.ToString(), "Resultado Login");
+
+            if (retorno == -3)
+            {
+                MessageBox.Show("Usuario/Contraseña inexistente o incorrecto", "Resultado Login");
+            }
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
