@@ -54,6 +54,12 @@ namespace FrbaOfertas
 
         }
 
-
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //this.Hide();
+            var form = new CrearUsuario.Form1();
+            //form.Closed += (s, args) => this.Show();
+            form.Show();
+        }
     }
 }
