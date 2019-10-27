@@ -36,8 +36,6 @@
             this.panelRol = new System.Windows.Forms.TableLayoutPanel();
             this.nombreRolBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.descripcionBox = new System.Windows.Forms.TextBox();
             this.funcionesBox = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.guardarButton = new System.Windows.Forms.Button();
@@ -100,15 +98,12 @@
             this.panelRol.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.panelRol.Controls.Add(this.nombreRolBox, 1, 0);
             this.panelRol.Controls.Add(this.label2, 0, 0);
-            this.panelRol.Controls.Add(this.label3, 0, 1);
-            this.panelRol.Controls.Add(this.descripcionBox, 1, 1);
-            this.panelRol.Controls.Add(this.funcionesBox, 1, 2);
-            this.panelRol.Controls.Add(this.label4, 0, 2);
+            this.panelRol.Controls.Add(this.funcionesBox, 1, 1);
+            this.panelRol.Controls.Add(this.label4, 0, 1);
             this.panelRol.Location = new System.Drawing.Point(300, 51);
             this.panelRol.Name = "panelRol";
-            this.panelRol.RowCount = 3;
+            this.panelRol.RowCount = 2;
             this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.panelRol.Size = new System.Drawing.Size(434, 257);
             this.panelRol.TabIndex = 5;
@@ -116,11 +111,11 @@
             // 
             // nombreRolBox
             // 
-            this.nombreRolBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.nombreRolBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.nombreRolBox.Enabled = false;
-            this.nombreRolBox.Location = new System.Drawing.Point(205, 3);
+            this.nombreRolBox.Location = new System.Drawing.Point(93, 3);
             this.nombreRolBox.Name = "nombreRolBox";
-            this.nombreRolBox.Size = new System.Drawing.Size(113, 20);
+            this.nombreRolBox.Size = new System.Drawing.Size(169, 20);
             this.nombreRolBox.TabIndex = 0;
             this.nombreRolBox.Text = "asfaagdagsdg";
             // 
@@ -133,27 +128,6 @@
             this.label2.Size = new System.Drawing.Size(44, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Nombre";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 54);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Descripción";
-            // 
-            // descripcionBox
-            // 
-            this.descripcionBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.descripcionBox.Enabled = false;
-            this.descripcionBox.Location = new System.Drawing.Point(93, 29);
-            this.descripcionBox.Multiline = true;
-            this.descripcionBox.Name = "descripcionBox";
-            this.descripcionBox.Size = new System.Drawing.Size(338, 64);
-            this.descripcionBox.TabIndex = 3;
-            this.descripcionBox.Text = "asasfasfasf";
             // 
             // funcionesBox
             // 
@@ -169,8 +143,10 @@
             "Carga Credito",
             "Comprar Oferta",
             "Crear Oferta",
+            "Consumir Oferta",
+            "Facturacion",
             "Listado Estadistico"});
-            this.funcionesBox.Location = new System.Drawing.Point(93, 99);
+            this.funcionesBox.Location = new System.Drawing.Point(93, 66);
             this.funcionesBox.Name = "funcionesBox";
             this.funcionesBox.Size = new System.Drawing.Size(338, 150);
             this.funcionesBox.TabIndex = 4;
@@ -180,10 +156,10 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 96);
+            this.label4.Location = new System.Drawing.Point(3, 26);
             this.label4.Name = "label4";
-            this.label4.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label4.Size = new System.Drawing.Size(84, 18);
+            this.label4.Padding = new System.Windows.Forms.Padding(0, 40, 0, 0);
+            this.label4.Size = new System.Drawing.Size(84, 53);
             this.label4.TabIndex = 5;
             this.label4.Text = "Funcionalidades";
             // 
@@ -195,6 +171,7 @@
             this.guardarButton.TabIndex = 6;
             this.guardarButton.Text = "Guardar";
             this.guardarButton.UseVisualStyleBackColor = true;
+            this.guardarButton.Visible = false;
             // 
             // Form1
             // 
@@ -228,8 +205,6 @@
         private System.Windows.Forms.TableLayoutPanel panelRol;
         private System.Windows.Forms.TextBox nombreRolBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox descripcionBox;
         private System.Windows.Forms.CheckedListBox funcionesBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button guardarButton;

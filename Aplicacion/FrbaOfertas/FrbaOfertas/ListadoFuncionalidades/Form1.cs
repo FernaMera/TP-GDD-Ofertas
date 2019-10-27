@@ -28,6 +28,7 @@ namespace FrbaOfertas.ListadoFuncionalidades
             botones.Add(crearOfertaButton);
             botones.Add(listadoEstadisticoButton);
 
+            //TODO: traer de base de datos
             funciones = new HashSet<string>();
             funciones.Add("Comprar Oferta");
             funciones.Add("Carga Credito");

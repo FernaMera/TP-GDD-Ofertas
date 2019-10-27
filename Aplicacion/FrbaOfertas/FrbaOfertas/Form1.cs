@@ -20,11 +20,14 @@ namespace FrbaOfertas
 
         private void iniciar_sesion_Click(object sender, EventArgs e)
         {
-            if (this.contrasenia.Text.Length == 0 || this.usuario.Text.Length == 0)
+            if (usuario.Text.Equals(""))
             {
-                MessageBox.Show("Se debe completar usuario y contraseña", "Login");
-                this.usuario.Clear();
-                this.contrasenia.Clear();
+                MessageBox.Show("Ingrese Usuario", "Login");
+                return;
+            }
+            if (contrasenia.Text.Equals(""))
+            {
+                MessageBox.Show("Ingrese Contraseña", "Login");
                 return;
             }
 
@@ -46,13 +49,19 @@ namespace FrbaOfertas
             int retorno = (int)comando.Parameters["@ReturnVal"].Value;
             conexion.Close();
 
-            MessageBox.Show(retorno.ToString(), "Resultado Login");
+            //MessageBox.Show(retorno.ToString(), "Resultado Login");
 
             if (retorno == -3)
             {
                 MessageBox.Show("Usuario/Contraseña inexistente o incorrecto", "Resultado Login");
             }
-
+            else
+            {
+                this.Hide();
+                var form = new ListadoFuncionalidades.Ofertas();
+                form.Closed += (s, args) => this.Close();
+                form.Show();
+            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
