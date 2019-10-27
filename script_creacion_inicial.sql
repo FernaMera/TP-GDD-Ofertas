@@ -217,7 +217,7 @@ GO
 
 -- Funcionalidades
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad(descripcion)
-VALUES ('ABM_Rol'), ('ABM_Cliente'), ('ABM_Proveedor'), ('Carga_Credito'), ('Confeccionar_Oferta'), ('Comprar_Oferta'), ('Consumir_Oferta'), ('Facturacion') 
+VALUES ('ABM Rol'), ('ABM Cliente'), ('ABM Proveedor'), ('Carga Credito'), ('Confeccionar Oferta'), ('Comprar Oferta'), ('Consumir Oferta'), ('Facturacion') 
 GO
 
 -- Funcionalidades por Rol
