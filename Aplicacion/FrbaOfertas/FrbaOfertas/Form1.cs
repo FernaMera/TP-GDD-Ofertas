@@ -57,10 +57,11 @@ namespace FrbaOfertas
             }
             else
             {
+                Usuario.usuario.crear_usuario(retorno);
                 this.Hide();
                 var form = new ListadoFuncionalidades.Ofertas();
                 form.Closed += (s, args) => this.Close();
-                form.Show();
+                form.Show();              
             }
         }
 
