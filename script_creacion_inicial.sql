@@ -32,7 +32,8 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Usuario', 'U') IS NOT NULL DROP 
 
 -- Drop SP
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
-
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[agregar_funcionalidad];
 
 
 /* Esquema */
@@ -217,7 +218,7 @@ GO
 
 -- Funcionalidades
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad(descripcion)
-VALUES ('ABM Rol'), ('ABM Cliente'), ('ABM Proveedor'), ('Carga Credito'), ('Confeccionar Oferta'), ('Comprar Oferta'), ('Consumir Oferta'), ('Facturacion') 
+VALUES ('ABM Rol'), ('ABM Cliente'), ('ABM Proveedor'), ('Carga Credito'), ('Crear Oferta'), ('Comprar Oferta'), ('Consumir Oferta'), ('Facturacion'), ('Listado Estadistico') 
 GO
 
 -- Funcionalidades por Rol
@@ -228,12 +229,12 @@ GO
 -- Cliente puede: cargar credito y comprar oferta
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
 SELECT 2, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
-WHERE descripcion IN ('Carga_Credito', 'Comprar_Oferta')
+WHERE descripcion IN ('Carga Credito', 'Comprar Oferta')
 GO
 -- Proveedor puede:
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
 SELECT 3, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
-WHERE descripcion IN ('Confeccionar_Oferta', 'Consumir_Oferta', 'Facturacion')
+WHERE descripcion IN ('Crear Oferta', 'Consumir Oferta', 'Facturacion')
 GO
 
 -- Usuarios
@@ -346,6 +347,29 @@ AS
 		RETURN -3 -- Codigo usuario/password incorrecto/inexistente
 		END 
  END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol(@nombre varchar(255))
+AS
+BEGIN
+	declare @id numeric(18,0)
+	select @id = (MAX(id) + 1) from Rol
+	if(@nombre in (select nombre from Rol))
+		return -1 --Rol ya existe
+	INSERT INTO Rol (id, nombre, habilitado)
+	VALUES (@id, @nombre, 1)
+	return @id
+END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad(@id_rol numeric(18,0), @descripcion varchar(255))
+AS
+BEGIN
+	declare @id_func numeric(18,0)
+	select @id_func = id from Funcionalidad where descripcion like @descripcion
+	INSERT INTO Rol_Funcionalidad(id_func, id_rol)
+	VALUES (@id_func, @id_rol)
+END
 GO
 
 -- Funciones
