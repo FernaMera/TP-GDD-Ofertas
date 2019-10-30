@@ -43,20 +43,20 @@ namespace FrbaOfertas.AbmRol
             nombreRolBox.Text = "";
             funcionesBox.Enabled = true;
             guardarButton.Show();
-            foreach (int i in funcionesBox.CheckedIndices)
-            {
-                funcionesBox.SetItemCheckState(i, CheckState.Unchecked);
-            }
+            LimpiarFunciones();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LimpiarFunciones();
+            nombreRolBox.Enabled = false;
+            funcionesBox.Enabled = false;
+            guardarButton.Hide();
             button2.Enabled = true;
             button3.Enabled = true;
             panelRol.Show();
             List<String> listaFunciones = new List<String>();
 
-            //TODO: buscar en base de datos el rol seleccionado
             var conexion = ConexionDB.getConexion();
             SqlCommand rolQuery = new SqlCommand(@"select R.nombre, F.descripcion from SELECT_THISGROUP_FROM_APROBADOS.Rol R 
                                                   join SELECT_THISGROUP_FROM_APROBADOS.Rol_Funcionalidad RF on(R.id = RF.id_rol)
@@ -84,6 +84,55 @@ namespace FrbaOfertas.AbmRol
                 {
                     funcionesBox.SetItemCheckState(index, CheckState.Checked);
                 }
+            }
+        }
+
+        private void LimpiarFunciones()
+        {
+            for (int i = 0; i < funcionesBox.Items.Count; i++)
+            {
+                funcionesBox.SetItemChecked(i, false);
+            }
+        }
+
+        private void guardarButton_Click(object sender, EventArgs e)
+        {
+            var conexion = ConexionDB.getConexion();
+
+            SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol", conexion);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@nombre", SqlDbType.VarChar);
+            comando.Parameters["@nombre"].Value = nombreRolBox.Text;
+            comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+            conexion.Open();
+            SqlDataReader reader = comando.ExecuteReader();
+            int id_rol = (int)comando.Parameters["@ReturnVal"].Value;
+            conexion.Close();
+
+            if(id_rol < 0)
+            {
+                MessageBox.Show("Ya Existe un Rol con ese Nombre", "ERROR");
+                return;
+            }
+
+            List<string> listaFunciones = new List<string>();
+            listaFunciones = funcionesBox.CheckedItems.Cast<string>().ToList();
+            comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad", conexion);
+
+            foreach (string funcion in listaFunciones)
+            {
+                comando.Parameters.Add("@id_rol", SqlDbType.Int);
+                comando.Parameters["@id_rol"].Value = id_rol;
+                comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
+                comando.Parameters["@descripcion"].Value = funcion;
+
+                conexion.Open();
+                reader = comando.ExecuteReader();
+                conexion.Close();
             }
         }
     }
