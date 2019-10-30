@@ -12,9 +12,6 @@ namespace FrbaOfertas.ListadoFuncionalidades
 {
     public partial class Ofertas : Form
     {
-        Rol unRol;
-        HashSet<string> funciones;
-
         public Ofertas()
         {
             InitializeComponent();
@@ -27,18 +24,11 @@ namespace FrbaOfertas.ListadoFuncionalidades
             botones.Add(cargarCreditoButton);
             botones.Add(crearOfertaButton);
             botones.Add(listadoEstadisticoButton);
-
-            //TODO: traer de base de datos
-            funciones = new HashSet<string>();
-            funciones.Add("Comprar Oferta");
-            funciones.Add("Carga Credito");
-            funciones.Add("ABM Rol");
-
-            unRol = new Rol(1, "cliente", funciones);
+            botones.Add(facturacionButton);
 
             foreach(Button button in botones)
             {
-                if (!unRol.TieneFuncion(button.Text))
+                if (!Usuario.usuario.TieneFuncion(button.Text))
                     button.Visible = false;
             }
         }

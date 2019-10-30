@@ -39,6 +39,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.facturacionButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,7 +110,7 @@
             // 
             // listadoEstadisticoButton
             // 
-            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 219);
+            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 248);
             this.listadoEstadisticoButton.Name = "listadoEstadisticoButton";
             this.listadoEstadisticoButton.Size = new System.Drawing.Size(95, 37);
             this.listadoEstadisticoButton.TabIndex = 6;
@@ -126,6 +127,7 @@
             this.flowLayoutPanel1.Controls.Add(this.comprarOfertaButton);
             this.flowLayoutPanel1.Controls.Add(this.cargarCreditoButton);
             this.flowLayoutPanel1.Controls.Add(this.crearOfertaButton);
+            this.flowLayoutPanel1.Controls.Add(this.facturacionButton);
             this.flowLayoutPanel1.Controls.Add(this.listadoEstadisticoButton);
             this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -150,12 +152,21 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 262);
+            this.button1.Location = new System.Drawing.Point(13, 291);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 35);
             this.button1.TabIndex = 8;
             this.button1.Text = "Configuracion de Usuario";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // facturacionButton
+            // 
+            this.facturacionButton.Location = new System.Drawing.Point(13, 219);
+            this.facturacionButton.Name = "facturacionButton";
+            this.facturacionButton.Size = new System.Drawing.Size(95, 23);
+            this.facturacionButton.TabIndex = 9;
+            this.facturacionButton.Text = "Facturacion";
+            this.facturacionButton.UseVisualStyleBackColor = true;
             // 
             // Ofertas
             // 
@@ -186,5 +197,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button facturacionButton;
     }
 }
