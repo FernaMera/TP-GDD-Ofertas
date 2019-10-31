@@ -31,12 +31,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.nuevoClienteButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.nombreBox = new System.Windows.Forms.TextBox();
+            this.apellidoBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.dniBox = new System.Windows.Forms.TextBox();
             this.buscarButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.LimpiarButton = new System.Windows.Forms.Button();
@@ -71,12 +71,12 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.nombreBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.apellidoBox, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.dniBox, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 44);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -87,21 +87,21 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(189, 268);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // textBox1
+            // nombreBox
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.Location = new System.Drawing.Point(57, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(124, 20);
-            this.textBox1.TabIndex = 0;
+            this.nombreBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.nombreBox.Location = new System.Drawing.Point(57, 3);
+            this.nombreBox.Name = "nombreBox";
+            this.nombreBox.Size = new System.Drawing.Size(124, 20);
+            this.nombreBox.TabIndex = 0;
             // 
-            // textBox2
+            // apellidoBox
             // 
-            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(57, 29);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(124, 20);
-            this.textBox2.TabIndex = 1;
+            this.apellidoBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.apellidoBox.Location = new System.Drawing.Point(57, 29);
+            this.apellidoBox.Name = "apellidoBox";
+            this.apellidoBox.Size = new System.Drawing.Size(124, 20);
+            this.apellidoBox.TabIndex = 1;
             // 
             // label2
             // 
@@ -133,13 +133,13 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "DNI";
             // 
-            // textBox3
+            // dniBox
             // 
-            this.textBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox3.Location = new System.Drawing.Point(57, 55);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(125, 20);
-            this.textBox3.TabIndex = 5;
+            this.dniBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.dniBox.Location = new System.Drawing.Point(57, 55);
+            this.dniBox.Name = "dniBox";
+            this.dniBox.Size = new System.Drawing.Size(125, 20);
+            this.dniBox.TabIndex = 5;
             // 
             // buscarButton
             // 
@@ -149,12 +149,17 @@
             this.buscarButton.TabIndex = 4;
             this.buscarButton.Text = "Buscar Cliente";
             this.buscarButton.UseVisualStyleBackColor = true;
+            this.buscarButton.Click += new System.EventHandler(this.buscarButton_Click);
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(213, 44);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(521, 268);
             this.dataGridView1.TabIndex = 5;
             // 
@@ -166,6 +171,7 @@
             this.LimpiarButton.TabIndex = 6;
             this.LimpiarButton.Text = "Limpiar";
             this.LimpiarButton.UseVisualStyleBackColor = true;
+            this.LimpiarButton.Click += new System.EventHandler(this.LimpiarButton_Click);
             // 
             // eliminarButton
             // 
@@ -214,12 +220,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button nuevoClienteButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox nombreBox;
+        private System.Windows.Forms.TextBox apellidoBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox dniBox;
         private System.Windows.Forms.Button buscarButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button LimpiarButton;
