@@ -38,8 +38,10 @@
             this.listadoEstadisticoButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.facturacionButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panelFunciones.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,6 +87,7 @@
             // 
             // panelFunciones
             // 
+            this.panelFunciones.Controls.Add(this.label2);
             this.panelFunciones.Location = new System.Drawing.Point(114, 0);
             this.panelFunciones.Name = "panelFunciones";
             this.panelFunciones.Size = new System.Drawing.Size(746, 356);
@@ -150,6 +153,15 @@
             this.label1.Text = "Ofertas";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // facturacionButton
+            // 
+            this.facturacionButton.Location = new System.Drawing.Point(13, 219);
+            this.facturacionButton.Name = "facturacionButton";
+            this.facturacionButton.Size = new System.Drawing.Size(95, 23);
+            this.facturacionButton.TabIndex = 9;
+            this.facturacionButton.Text = "Facturacion";
+            this.facturacionButton.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(13, 291);
@@ -159,14 +171,15 @@
             this.button1.Text = "Configuracion de Usuario";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // facturacionButton
+            // label2
             // 
-            this.facturacionButton.Location = new System.Drawing.Point(13, 219);
-            this.facturacionButton.Name = "facturacionButton";
-            this.facturacionButton.Size = new System.Drawing.Size(95, 23);
-            this.facturacionButton.TabIndex = 9;
-            this.facturacionButton.Text = "Facturacion";
-            this.facturacionButton.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Showcard Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(290, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(178, 33);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Bienvenido";
             // 
             // Ofertas
             // 
@@ -178,6 +191,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Ofertas";
             this.Text = "Ofertas";
+            this.panelFunciones.ResumeLayout(false);
+            this.panelFunciones.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -198,5 +213,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button facturacionButton;
+        private System.Windows.Forms.Label label2;
     }
 }
