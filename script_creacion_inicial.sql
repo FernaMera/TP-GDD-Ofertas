@@ -34,7 +34,9 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Usuario', 'U') IS NOT NULL DROP 
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[agregar_funcionalidad];
-
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[quitar_funcionalidad];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].buscar_cliente', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[buscar_cliente];
 
 /* Esquema */
 
@@ -372,7 +374,100 @@ BEGIN
 END
 GO
 
--- Funciones
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad(@id_rol numeric(18,0), @descripcion varchar(255))
+AS
+BEGIN
+	declare @id_func numeric(18,0)
+	select @id_func = id from Funcionalidad where descripcion like @descripcion
+	DELETE Rol_Funcionalidad
+	where id_func = @id_func and id_rol = @id_rol
+END
+GO
 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].mod_rol(@nombre_actual varchar(255), @nombre_nuevo varchar(255))
+AS
+BEGIN
+	declare @id_rol numeric(18,0)
+	select @id_rol = id from Rol where nombre like @nombre_actual
+	UPDATE Rol
+	set nombre = @nombre_nuevo
+	where id = @id_rol
+	if @@ERROR = 0
+		return @id_rol
+	else
+		return -1
+END
+GO
+
+-- Funciones
+CREATE FUNCTION	[SELECT_THISGROUP_FROM_APROBADOS].buscar_cliente(@nombre varchar(255), @apellido varchar(255), @dni numeric(18,0))
+RETURNS @clientes TABLE (nombre varchar(255) not null, apellido varchar(255), dni numeric(18,0), habilitado bit)
+AS
+BEGIN
+	if(@nombre Like '' and @apellido like '' and @dni is null)
+	begin
+		insert @clientes
+		Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+		return
+	end	
+	else
+	begin
+		if(@apellido like '' and @dni is null)
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where nombre Like @nombre
+			return
+		end
+		if(@nombre like '' and @dni is null)
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where apellido Like @apellido
+			return
+		end
+		if(@nombre like '' and @apellido like '')
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where dni = @dni
+			return
+		end
+		if(@nombre like '' and @apellido like '')
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where dni = @dni
+			return
+		end
+		if(@nombre like '')
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where dni = @dni and apellido like @apellido
+			return
+		end
+		if(@apellido like '')
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where dni = @dni and nombre like @nombre
+			return
+		end
+		if(@dni is null)
+		begin
+			insert @clientes
+			Select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+			where nombre like @nombre and apellido like @apellido
+			return
+		end
+		insert @clientes
+		select nombre, apellido, dni, habilitado from SELECT_THISGROUP_FROM_APROBADOS.Cliente
+		where apellido Like @apellido and nombre like @nombre and dni = @dni
+		return
+	end
+	return
+END
+GO
 
 -- Triggers

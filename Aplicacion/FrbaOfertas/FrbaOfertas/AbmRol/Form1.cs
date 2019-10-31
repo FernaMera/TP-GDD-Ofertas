@@ -14,6 +14,8 @@ namespace FrbaOfertas.AbmRol
     public partial class Form1 : Form, Funcionalidad
     {
         public static Form1 ABMRol;
+        private string nombreRol;
+        private List<string> funciones;
 
         public Form1()
         {
@@ -43,6 +45,7 @@ namespace FrbaOfertas.AbmRol
             nombreRolBox.Text = "";
             funcionesBox.Enabled = true;
             guardarButton.Show();
+            guardarModButton.Hide();
             LimpiarFunciones();
         }
 
@@ -52,6 +55,7 @@ namespace FrbaOfertas.AbmRol
             nombreRolBox.Enabled = false;
             funcionesBox.Enabled = false;
             guardarButton.Hide();
+            guardarModButton.Hide();
             button2.Enabled = true;
             button3.Enabled = true;
             panelRol.Show();
@@ -134,6 +138,92 @@ namespace FrbaOfertas.AbmRol
                 reader = comando.ExecuteReader();
                 conexion.Close();
             }
+        }
+
+        //Modificar Rol
+        private void button2_Click(object sender, EventArgs e)
+        {
+            guardarModButton.Show();
+            nombreRolBox.Enabled = true;
+            funcionesBox.Enabled = true;
+
+            nombreRol = nombreRolBox.Text;
+
+            funciones = new List<string>();
+            funciones = funcionesBox.CheckedItems.Cast<string>().ToList();
+        }
+
+        private void guardarModButton_Click(object sender, EventArgs e)
+        {
+            var conexion = ConexionDB.getConexion();
+
+            SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].mod_rol", conexion);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@nombre_actual", SqlDbType.VarChar);
+            comando.Parameters["@nombre_actual"].Value = nombreRol;
+            comando.Parameters.Add("@nombre_nuevo", SqlDbType.VarChar);
+            comando.Parameters["@nombre_nuevo"].Value = nombreRolBox.Text;
+            comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+            conexion.Open();
+            SqlDataReader reader = comando.ExecuteReader();
+            int id_rol = (int)comando.Parameters["@ReturnVal"].Value;
+            conexion.Close();
+
+            List<string> nuevaListaFunciones = new List<string>();
+            nuevaListaFunciones = funcionesBox.CheckedItems.Cast<string>().ToList();
+
+            //agregar funciones
+            foreach(string funcion in nuevaListaFunciones)
+            {
+                if(!funciones.Contains(funcion))
+                {
+                    comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad", conexion);
+
+                    comando.CommandType = CommandType.StoredProcedure;
+
+                    comando.Parameters.Add("@id_rol", SqlDbType.Int);
+                    comando.Parameters["@id_rol"].Value = id_rol;
+                    comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
+                    comando.Parameters["@descripcion"].Value = funcion;
+
+                    conexion.Open();
+                    reader = comando.ExecuteReader();
+                    conexion.Close();
+                }
+            }
+
+            //quitar funciones
+            foreach(string funcion in funciones)
+            {
+                if(!nuevaListaFunciones.Contains(funcion))
+                {
+                    comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad", conexion);
+
+                    comando.CommandType = CommandType.StoredProcedure;
+
+                    comando.Parameters.Add("@id_rol", SqlDbType.Int);
+                    comando.Parameters["@id_rol"].Value = id_rol;
+                    comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
+                    comando.Parameters["@descripcion"].Value = funcion;
+
+                    conexion.Open();
+                    reader = comando.ExecuteReader();
+                    conexion.Close();
+                }
+            }
+
+            //TODO: manejo de errores
+            MessageBox.Show("Cambios guardados con exito", "");
+        }
+
+        //Eliminar ROL
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -39,6 +39,7 @@
             this.funcionesBox = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.guardarButton = new System.Windows.Forms.Button();
+            this.guardarModButton = new System.Windows.Forms.Button();
             this.panelRol.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +71,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "Modificar Rol";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -80,6 +82,7 @@
             this.button3.TabIndex = 3;
             this.button3.Text = "Eliminar Rol";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label1
             // 
@@ -174,11 +177,23 @@
             this.guardarButton.Visible = false;
             this.guardarButton.Click += new System.EventHandler(this.guardarButton_Click);
             // 
+            // guardarModButton
+            // 
+            this.guardarModButton.Location = new System.Drawing.Point(578, 318);
+            this.guardarModButton.Name = "guardarModButton";
+            this.guardarModButton.Size = new System.Drawing.Size(75, 23);
+            this.guardarModButton.TabIndex = 7;
+            this.guardarModButton.Text = "Guardar";
+            this.guardarModButton.UseVisualStyleBackColor = true;
+            this.guardarModButton.Visible = false;
+            this.guardarModButton.Click += new System.EventHandler(this.guardarModButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.guardarModButton);
             this.Controls.Add(this.guardarButton);
             this.Controls.Add(this.panelRol);
             this.Controls.Add(this.label1);
@@ -209,5 +224,6 @@
         private System.Windows.Forms.CheckedListBox funcionesBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button guardarButton;
+        private System.Windows.Forms.Button guardarModButton;
     }
 }
