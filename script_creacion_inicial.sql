@@ -36,7 +36,10 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol', 'P') IS NOT NULL DRO
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[agregar_funcionalidad];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[quitar_funcionalidad];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[habilitar_rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[eliminar_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].buscar_cliente', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[buscar_cliente];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_cliente];
 
 /* Esquema */
 
@@ -399,6 +402,46 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol(@id_rol numeric(18,0), @estado_nuevo bit)
+AS
+BEGIN
+	UPDATE Rol
+	set habilitado = @estado_nuevo
+	where id = @id_rol
+	if @@ERROR = 0
+		return 0
+	else
+		return -1
+END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol(@id_rol numeric(18,0))
+AS
+BEGIN
+	declare @borrar_logicamente numeric(18,0)
+END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].mod_cliente(@id numeric(18,0), @nombre_nuevo varchar(255),
+																@apellido_nuevo varchar(255), @dni_nuevo numeric(18,0),
+																@mail varchar(255), @telefono numeric(18,0), 
+																@direccion varchar(255), @ciudad varchar(255), @cod_postal smallint,
+																@fecha_nac datetime)
+AS
+BEGIN
+	UPDATE Cliente
+	set nombre = @nombre_nuevo, apellido = @apellido_nuevo, dni = @dni_nuevo,
+		mail = @mail, telefono = @telefono, direccion = @direccion, ciudad = @ciudad,
+		cod_postal = @cod_postal, fecha_nac = @fecha_nac
+	where id = @id
+	if @@ERROR = 0
+		return 0
+	else
+		return -1
+END
+GO
+
+
 -- Funciones
 CREATE FUNCTION	[SELECT_THISGROUP_FROM_APROBADOS].buscar_cliente(@nombre varchar(255), @apellido varchar(255), @dni numeric(18,0))
 RETURNS @clientes TABLE (nombre varchar(255) not null, apellido varchar(255), dni numeric(18,0), habilitado bit)
@@ -471,3 +514,5 @@ END
 GO
 
 -- Triggers
+
+--TODO: quitar rol de usuario cuando este se inhabilita
