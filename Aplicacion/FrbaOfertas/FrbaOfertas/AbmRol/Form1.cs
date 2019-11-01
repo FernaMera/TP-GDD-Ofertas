@@ -11,9 +11,10 @@ using System.Data.SqlClient;
 
 namespace FrbaOfertas.AbmRol
 {
-    public partial class Form1 : Form, Funcionalidad
+    public partial class Form1 : Form
     {
         public static Form1 ABMRol;
+        private int idRol;
         private string nombreRol;
         private List<string> funciones;
 
@@ -46,6 +47,11 @@ namespace FrbaOfertas.AbmRol
             funcionesBox.Enabled = true;
             guardarButton.Show();
             guardarModButton.Hide();
+            inhabilitarButton.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
+            estadoRolLabel.Text = "Si";
+            //listBox1.SetSelected(listBox1.SelectedIndex, false);
             LimpiarFunciones();
         }
 
@@ -58,11 +64,18 @@ namespace FrbaOfertas.AbmRol
             guardarModButton.Hide();
             button2.Enabled = true;
             button3.Enabled = true;
+            inhabilitarButton.Enabled = true;
             panelRol.Show();
+
+            ActualizarDatos();
+        }
+
+        private void ActualizarDatos()
+        {
             List<String> listaFunciones = new List<String>();
 
             var conexion = ConexionDB.getConexion();
-            SqlCommand rolQuery = new SqlCommand(@"select R.nombre, F.descripcion from SELECT_THISGROUP_FROM_APROBADOS.Rol R 
+            SqlCommand rolQuery = new SqlCommand(@"select R.id, R.nombre, R.habilitado, F.descripcion from SELECT_THISGROUP_FROM_APROBADOS.Rol R 
                                                   join SELECT_THISGROUP_FROM_APROBADOS.Rol_Funcionalidad RF on(R.id = RF.id_rol)
                                                   join SELECT_THISGROUP_FROM_APROBADOS.Funcionalidad F on(RF.id_func = F.id)
                                                   where R.nombre Like('" + listBox1.SelectedItem.ToString() + "')", conexion);
@@ -70,21 +83,39 @@ namespace FrbaOfertas.AbmRol
             conexion.Open();
             using (SqlDataReader reader = rolQuery.ExecuteReader())
             {
+                reader.Read();
+
+                idRol = (int)reader.GetDecimal(reader.GetOrdinal("id"));
+                nombreRolBox.Text = reader["nombre"].ToString();
+
+                if (reader.GetBoolean(reader.GetOrdinal("habilitado")))
+                {
+                    estadoRolLabel.Text = "Si";
+                }
+                else
+                {
+                    estadoRolLabel.Text = "No";
+                }
+
+                String unaFunc = reader["descripcion"].ToString();
+
+                listaFunciones.Add(unaFunc);
+
                 while (reader.Read())
                 {
-                    nombreRolBox.Text = reader["nombre"].ToString();
-                    String unaFunc = reader["descripcion"].ToString();
+                    unaFunc = reader["descripcion"].ToString();
 
                     listaFunciones.Add(unaFunc);
                 }
+
                 reader.Close();
             }
             conexion.Close();
 
-            foreach(string funcion in listaFunciones)
+            foreach (string funcion in listaFunciones)
             {
                 int index = funcionesBox.FindStringExact(funcion);
-                if(index >= 0)
+                if (index >= 0)
                 {
                     funcionesBox.SetItemCheckState(index, CheckState.Checked);
                 }
@@ -144,6 +175,7 @@ namespace FrbaOfertas.AbmRol
         private void button2_Click(object sender, EventArgs e)
         {
             guardarModButton.Show();
+            inhabilitarButton.Enabled = false;
             nombreRolBox.Enabled = true;
             funcionesBox.Enabled = true;
 
@@ -224,6 +256,44 @@ namespace FrbaOfertas.AbmRol
         private void button3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        //Habilitar/Inhabilitar Rol
+        private void inhabilitarButton_Click(object sender, EventArgs e)
+        {
+            var conexion = ConexionDB.getConexion();
+
+            SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol", conexion);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@id_rol", SqlDbType.Decimal);
+            comando.Parameters["@id_rol"].Value = idRol;
+            comando.Parameters.Add("@estado_nuevo", SqlDbType.Bit);
+            if(estadoRolLabel.Text.Equals("Si"))
+            {
+                //inhabilitar
+                comando.Parameters["@estado_nuevo"].Value = 0;
+            }
+            else
+            {
+                //habilitar
+                comando.Parameters["@estado_nuevo"].Value = 1;
+            }
+            
+            comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+            conexion.Open();
+
+            SqlDataReader reader = comando.ExecuteReader();
+            int resultado = (int)comando.Parameters["@ReturnVal"].Value;
+            if (resultado < 0)
+                MessageBox.Show("Error al habilitar o inhabilitar rol", "ERROR");
+            else
+                ActualizarDatos();
+
+            conexion.Close();
         }
     }
 }

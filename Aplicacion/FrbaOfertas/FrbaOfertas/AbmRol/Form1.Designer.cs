@@ -40,6 +40,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.guardarButton = new System.Windows.Forms.Button();
             this.guardarModButton = new System.Windows.Forms.Button();
+            this.inhabilitarButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.estadoRolLabel = new System.Windows.Forms.Label();
             this.panelRol.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +79,7 @@
             // button3
             // 
             this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(170, 109);
+            this.button3.Location = new System.Drawing.Point(169, 138);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(123, 23);
             this.button3.TabIndex = 3;
@@ -101,12 +104,15 @@
             this.panelRol.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.panelRol.Controls.Add(this.nombreRolBox, 1, 0);
             this.panelRol.Controls.Add(this.label2, 0, 0);
-            this.panelRol.Controls.Add(this.funcionesBox, 1, 1);
-            this.panelRol.Controls.Add(this.label4, 0, 1);
+            this.panelRol.Controls.Add(this.funcionesBox, 1, 2);
+            this.panelRol.Controls.Add(this.label4, 0, 2);
+            this.panelRol.Controls.Add(this.label3, 0, 1);
+            this.panelRol.Controls.Add(this.estadoRolLabel, 1, 1);
             this.panelRol.Location = new System.Drawing.Point(300, 51);
             this.panelRol.Name = "panelRol";
-            this.panelRol.RowCount = 2;
+            this.panelRol.RowCount = 3;
             this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.panelRol.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.panelRol.Size = new System.Drawing.Size(434, 257);
             this.panelRol.TabIndex = 5;
@@ -149,7 +155,7 @@
             "Consumir Oferta",
             "Facturacion",
             "Listado Estadistico"});
-            this.funcionesBox.Location = new System.Drawing.Point(93, 66);
+            this.funcionesBox.Location = new System.Drawing.Point(93, 76);
             this.funcionesBox.Name = "funcionesBox";
             this.funcionesBox.Size = new System.Drawing.Size(338, 150);
             this.funcionesBox.TabIndex = 4;
@@ -159,7 +165,7 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 26);
+            this.label4.Location = new System.Drawing.Point(3, 46);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(0, 40, 0, 0);
             this.label4.Size = new System.Drawing.Size(84, 53);
@@ -188,11 +194,43 @@
             this.guardarModButton.Visible = false;
             this.guardarModButton.Click += new System.EventHandler(this.guardarModButton_Click);
             // 
+            // inhabilitarButton
+            // 
+            this.inhabilitarButton.Enabled = false;
+            this.inhabilitarButton.Location = new System.Drawing.Point(170, 109);
+            this.inhabilitarButton.Name = "inhabilitarButton";
+            this.inhabilitarButton.Size = new System.Drawing.Size(122, 23);
+            this.inhabilitarButton.TabIndex = 8;
+            this.inhabilitarButton.Text = "Habilitar/Inhabilitar";
+            this.inhabilitarButton.UseVisualStyleBackColor = true;
+            this.inhabilitarButton.Click += new System.EventHandler(this.inhabilitarButton_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Habilitado";
+            // 
+            // estadoRolLabel
+            // 
+            this.estadoRolLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.estadoRolLabel.AutoSize = true;
+            this.estadoRolLabel.Location = new System.Drawing.Point(93, 29);
+            this.estadoRolLabel.Name = "estadoRolLabel";
+            this.estadoRolLabel.Size = new System.Drawing.Size(36, 13);
+            this.estadoRolLabel.TabIndex = 7;
+            this.estadoRolLabel.Text = "Si--No";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.inhabilitarButton);
             this.Controls.Add(this.guardarModButton);
             this.Controls.Add(this.guardarButton);
             this.Controls.Add(this.panelRol);
@@ -225,5 +263,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button guardarButton;
         private System.Windows.Forms.Button guardarModButton;
+        private System.Windows.Forms.Button inhabilitarButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label estadoRolLabel;
     }
 }
