@@ -227,7 +227,7 @@ ALTER TABLE [SELECT_THISGROUP_FROM_APROBADOS].Cupon ADD FOREIGN KEY (id_entrega)
 
 -- Roles
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol(nombre)
-VALUES ('Administrador'), ('Cliente'), ('Proveedor')
+VALUES ('Administrador General'), ('Cliente'), ('Proveedor'), ('Administrativo')
 GO
 
 -- Funcionalidades
@@ -236,7 +236,7 @@ VALUES ('ABM Rol'), ('ABM Cliente'), ('ABM Proveedor'), ('Carga Credito'), ('Cre
 GO
 
 -- Funcionalidades por Rol
--- Administrador puede: todo
+-- Administrador General puede: todo
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
 SELECT 1, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad 
 GO
@@ -250,6 +250,11 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
 SELECT 3, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
 WHERE descripcion IN ('Crear Oferta', 'Consumir Oferta', 'Facturacion')
 GO
+-- Administrativo puede:
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad(id_rol, id_func)
+SELECT 4, id FROM [SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad
+WHERE descripcion IN ('ABM Rol', 'ABM Cliente', 'ABM Proveedor', 'Crear Oferta', 'Facturacion')
+GO
 
 -- Usuarios
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Usuario(username, password)
@@ -258,7 +263,7 @@ GO
 
 -- Rol por Usuario
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario(id_rol, id_usuario)
-VALUES ((SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol WHERE nombre = 'Administrador'), (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = 'admin'))
+VALUES ((SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol WHERE nombre = 'Administrador General'), (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = 'admin'))
 GO
 
 
@@ -533,3 +538,12 @@ GO
 -- Triggers
 
 --TODO: quitar rol de usuario cuando este se inhabilita
+
+
+-- INSERT Usuario Proveedor para probar
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Usuario(username, password)
+VALUES ('proveedor1', HASHBYTES('SHA2_256', 'test123'))
+GO
+
+UPDATE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor] SET [id_usuario] = 2
+WHERE cuit = '11-22445103-2'
