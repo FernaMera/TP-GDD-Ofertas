@@ -68,5 +68,10 @@ namespace FrbaOfertas.ListadoFuncionalidades
         {
             AbrirFormEnPanel(new CargaCredito.Form1());
         }
+
+        private void crearOfertaButton_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new CrearOferta.CrearOferta());
+        }
     }
 }

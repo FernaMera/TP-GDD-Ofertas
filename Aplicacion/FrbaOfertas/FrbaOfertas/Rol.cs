@@ -11,7 +11,7 @@ namespace FrbaOfertas
     class Rol
     {
         private int id;
-        private string nombre;
+        public string nombre {get; set;}
         private HashSet<string> funciones = new HashSet<string>();
 
         //se llama cuando se carga la base de datos

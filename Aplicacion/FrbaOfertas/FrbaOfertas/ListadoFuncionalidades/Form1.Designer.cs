@@ -120,6 +120,7 @@
             this.crearOfertaButton.TabIndex = 5;
             this.crearOfertaButton.Text = "Crear Oferta";
             this.crearOfertaButton.UseVisualStyleBackColor = true;
+            this.crearOfertaButton.Click += new System.EventHandler(this.crearOfertaButton_Click);
             // 
             // listadoEstadisticoButton
             // 

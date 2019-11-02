@@ -96,11 +96,17 @@
     <Compile Include="CargaCredito\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="CrearOferta\Form1.cs">
+    <Compile Include="CrearOferta\SeleccionarProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrearOferta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CrearOferta\SeleccionarProveedor.Designer.cs">
+      <DependentUpon>SeleccionarProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CrearOferta\CrearOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrearOferta\CrearOferta.Designer.cs">
+      <DependentUpon>CrearOferta.cs</DependentUpon>
     </Compile>
     <Compile Include="CrearUsuario\Form1.cs">
       <SubType>Form</SubType>
@@ -157,6 +163,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CargaCredito\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\SeleccionarProveedor.resx">
+      <DependentUpon>SeleccionarProveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\CrearOferta.resx">
+      <DependentUpon>CrearOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearUsuario\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
