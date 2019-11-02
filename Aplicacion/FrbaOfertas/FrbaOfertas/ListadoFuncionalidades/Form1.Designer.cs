@@ -33,6 +33,7 @@
             this.abmRolButton = new System.Windows.Forms.Button();
             this.cargarCreditoButton = new System.Windows.Forms.Button();
             this.panelFunciones = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.comprarOfertaButton = new System.Windows.Forms.Button();
             this.crearOfertaButton = new System.Windows.Forms.Button();
             this.listadoEstadisticoButton = new System.Windows.Forms.Button();
@@ -40,7 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.facturacionButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.panelFunciones.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +92,16 @@
             this.panelFunciones.Name = "panelFunciones";
             this.panelFunciones.Size = new System.Drawing.Size(746, 356);
             this.panelFunciones.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Showcard Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(290, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(178, 33);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Bienvenido";
             // 
             // comprarOfertaButton
             // 
@@ -170,16 +180,6 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Configuracion de Usuario";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Showcard Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(290, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 33);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Bienvenido";
             // 
             // Ofertas
             // 

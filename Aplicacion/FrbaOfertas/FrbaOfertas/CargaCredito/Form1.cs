@@ -19,7 +19,7 @@ namespace FrbaOfertas.CargaCredito
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(comboBox1.SelectedItem)
+            switch(comboBox1.SelectedItem.ToString())
             {
                 case "Tarj. Credito":
                     {

@@ -285,25 +285,33 @@ SELECT DISTINCT
 FROM GD2C2019.gd_esquema.Maestra
 GO
 
+-- Migrar Rubros.
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rubro(
+    descripcion
+)
+SELECT DISTINCT 
+    Provee_Rubro 
+FROM gd_esquema.Maestra
+WHERE Provee_Rubro IS NOT NULL
+GO
 
 -- Migrar Proveedores. nombre_contacto, mail y codigo postal vacios en tabla maestra.
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(
     cuit,
     razon_soc,
-    rubro,
     telefono,
     direccion,
-    ciudad
-)
-SELECT DISTINCT 
-    Provee_CUIT,
+    ciudad,
+    rubro
+) SELECT DISTINCT 
+	Provee_CUIT,
     Provee_RS,
-    Provee_Rubro,
     Provee_Telefono,
     Provee_Dom,
-    Provee_Ciudad 
-FROM gd_esquema.Maestra
-WHERE Provee_CUIT IS NOT NULL
+    Provee_Ciudad,
+	r.id 
+    FROM gd_esquema.Maestra
+	JOIN SELECT_THISGROUP_FROM_APROBADOS.Rubro r ON Provee_Rubro = descripcion
 GO
 
 -- Cargar Tipo de Pagos

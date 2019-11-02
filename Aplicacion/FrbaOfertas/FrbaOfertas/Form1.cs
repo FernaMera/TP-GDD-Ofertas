@@ -49,8 +49,6 @@ namespace FrbaOfertas
             int retorno = (int)comando.Parameters["@ReturnVal"].Value;
             conexion.Close();
 
-            //MessageBox.Show(retorno.ToString(), "Resultado Login");
-
             if (retorno == -3)
             {
                 MessageBox.Show("Usuario/Contraseña inexistente o incorrecto", "Resultado Login");

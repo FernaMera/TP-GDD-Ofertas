@@ -61,7 +61,7 @@ namespace FrbaOfertas.ListadoFuncionalidades
         //ABM Proveedor
         private void button2_Click(object sender, EventArgs e)
         {
-            AbrirFormEnPanel(new AbmProveedor.Form1());
+            AbrirFormEnPanel(new AbmProveedor.VentanaProveedor());
         }
 
         private void cargarCreditoButton_Click(object sender, EventArgs e)
