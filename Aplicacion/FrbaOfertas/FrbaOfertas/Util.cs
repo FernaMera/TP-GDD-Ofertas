@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
@@ -33,7 +34,14 @@ namespace FrbaOfertas
             return System.Text.RegularExpressions.Regex.IsMatch(cp, "^[0-9]*$");
         }
 
-
+        public static void mostrarListaErrores(List<string> errores, string contexto)
+        {
+            string mensaje = "Se detectaron los siguientes errores: \n";
+            foreach(string error in errores){
+                mensaje += "- " + error + ".\n";
+            }
+            MessageBox.Show(mensaje, "Error " + contexto);
+        }
 
     }
 }

@@ -48,6 +48,7 @@
             this.btn_cancelar = new System.Windows.Forms.Button();
             this.btn_alta = new System.Windows.Forms.Button();
             this.comboBox_rubro = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox_cp
@@ -216,11 +217,22 @@
             this.comboBox_rubro.Size = new System.Drawing.Size(100, 21);
             this.comboBox_rubro.TabIndex = 40;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(61, 405);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(247, 13);
+            this.label10.TabIndex = 41;
+            this.label10.Text = "Todos los campos en esta pantalla son obligatorios";
+            // 
             // AltaProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(365, 427);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.comboBox_rubro);
             this.Controls.Add(this.btn_cancelar);
             this.Controls.Add(this.btn_alta);
@@ -270,5 +282,6 @@
         private System.Windows.Forms.Button btn_cancelar;
         private System.Windows.Forms.Button btn_alta;
         private System.Windows.Forms.ComboBox comboBox_rubro;
+        private System.Windows.Forms.Label label10;
     }
 }

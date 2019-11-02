@@ -48,6 +48,9 @@ namespace FrbaOfertas.AbmProveedor
 
         private void btn_guardarCambios_Click(object sender, EventArgs e)
         {
+
+            List<string> errores = new List<string>();
+
             if (string.IsNullOrEmpty(textBox_cuit.Text) ||
                 string.IsNullOrEmpty(textBox_rs.Text) ||
                 string.IsNullOrEmpty(textBox_nombreContacto.Text) ||
@@ -57,22 +60,13 @@ namespace FrbaOfertas.AbmProveedor
                 string.IsNullOrEmpty(textBox_direccion.Text) ||
                 string.IsNullOrEmpty(textBox_ciudad.Text) ||
                 string.IsNullOrEmpty(textBox_cp.Text))
-            {
-                MessageBox.Show("No puede haber campos sin completar", "Error Modificar Proveedor");
-                return;
-            }
+                    errores.Add("No puede haber campos sin completar");
 
             if (!Util.telefonoValido(textBox_tel.Text))
-            {
-                MessageBox.Show("El teléfono deben ser sólo números. Por ejemplo: 45671930", "Error Alta Proveedor");
-                return;
-            }
+                errores.Add("El teléfono deben ser sólo números. Por ejemplo: 45671930");
 
             if (!Util.codigoPostalValido(textBox_cp.Text))
-            {
-                MessageBox.Show("El código postal deben ser sólo números. Por ejemplo: 1234", "Error Alta Proveedor");
-                return;
-            }
+                errores.Add("El código postal deben ser sólo números. Por ejemplo: 1234");
 
             string update = "UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Proveedor SET razon_soc=@rs, nombre_contacto=@nombreContacto, rubro=@rubro, telefono=@telefono, mail=@mail, direccion=@direccion, ciudad=@ciudad, cod_postal=@cp WHERE cuit=@cuit";
             SqlConnection conexion = ConexionDB.getConexion();
@@ -98,25 +92,33 @@ namespace FrbaOfertas.AbmProveedor
             comando.Parameters.Add("@cuit", SqlDbType.Char);
             comando.Parameters["@cuit"].Value = textBox_cuit.Text;
 
-            conexion.Open();
-            try
+
+            if (errores.Count == 0)
             {
-                if (comando.ExecuteNonQuery() == 1)
+                conexion.Open();
+                try
                 {
-                    MessageBox.Show("Actualización realizada con éxito!");
-                    this.Close();
+                    if (comando.ExecuteNonQuery() == 1)
+                    {
+                        MessageBox.Show("Actualización realizada con éxito!");
+                        this.Close();
+                    }
+
                 }
-
+                catch (SqlException exc)
+                {
+                    if (exc.Message.Contains("UNIQUE"))
+                        MessageBox.Show("No se pudo realizar el alta: ya existe un proveedor con la razón social \"" + textBox_rs.Text + "\"");
+                    else
+                        MessageBox.Show("No se pudo realizar el alta: " + exc.Message);
+                }
             }
-            catch (SqlException exc)
+            else
             {
-                if (exc.Message.Contains("UNIQUE"))
-                    MessageBox.Show("No se pudo realizar el alta: ya existe un proveedor con la razón social \"" + textBox_rs.Text + "\"");
-                else
-                    MessageBox.Show("No se pudo realizar el alta: " + exc.Message);
+                Util.mostrarListaErrores(errores, "Modificar Proveedor");
             }
-            conexion.Close();
 
+            conexion.Close();
 
         }
     }
