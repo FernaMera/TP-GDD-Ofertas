@@ -52,7 +52,11 @@ namespace FrbaOfertas
             if (retorno == -3)
             {
                 MessageBox.Show("Usuario/Contraseña inexistente o incorrecto", "Resultado Login");
+            } else if (retorno == -1 || retorno == -2) 
+            {
+                MessageBox.Show("El usuario se encuentra inhabilitado", "Resultado Login");
             }
+
             else
             {
                 Usuario.usuario.crear_usuario(retorno);
