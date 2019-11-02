@@ -29,6 +29,8 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad', 'U') IS NOT 
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Funcionalidad', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Funcionalidad];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rol', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Usuario', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Usuario];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rubro', 'U') IS NOT NULL DROP TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rubro];
+
 
 -- Drop SP
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
@@ -109,12 +111,19 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cliente](
 )
 GO
 
+CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Rubro](
+    [id] [numeric](18,0) IDENTITY,
+    [descripcion] [varchar](255) UNIQUE NOT NULL,
+    PRIMARY KEY (id)
+)
+GO
+
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor](
     [cuit] [char](13),
     [razon_soc] [varchar](255) UNIQUE NOT NULL,
     [id_usuario] [numeric](18,0) FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Usuario(id),
     [nombre_contacto] [varchar](255), -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
-    [rubro] [varchar](255) NOT NULL,
+    [rubro] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Rubro(id),
     [telefono] [numeric](18,0) NOT NULL,
     [mail] [varchar](255), -- no hay información en tabla maestra. Queda como NULL si es migrado, pero verificar en FE.
     [direccion] [varchar](255) NOT NULL,
