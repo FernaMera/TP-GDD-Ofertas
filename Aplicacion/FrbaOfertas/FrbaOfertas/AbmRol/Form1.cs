@@ -23,6 +23,13 @@ namespace FrbaOfertas.AbmRol
             ABMRol = this;
             InitializeComponent();
 
+            ActualizarListaRoles();
+        }
+
+        private void ActualizarListaRoles()
+        {
+            listBox1.Items.Clear();
+
             var conexion = ConexionDB.getConexion();
             SqlCommand rolQuery = new SqlCommand("SELECT nombre FROM SELECT_THISGROUP_FROM_APROBADOS.Rol", conexion);
 
@@ -76,8 +83,8 @@ namespace FrbaOfertas.AbmRol
 
             var conexion = ConexionDB.getConexion();
             SqlCommand rolQuery = new SqlCommand(@"select R.id, R.nombre, R.habilitado, F.descripcion from SELECT_THISGROUP_FROM_APROBADOS.Rol R 
-                                                  join SELECT_THISGROUP_FROM_APROBADOS.Rol_Funcionalidad RF on(R.id = RF.id_rol)
-                                                  join SELECT_THISGROUP_FROM_APROBADOS.Funcionalidad F on(RF.id_func = F.id)
+                                                  left join SELECT_THISGROUP_FROM_APROBADOS.Rol_Funcionalidad RF on(R.id = RF.id_rol)
+                                                  left join SELECT_THISGROUP_FROM_APROBADOS.Funcionalidad F on(RF.id_func = F.id)
                                                   where R.nombre Like('" + listBox1.SelectedItem.ToString() + "')", conexion);
 
             conexion.Open();
@@ -130,6 +137,7 @@ namespace FrbaOfertas.AbmRol
             }
         }
 
+        //guardar nuevo rol
         private void guardarButton_Click(object sender, EventArgs e)
         {
             var conexion = ConexionDB.getConexion();
@@ -148,27 +156,46 @@ namespace FrbaOfertas.AbmRol
             int id_rol = (int)comando.Parameters["@ReturnVal"].Value;
             conexion.Close();
 
-            if(id_rol < 0)
+            switch (id_rol)
             {
-                MessageBox.Show("Ya Existe un Rol con ese Nombre", "ERROR");
-                return;
+                case -1:
+                    {
+                        MessageBox.Show("Ya Existe un Rol con ese Nombre", "ERROR");
+                        return;
+                    }
+                case -2:
+                    {
+                        MessageBox.Show("No se pudo crear el Rol", "ERROR");
+                        return;
+                    }
+                default:
+                    {
+                        //se creo el rol correctamente
+                        break;
+                    }
             }
 
             List<string> listaFunciones = new List<string>();
             listaFunciones = funcionesBox.CheckedItems.Cast<string>().ToList();
             comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad", conexion);
 
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@id_rol", SqlDbType.Int);
+            comando.Parameters["@id_rol"].Value = id_rol;
+            comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
+
             foreach (string funcion in listaFunciones)
             {
-                comando.Parameters.Add("@id_rol", SqlDbType.Int);
-                comando.Parameters["@id_rol"].Value = id_rol;
-                comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
                 comando.Parameters["@descripcion"].Value = funcion;
 
                 conexion.Open();
                 reader = comando.ExecuteReader();
                 conexion.Close();
             }
+
+            MessageBox.Show("Rol creado con éxito","");
+            ActualizarListaRoles();
         }
 
         //Modificar Rol
@@ -249,13 +276,38 @@ namespace FrbaOfertas.AbmRol
             }
 
             //TODO: manejo de errores
-            MessageBox.Show("Cambios guardados con exito", "");
+            MessageBox.Show("Cambios guardados con éxito", "");
         }
 
         //Eliminar ROL
         private void button3_Click(object sender, EventArgs e)
         {
+            var confirmResult = MessageBox.Show("Esta seguro que desea eliminar el Rol: "+ listBox1.SelectedItem.ToString() + "?", "Precaucion",
+                                MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                //Eliminar en Rol_Funcionalidad
+                var conexion = ConexionDB.getConexion();
 
+                SqlCommand comando = new SqlCommand(@"DELETE FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad WHERE
+                                                    id_rol = " + idRol, conexion);
+
+                conexion.Open();
+                SqlDataReader reader = comando.ExecuteReader();
+                conexion.Close();
+
+                //Eliminar en Rol
+                conexion = ConexionDB.getConexion();
+
+                comando = new SqlCommand(@"DELETE FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol WHERE
+                                                    id = " + idRol, conexion);
+
+                conexion.Open();
+                reader = comando.ExecuteReader();
+                conexion.Close();
+
+                ActualizarListaRoles();
+            }
         }
 
         //Habilitar/Inhabilitar Rol

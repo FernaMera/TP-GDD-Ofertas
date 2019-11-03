@@ -38,12 +38,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.funcionesBox = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.estadoRolLabel = new System.Windows.Forms.Label();
             this.guardarButton = new System.Windows.Forms.Button();
             this.guardarModButton = new System.Windows.Forms.Button();
             this.inhabilitarButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.estadoRolLabel = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panelRol.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBox1
@@ -172,39 +174,6 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "Funcionalidades";
             // 
-            // guardarButton
-            // 
-            this.guardarButton.Location = new System.Drawing.Point(659, 318);
-            this.guardarButton.Name = "guardarButton";
-            this.guardarButton.Size = new System.Drawing.Size(75, 23);
-            this.guardarButton.TabIndex = 6;
-            this.guardarButton.Text = "Guardar";
-            this.guardarButton.UseVisualStyleBackColor = true;
-            this.guardarButton.Visible = false;
-            this.guardarButton.Click += new System.EventHandler(this.guardarButton_Click);
-            // 
-            // guardarModButton
-            // 
-            this.guardarModButton.Location = new System.Drawing.Point(578, 318);
-            this.guardarModButton.Name = "guardarModButton";
-            this.guardarModButton.Size = new System.Drawing.Size(75, 23);
-            this.guardarModButton.TabIndex = 7;
-            this.guardarModButton.Text = "Guardar";
-            this.guardarModButton.UseVisualStyleBackColor = true;
-            this.guardarModButton.Visible = false;
-            this.guardarModButton.Click += new System.EventHandler(this.guardarModButton_Click);
-            // 
-            // inhabilitarButton
-            // 
-            this.inhabilitarButton.Enabled = false;
-            this.inhabilitarButton.Location = new System.Drawing.Point(170, 109);
-            this.inhabilitarButton.Name = "inhabilitarButton";
-            this.inhabilitarButton.Size = new System.Drawing.Size(122, 23);
-            this.inhabilitarButton.TabIndex = 8;
-            this.inhabilitarButton.Text = "Habilitar/Inhabilitar";
-            this.inhabilitarButton.UseVisualStyleBackColor = true;
-            this.inhabilitarButton.Click += new System.EventHandler(this.inhabilitarButton_Click);
-            // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -225,14 +194,56 @@
             this.estadoRolLabel.TabIndex = 7;
             this.estadoRolLabel.Text = "Si--No";
             // 
+            // guardarButton
+            // 
+            this.guardarButton.Location = new System.Drawing.Point(4, 3);
+            this.guardarButton.Name = "guardarButton";
+            this.guardarButton.Size = new System.Drawing.Size(75, 23);
+            this.guardarButton.TabIndex = 6;
+            this.guardarButton.Text = "Guardar";
+            this.guardarButton.UseVisualStyleBackColor = true;
+            this.guardarButton.Visible = false;
+            this.guardarButton.Click += new System.EventHandler(this.guardarButton_Click);
+            // 
+            // guardarModButton
+            // 
+            this.guardarModButton.Location = new System.Drawing.Point(85, 3);
+            this.guardarModButton.Name = "guardarModButton";
+            this.guardarModButton.Size = new System.Drawing.Size(75, 23);
+            this.guardarModButton.TabIndex = 7;
+            this.guardarModButton.Text = "Guardar";
+            this.guardarModButton.UseVisualStyleBackColor = true;
+            this.guardarModButton.Visible = false;
+            this.guardarModButton.Click += new System.EventHandler(this.guardarModButton_Click);
+            // 
+            // inhabilitarButton
+            // 
+            this.inhabilitarButton.Enabled = false;
+            this.inhabilitarButton.Location = new System.Drawing.Point(170, 109);
+            this.inhabilitarButton.Name = "inhabilitarButton";
+            this.inhabilitarButton.Size = new System.Drawing.Size(122, 23);
+            this.inhabilitarButton.TabIndex = 8;
+            this.inhabilitarButton.Text = "Habilitar/Inhabilitar";
+            this.inhabilitarButton.UseVisualStyleBackColor = true;
+            this.inhabilitarButton.Click += new System.EventHandler(this.inhabilitarButton_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.guardarModButton);
+            this.flowLayoutPanel1.Controls.Add(this.guardarButton);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(571, 314);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(163, 27);
+            this.flowLayoutPanel1.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.inhabilitarButton);
-            this.Controls.Add(this.guardarModButton);
-            this.Controls.Add(this.guardarButton);
             this.Controls.Add(this.panelRol);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
@@ -244,6 +255,7 @@
             this.Text = "Form1";
             this.panelRol.ResumeLayout(false);
             this.panelRol.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,5 +278,6 @@
         private System.Windows.Forms.Button inhabilitarButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label estadoRolLabel;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
