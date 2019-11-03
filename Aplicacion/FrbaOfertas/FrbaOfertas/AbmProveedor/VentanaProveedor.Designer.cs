@@ -241,6 +241,7 @@
             this.Controls.Add(this.label_rs);
             this.Controls.Add(this.label_cuit);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "VentanaProveedor";
             this.Text = "ABM Proveedores";
             this.Load += new System.EventHandler(this.VentanaProveedor_Load);
