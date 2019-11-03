@@ -40,6 +40,7 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad', 'P') IS N
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[habilitar_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[eliminar_rol];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_cliente];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_cliente];
 
 --borrar esta linea
@@ -444,6 +445,27 @@ CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol(@id_rol numeric(
 AS
 BEGIN
 	declare @borrar_logicamente numeric(18,0)
+END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente(@nombre_nuevo varchar(255),
+																@apellido_nuevo varchar(255), @dni_nuevo numeric(18,0),
+																@mail varchar(255), @telefono numeric(18,0), 
+																@direccion varchar(255), @ciudad varchar(255), @cod_postal smallint,
+																@fecha_nac datetime)
+AS
+BEGIN
+	declare @id numeric(18,0)
+	if @dni_nuevo in (select dni from Cliente)
+		return -1 --Cliente ya existe
+	Insert into Cliente (nombre, apellido, dni, mail, telefono, direccion, ciudad, cod_postal, fecha_nac)
+	values(@nombre_nuevo, @apellido_nuevo, @dni_nuevo,
+		@mail, @telefono, @direccion, @ciudad,
+		@cod_postal, @fecha_nac)
+	if @@ERROR = 0
+		return (select id from Cliente where dni = @dni_nuevo)
+	else
+		return -2 --error al cargar nuevos datos
 END
 GO
 

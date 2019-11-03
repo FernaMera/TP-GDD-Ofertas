@@ -14,6 +14,8 @@ namespace FrbaOfertas.AbmCliente
     public partial class Form1 : Form
     {
         private int idCliente;
+        private bool nonNumberEntered;
+        private string where;
 
         public Form1()
         {
@@ -22,27 +24,29 @@ namespace FrbaOfertas.AbmCliente
 
         private void buscarButton_Click(object sender, EventArgs e)
         {
-            string dni;
-            if (dniBox.Text.Equals(""))
-                dni = "null";
-            else dni = dniBox.Text;
+            where = " WHERE ";
+            string condicion1 = "1=1";
+            string condicion2 = "1=1";
+            string condicion3 = "1=1";
 
-            var conexion = ConexionDB.getConexion();
-            SqlCommand command = new SqlCommand(@"SELECT * FROM SELECT_THISGROUP_FROM_APROBADOS.buscar_cliente( 
-                                                '" + nombreBox.Text + "', '" + apellidoBox.Text + "', " + dni + ")", conexion);
+            if (!string.IsNullOrEmpty(nombreBox.Text))
+            {
+                condicion1 = "nombre LIKE '" + nombreBox.Text + "'";
+            }
 
-            //command.CommandType = CommandType.StoredProcedure;
-            //command.Parameters.Add("@nombre", SqlDbType.VarChar);
-            //command.Parameters["@nombre"].Value = nombreBox.Text;
+            if (!string.IsNullOrEmpty(apellidoBox.Text))
+            {
+                condicion2 = "apellido LIKE '" + apellidoBox.Text + "'";
+            }
 
-            SqlDataAdapter sqlDataAdap = new SqlDataAdapter(command);
-            conexion.Open();
+            if (!string.IsNullOrEmpty(dniBox.Text))
+            {
+                condicion3 = "dni = " + dniBox.Text;
+            }
 
-            DataTable dtRecord = new DataTable();
-            sqlDataAdap.Fill(dtRecord);
-            dataGridView1.DataSource = dtRecord;
+            where = where + condicion1 + " AND " + condicion2 + " AND " + condicion3;
 
-            conexion.Close();
+            BuscarClientes();
         }
 
         private void LimpiarButton_Click(object sender, EventArgs e)
@@ -54,6 +58,8 @@ namespace FrbaOfertas.AbmCliente
             dataGridView1.Rows.Clear();
             modificarButton.Hide();
             eliminarButton.Hide();
+            habilitarButton.Hide();
+            where = "";
         }
 
         private void modificarButton_Click(object sender, EventArgs e)
@@ -72,6 +78,7 @@ namespace FrbaOfertas.AbmCliente
         {
             modificarButton.Show();
             eliminarButton.Show();
+            habilitarButton.Show();
 
             var conexion = ConexionDB.getConexion();
             string nombre = dataGridView1.SelectedCells[0].Value.ToString();
@@ -92,6 +99,64 @@ namespace FrbaOfertas.AbmCliente
                 reader.Close();
             }
             conexion.Close();
+        }
+
+        private void dniBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            nonNumberEntered = false;
+
+            if (e.KeyCode < Keys.D0 || e.KeyCode > Keys.D9)
+            {
+                if (e.KeyCode < Keys.NumPad0 || e.KeyCode > Keys.NumPad9)
+                {
+                    if (e.KeyCode != Keys.Back)
+                    {
+                        nonNumberEntered = true;
+                    }
+                }
+            }
+        }
+
+        private void dniBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (nonNumberEntered == true)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void habilitarButton_Click(object sender, EventArgs e)
+        {
+            int habilitar = 0;
+            if(Convert.ToInt32(dataGridView1.SelectedCells[dataGridView1.Columns.Count - 1].Value) == 0)
+            {
+                //habilitar
+                habilitar = 1;
+            }
+            
+            var conexion = ConexionDB.getConexion();
+            SqlCommand command = new SqlCommand(@"Update SELECT_THISGROUP_FROM_APROBADOS.Cliente
+                                                    set habilitado = " + habilitar + 
+                                                    "where id = " + idCliente, conexion);
+
+            conexion.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            conexion.Close();
+
+            if(habilitar == 1)
+                MessageBox.Show("Cliente fue Habilitado");
+            else
+                MessageBox.Show("Cliente fue Inhabilitado");
+
+            BuscarClientes();
+        }
+
+        private void BuscarClientes()
+        {
+            string query = @"SELECT nombre, apellido, dni, telefono, mail, direccion, ciudad, cod_postal, fecha_nac, saldo, habilitado 
+                            FROM [SELECT_THISGROUP_FROM_APROBADOS].[Cliente]" + where;
+
+            ConexionDB.llenar_grilla(dataGridView1, query);
         }
     }
 }

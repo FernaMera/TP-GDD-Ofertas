@@ -83,6 +83,58 @@ namespace FrbaOfertas.AbmCliente
             {
                 case "Nuevo":
                     {
+                        var conexion = ConexionDB.getConexion();
+
+                        SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente", conexion);
+
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        comando.Parameters.Add("@nombre_nuevo", SqlDbType.VarChar);
+                        comando.Parameters["@nombre_nuevo"].Value = nombreBox.Text;
+                        comando.Parameters.Add("@apellido_nuevo", SqlDbType.VarChar);
+                        comando.Parameters["@apellido_nuevo"].Value = apellidoBox.Text;
+                        comando.Parameters.Add("@dni_nuevo", SqlDbType.Int);
+                        comando.Parameters["@dni_nuevo"].Value = Convert.ToInt32(dniBox.Text);
+                        comando.Parameters.Add("@mail", SqlDbType.VarChar);
+                        comando.Parameters["@mail"].Value = mailBox.Text;
+                        comando.Parameters.Add("@telefono", SqlDbType.Int);
+                        comando.Parameters["@telefono"].Value = Convert.ToInt32(telefonoBox.Text);
+                        comando.Parameters.Add("@direccion", SqlDbType.VarChar);
+                        comando.Parameters["@direccion"].Value = direccionBox.Text;
+                        comando.Parameters.Add("@ciudad", SqlDbType.VarChar);
+                        comando.Parameters["@ciudad"].Value = ciudadBox.Text;
+                        comando.Parameters.Add("@cod_postal", SqlDbType.SmallInt);
+                        if (codPostalBox.Text.Equals(""))
+                            comando.Parameters["@cod_postal"].Value = DBNull.Value;
+                        else
+                        {
+                            int cod_postal = Convert.ToInt32(codPostalBox.Text);
+
+                            comando.Parameters["@cod_postal"].Value = cod_postal;
+                        }
+
+                        comando.Parameters.Add("@fecha_nac", SqlDbType.DateTime);
+                        comando.Parameters["@fecha_nac"].Value = fechaNac.Value;
+                        comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                        comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+                        conexion.Open();
+                        SqlDataReader reader = comando.ExecuteReader();
+                        int resultado = (int)comando.Parameters["@ReturnVal"].Value;
+                        conexion.Close();
+
+                        if (resultado < 0)
+                        {
+                            MessageBox.Show("Error al actualizar datos", "ERROR");
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cliente creado con éxito", "Nuevo Cliente");
+                            this.Close();
+                        }
+
+                        comando.CommandType = CommandType.StoredProcedure;
                         break;
                     }
                 case "Modificar":
@@ -111,7 +163,7 @@ namespace FrbaOfertas.AbmCliente
                         comando.Parameters["@ciudad"].Value = ciudadBox.Text;
                         comando.Parameters.Add("@cod_postal", SqlDbType.SmallInt);
                         if (codPostalBox.Text.Equals(""))
-                            comando.Parameters["@cod_postal"].Value = null;
+                            comando.Parameters["@cod_postal"].Value = DBNull.Value;
                         else
                         {
                             int cod_postal = Convert.ToInt32(codPostalBox.Text);

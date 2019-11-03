@@ -42,8 +42,11 @@
             this.LimpiarButton = new System.Windows.Forms.Button();
             this.eliminarButton = new System.Windows.Forms.Button();
             this.modificarButton = new System.Windows.Forms.Button();
+            this.habilitarButton = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -58,7 +61,7 @@
             // 
             // nuevoClienteButton
             // 
-            this.nuevoClienteButton.Location = new System.Drawing.Point(613, 318);
+            this.nuevoClienteButton.Location = new System.Drawing.Point(392, 3);
             this.nuevoClienteButton.Name = "nuevoClienteButton";
             this.nuevoClienteButton.Size = new System.Drawing.Size(121, 23);
             this.nuevoClienteButton.TabIndex = 2;
@@ -85,7 +88,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(189, 268);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(189, 119);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // nombreBox
@@ -141,10 +144,12 @@
             this.dniBox.Name = "dniBox";
             this.dniBox.Size = new System.Drawing.Size(125, 20);
             this.dniBox.TabIndex = 5;
+            this.dniBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dniBox_KeyDown);
+            this.dniBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dniBox_KeyPress);
             // 
             // buscarButton
             // 
-            this.buscarButton.Location = new System.Drawing.Point(116, 318);
+            this.buscarButton.Location = new System.Drawing.Point(116, 169);
             this.buscarButton.Name = "buscarButton";
             this.buscarButton.Size = new System.Drawing.Size(91, 23);
             this.buscarButton.TabIndex = 4;
@@ -168,7 +173,7 @@
             // 
             // LimpiarButton
             // 
-            this.LimpiarButton.Location = new System.Drawing.Point(18, 318);
+            this.LimpiarButton.Location = new System.Drawing.Point(18, 169);
             this.LimpiarButton.Name = "LimpiarButton";
             this.LimpiarButton.Size = new System.Drawing.Size(92, 23);
             this.LimpiarButton.TabIndex = 6;
@@ -178,9 +183,9 @@
             // 
             // eliminarButton
             // 
-            this.eliminarButton.Location = new System.Drawing.Point(272, 318);
+            this.eliminarButton.Location = new System.Drawing.Point(11, 3);
             this.eliminarButton.Name = "eliminarButton";
-            this.eliminarButton.Size = new System.Drawing.Size(105, 23);
+            this.eliminarButton.Size = new System.Drawing.Size(121, 23);
             this.eliminarButton.TabIndex = 7;
             this.eliminarButton.Text = "Eliminar Cliente";
             this.eliminarButton.UseVisualStyleBackColor = true;
@@ -188,27 +193,50 @@
             // 
             // modificarButton
             // 
-            this.modificarButton.Location = new System.Drawing.Point(440, 318);
+            this.modificarButton.Location = new System.Drawing.Point(138, 3);
             this.modificarButton.Name = "modificarButton";
-            this.modificarButton.Size = new System.Drawing.Size(112, 23);
+            this.modificarButton.Size = new System.Drawing.Size(121, 23);
             this.modificarButton.TabIndex = 8;
             this.modificarButton.Text = "Modificar Cliente";
             this.modificarButton.UseVisualStyleBackColor = true;
             this.modificarButton.Visible = false;
             this.modificarButton.Click += new System.EventHandler(this.modificarButton_Click);
             // 
+            // habilitarButton
+            // 
+            this.habilitarButton.Location = new System.Drawing.Point(265, 3);
+            this.habilitarButton.Name = "habilitarButton";
+            this.habilitarButton.Size = new System.Drawing.Size(121, 23);
+            this.habilitarButton.TabIndex = 9;
+            this.habilitarButton.Text = "Habilitar/Inhabilitar";
+            this.habilitarButton.UseVisualStyleBackColor = true;
+            this.habilitarButton.Visible = false;
+            this.habilitarButton.Click += new System.EventHandler(this.habilitarButton_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.flowLayoutPanel1.Controls.Add(this.nuevoClienteButton);
+            this.flowLayoutPanel1.Controls.Add(this.habilitarButton);
+            this.flowLayoutPanel1.Controls.Add(this.modificarButton);
+            this.flowLayoutPanel1.Controls.Add(this.eliminarButton);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(213, 318);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(521, 30);
+            this.flowLayoutPanel1.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
-            this.Controls.Add(this.modificarButton);
-            this.Controls.Add(this.eliminarButton);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.LimpiarButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buscarButton);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.nuevoClienteButton);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
@@ -216,6 +244,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,5 +266,7 @@
         private System.Windows.Forms.Button LimpiarButton;
         private System.Windows.Forms.Button eliminarButton;
         private System.Windows.Forms.Button modificarButton;
+        private System.Windows.Forms.Button habilitarButton;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
