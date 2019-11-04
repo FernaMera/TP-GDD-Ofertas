@@ -108,6 +108,12 @@
     <Compile Include="CrearOferta\CrearOferta.Designer.cs">
       <DependentUpon>CrearOferta.cs</DependentUpon>
     </Compile>
+    <Compile Include="CrearUsuario\ClienteNuevoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrearUsuario\ClienteNuevoForm.Designer.cs">
+      <DependentUpon>ClienteNuevoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CrearUsuario\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\CrearOferta.resx">
       <DependentUpon>CrearOferta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearUsuario\ClienteNuevoForm.resx">
+      <DependentUpon>ClienteNuevoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearUsuario\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.rolComboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.usuarioBox = new System.Windows.Forms.TextBox();
+            this.contrasenaBox = new System.Windows.Forms.TextBox();
+            this.confirmacionBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -49,14 +49,16 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Siguiente";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // comboBox1
+            // rolComboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(129, 119);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(151, 21);
-            this.comboBox1.TabIndex = 1;
+            this.rolComboBox.FormattingEnabled = true;
+            this.rolComboBox.Location = new System.Drawing.Point(129, 119);
+            this.rolComboBox.Name = "rolComboBox";
+            this.rolComboBox.Size = new System.Drawing.Size(151, 21);
+            this.rolComboBox.TabIndex = 1;
+            this.rolComboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rolComboBox_KeyPress);
             // 
             // label1
             // 
@@ -67,26 +69,28 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Rol:";
             // 
-            // textBox1
+            // usuarioBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(129, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(151, 20);
-            this.textBox1.TabIndex = 3;
+            this.usuarioBox.Location = new System.Drawing.Point(129, 32);
+            this.usuarioBox.Name = "usuarioBox";
+            this.usuarioBox.Size = new System.Drawing.Size(151, 20);
+            this.usuarioBox.TabIndex = 3;
             // 
-            // textBox2
+            // contrasenaBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(129, 58);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(151, 20);
-            this.textBox2.TabIndex = 4;
+            this.contrasenaBox.Location = new System.Drawing.Point(129, 58);
+            this.contrasenaBox.Name = "contrasenaBox";
+            this.contrasenaBox.Size = new System.Drawing.Size(151, 20);
+            this.contrasenaBox.TabIndex = 4;
+            this.contrasenaBox.UseSystemPasswordChar = true;
             // 
-            // textBox3
+            // confirmacionBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(129, 83);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(151, 20);
-            this.textBox3.TabIndex = 5;
+            this.confirmacionBox.Location = new System.Drawing.Point(129, 83);
+            this.confirmacionBox.Name = "confirmacionBox";
+            this.confirmacionBox.Size = new System.Drawing.Size(151, 20);
+            this.confirmacionBox.TabIndex = 5;
+            this.confirmacionBox.UseSystemPasswordChar = true;
             // 
             // label2
             // 
@@ -123,6 +127,7 @@
             this.button2.TabIndex = 9;
             this.button2.Text = "Atras";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label5
             // 
@@ -144,14 +149,14 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.confirmacionBox);
+            this.Controls.Add(this.contrasenaBox);
+            this.Controls.Add(this.usuarioBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.rolComboBox);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Ofertas";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,11 +165,11 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox rolComboBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox usuarioBox;
+        private System.Windows.Forms.TextBox contrasenaBox;
+        private System.Windows.Forms.TextBox confirmacionBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

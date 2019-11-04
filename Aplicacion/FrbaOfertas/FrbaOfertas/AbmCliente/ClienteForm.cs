@@ -133,8 +133,7 @@ namespace FrbaOfertas.AbmCliente
                             MessageBox.Show("Cliente creado con éxito", "Nuevo Cliente");
                             this.Close();
                         }
-
-                        comando.CommandType = CommandType.StoredProcedure;
+                        
                         break;
                     }
                 case "Modificar":

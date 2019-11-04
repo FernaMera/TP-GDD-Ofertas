@@ -34,6 +34,8 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rubro', 'U') IS NOT NULL DROP TA
 
 -- Drop SP
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_usuario];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol_usuario];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[agregar_funcionalidad];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].quitar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[quitar_funcionalidad];
@@ -379,6 +381,39 @@ AS
  END
 GO
 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario(@username varchar(255), @password varchar(255))
+AS
+ BEGIN
+    DECLARE @hash_pass varchar(255)
+	DECLARE @id_usuario numeric(18,0)
+
+	SET @hash_pass = HASHBYTES('SHA2_256', @password)
+	SET @id_usuario = (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Usuario WHERE username = @username)
+
+	IF (@id_usuario IS NULL)
+		BEGIN 
+		INSERT SELECT_THISGROUP_FROM_APROBADOS.Usuario (username, intentos_fallidos, habilitado, password)
+		VALUES(@username, 0, 1, @hash_pass)
+		RETURN (select id from Usuario where username like @username)
+		END
+	ELSE
+		RETURN -1 -- usuario ya esiste
+ END
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario(@id_user numeric(18,0), @id_rol numeric(18,0))
+AS
+ BEGIN
+	INSERT Rol_Usuario (id_usuario, id_rol)
+	VALUES (@id_user, @id_rol)
+
+	IF (@@ERROR = 0)
+		RETURN 0
+	ELSE
+		RETURN -1
+ END
+GO
+
 CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol(@nombre varchar(255))
 AS
 BEGIN
@@ -504,3 +539,7 @@ GO
 
 UPDATE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor] SET [id_usuario] = 2
 WHERE cuit = '11-22445103-2'
+
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario(id_rol, id_usuario)
+VALUES (3, 2)
+GO
