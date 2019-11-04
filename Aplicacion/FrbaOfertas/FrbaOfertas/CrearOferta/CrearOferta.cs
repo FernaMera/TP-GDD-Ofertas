@@ -26,7 +26,11 @@ namespace FrbaOfertas.CrearOferta
 
         private void seleccionarProveedor_Click(object sender, EventArgs e)
         {
-            
+            using (SeleccionarProveedor selProv = new SeleccionarProveedor())
+            {
+                if (selProv.ShowDialog() == DialogResult.OK)
+                    textBox_proveedor.Text = selProv.proveedorSeleccionado;
+            }
         }
 
 
