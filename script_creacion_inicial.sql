@@ -529,8 +529,22 @@ GO
 
 -- Triggers
 
---TODO: quitar rol de usuario cuando este se inhabilita
-
+--quitar rol de usuario cuando este se inhabilita
+CREATE TRIGGER after_rol_inhabilitado on [SELECT_THISGROUP_FROM_APROBADOS].Rol
+FOR UPDATE
+AS DECLARE @id_rol numeric(18,0)
+SELECT @id_rol = ins.id from inserted ins
+IF UPDATE(habilitado)
+BEGIN
+	declare @habilitado bit
+	set @habilitado = (select habilitado from Rol where @id_rol = id) 
+	if(@habilitado = 0)
+	Begin
+		Delete Rol_Usuario
+		where @id_rol = id_rol
+	End
+END
+GO
 
 -- INSERT Usuario Proveedor para probar
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Usuario(username, password)
