@@ -72,28 +72,30 @@ namespace FrbaOfertas.CrearUsuario
                 //no hay usuario con ese nombre
             }
 
+            if (idUser > 0)
+            {
+                MessageBox.Show("Nombre de usuario ya existe");
+                reader.Close();
+                conexion.Close();
+                return;
+            }
+
             reader.Close();
-            conexion.Close();
 
-            comando = new SqlCommand(@"SELECT id From [SELECT_THISGROUP_FROM_APROBADOS].Rol
+            comando = new SqlCommand(@"SELECT id, nombre From [SELECT_THISGROUP_FROM_APROBADOS].Rol
                                                  where nombre like '" + rolComboBox.SelectedItem.ToString() + "'", conexion);
-
-            conexion.Open();
+            
             reader = comando.ExecuteReader();
             reader.Read();
 
             id_rol = (int)reader.GetDecimal(reader.GetOrdinal("id"));
+            string nombre = reader["nombre"].ToString();
 
             reader.Close();
-            conexion.Close();
 
-            switch(id_rol)
+            switch(nombre)
             {
-                case 1: //Administrador
-                    {
-                        break;
-                    }
-                case 2: //Cliente
+                case "Cliente": //Cliente
                     {
                         Form nuevoCliente = new CrearUsuario.ClienteNuevoForm(usuarioBox.Text, contrasenaBox.Text, id_rol);
                         nuevoCliente.Show();
@@ -101,12 +103,60 @@ namespace FrbaOfertas.CrearUsuario
 
                         break;
                     }
-                case 3: //Proveedor
+                case "Proveedor": //Proveedor
                     {
+                        Form nuevoProveedor = new CrearUsuario.ProveedorNuevoForm(usuarioBox.Text, contrasenaBox.Text, id_rol);
+                        nuevoProveedor.Show();
+                        this.Close();
+
                         break;
                     }
-                default: //Rol creado
+                default: //Administrador o Rol creado
                     {
+                        //nuevo usuario
+                        comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario", conexion);
+
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        comando.Parameters.Add("@username", SqlDbType.VarChar);
+                        comando.Parameters["@username"].Value = usuarioBox.Text;
+                        comando.Parameters.Add("@password", SqlDbType.VarChar);
+                        comando.Parameters["@password"].Value = contrasenaBox.Text;
+                        comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                        comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+                        //conexion.Open();
+                        reader = comando.ExecuteReader();
+                        int id_usuario = (int)comando.Parameters["@ReturnVal"].Value;
+                        reader.Close();
+                        if (id_usuario < 0)
+                        {
+                            MessageBox.Show("Error");
+                            conexion.Close();
+                            this.Close();
+                        }
+
+                        //asociar usuario con su rol
+                        comando = new SqlCommand(@"[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario", conexion);
+
+                        comando.CommandType = CommandType.StoredProcedure;
+
+                        comando.Parameters.Add("@id_user", SqlDbType.VarChar);
+                        comando.Parameters["@id_user"].Value = id_usuario;
+                        comando.Parameters.Add("@id_rol", SqlDbType.VarChar);
+                        comando.Parameters["@id_rol"].Value = id_rol;
+                        comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                        comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+                        reader = comando.ExecuteReader();
+                        conexion.Close();
+
+                        int resultado = (int)comando.Parameters["@ReturnVal"].Value;
+                        if (resultado == 0)
+                            MessageBox.Show("Usuario creado con éxito", "Nuevo Usuario");
+                        else
+                            MessageBox.Show("Error al cargar Datos");
+                        this.Close();
                         break;
                     }
             }

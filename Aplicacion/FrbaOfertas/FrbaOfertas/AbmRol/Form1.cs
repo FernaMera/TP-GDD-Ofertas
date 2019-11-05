@@ -154,7 +154,7 @@ namespace FrbaOfertas.AbmRol
             conexion.Open();
             SqlDataReader reader = comando.ExecuteReader();
             int id_rol = (int)comando.Parameters["@ReturnVal"].Value;
-            conexion.Close();
+            reader.Close();
 
             switch (id_rol)
             {
@@ -188,9 +188,9 @@ namespace FrbaOfertas.AbmRol
             foreach (string funcion in listaFunciones)
             {
                 comando.Parameters["@descripcion"].Value = funcion;
-
-                conexion.Open();
+                
                 reader = comando.ExecuteReader();
+                reader.Close();
                 conexion.Close();
             }
 
@@ -230,7 +230,7 @@ namespace FrbaOfertas.AbmRol
             conexion.Open();
             SqlDataReader reader = comando.ExecuteReader();
             int id_rol = (int)comando.Parameters["@ReturnVal"].Value;
-            conexion.Close();
+            reader.Close();
 
             List<string> nuevaListaFunciones = new List<string>();
             nuevaListaFunciones = funcionesBox.CheckedItems.Cast<string>().ToList();
@@ -248,10 +248,9 @@ namespace FrbaOfertas.AbmRol
                     comando.Parameters["@id_rol"].Value = id_rol;
                     comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
                     comando.Parameters["@descripcion"].Value = funcion;
-
-                    conexion.Open();
+                    
                     reader = comando.ExecuteReader();
-                    conexion.Close();
+                    reader.Close();
                 }
             }
 
@@ -268,13 +267,13 @@ namespace FrbaOfertas.AbmRol
                     comando.Parameters["@id_rol"].Value = id_rol;
                     comando.Parameters.Add("@descripcion", SqlDbType.VarChar);
                     comando.Parameters["@descripcion"].Value = funcion;
-
-                    conexion.Open();
+                    
                     reader = comando.ExecuteReader();
-                    conexion.Close();
+                    reader.Close();
                 }
             }
 
+            conexion.Close();
             //TODO: manejo de errores
             MessageBox.Show("Cambios guardados con éxito", "");
         }
