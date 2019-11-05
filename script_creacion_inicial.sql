@@ -179,7 +179,6 @@ GO
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Oferta](
     [id] [numeric](18,0) IDENTITY,
     [cuit_prov] [char](13) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(cuit),
-    [codigo] [varchar](255) NOT NULL,
     [descripcion] [varchar](255) NOT NULL,
     [fec_public] [datetime] NOT NULL,
     [fec_venc] [datetime] NOT NULL,

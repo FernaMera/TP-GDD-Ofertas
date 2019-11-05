@@ -44,23 +44,24 @@
             this.gridProveedores.ReadOnly = true;
             this.gridProveedores.RowTemplate.ReadOnly = true;
             this.gridProveedores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridProveedores.Size = new System.Drawing.Size(802, 411);
+            this.gridProveedores.Size = new System.Drawing.Size(275, 327);
             this.gridProveedores.TabIndex = 6;
             // 
             // btn_seleccionarProv
             // 
-            this.btn_seleccionarProv.Location = new System.Drawing.Point(373, 443);
+            this.btn_seleccionarProv.Location = new System.Drawing.Point(94, 345);
             this.btn_seleccionarProv.Name = "btn_seleccionarProv";
-            this.btn_seleccionarProv.Size = new System.Drawing.Size(108, 53);
+            this.btn_seleccionarProv.Size = new System.Drawing.Size(124, 28);
             this.btn_seleccionarProv.TabIndex = 7;
             this.btn_seleccionarProv.Text = "Seleccionar";
             this.btn_seleccionarProv.UseVisualStyleBackColor = true;
+            this.btn_seleccionarProv.Click += new System.EventHandler(this.btn_seleccionarProv_Click);
             // 
             // SeleccionarProveedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(826, 517);
+            this.ClientSize = new System.Drawing.Size(299, 391);
             this.Controls.Add(this.btn_seleccionarProv);
             this.Controls.Add(this.gridProveedores);
             this.Name = "SeleccionarProveedor";

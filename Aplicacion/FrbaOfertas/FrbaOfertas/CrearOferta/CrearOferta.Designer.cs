@@ -32,6 +32,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label_proveedor = new System.Windows.Forms.Label();
             this.btn_seleccionarProveedor = new System.Windows.Forms.Button();
+            this.dateTimePicker_publi = new System.Windows.Forms.DateTimePicker();
+            this.label_fechaPubli = new System.Windows.Forms.Label();
+            this.label_fechaVenc = new System.Windows.Forms.Label();
+            this.dateTimePicker_venc = new System.Windows.Forms.DateTimePicker();
+            this.label_precioLista = new System.Windows.Forms.Label();
+            this.label_precioOferta = new System.Windows.Forms.Label();
+            this.label_cantDisp = new System.Windows.Forms.Label();
+            this.label_maxPorCliente = new System.Windows.Forms.Label();
+            this.textBox_precioLista = new System.Windows.Forms.TextBox();
+            this.textBox_precioOferta = new System.Windows.Forms.TextBox();
+            this.textBox_cantDisp = new System.Windows.Forms.TextBox();
+            this.textBox_cantMaxPorCliente = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox_proveedor
@@ -71,11 +83,119 @@
             this.btn_seleccionarProveedor.UseVisualStyleBackColor = true;
             this.btn_seleccionarProveedor.Click += new System.EventHandler(this.seleccionarProveedor_Click);
             // 
+            // dateTimePicker_publi
+            // 
+            this.dateTimePicker_publi.Location = new System.Drawing.Point(164, 91);
+            this.dateTimePicker_publi.Name = "dateTimePicker_publi";
+            this.dateTimePicker_publi.Size = new System.Drawing.Size(215, 20);
+            this.dateTimePicker_publi.TabIndex = 4;
+            // 
+            // label_fechaPubli
+            // 
+            this.label_fechaPubli.AutoSize = true;
+            this.label_fechaPubli.Location = new System.Drawing.Point(27, 97);
+            this.label_fechaPubli.Name = "label_fechaPubli";
+            this.label_fechaPubli.Size = new System.Drawing.Size(112, 13);
+            this.label_fechaPubli.TabIndex = 5;
+            this.label_fechaPubli.Text = "Fecha de publicación:";
+            // 
+            // label_fechaVenc
+            // 
+            this.label_fechaVenc.AutoSize = true;
+            this.label_fechaVenc.Location = new System.Drawing.Point(27, 125);
+            this.label_fechaVenc.Name = "label_fechaVenc";
+            this.label_fechaVenc.Size = new System.Drawing.Size(115, 13);
+            this.label_fechaVenc.TabIndex = 7;
+            this.label_fechaVenc.Text = "Fecha de vencimiento:";
+            // 
+            // dateTimePicker_venc
+            // 
+            this.dateTimePicker_venc.Location = new System.Drawing.Point(164, 119);
+            this.dateTimePicker_venc.Name = "dateTimePicker_venc";
+            this.dateTimePicker_venc.Size = new System.Drawing.Size(215, 20);
+            this.dateTimePicker_venc.TabIndex = 6;
+            // 
+            // label_precioLista
+            // 
+            this.label_precioLista.AutoSize = true;
+            this.label_precioLista.Location = new System.Drawing.Point(54, 157);
+            this.label_precioLista.Name = "label_precioLista";
+            this.label_precioLista.Size = new System.Drawing.Size(76, 13);
+            this.label_precioLista.TabIndex = 8;
+            this.label_precioLista.Text = "Precio de lista:";
+            // 
+            // label_precioOferta
+            // 
+            this.label_precioOferta.AutoSize = true;
+            this.label_precioOferta.Location = new System.Drawing.Point(45, 183);
+            this.label_precioOferta.Name = "label_precioOferta";
+            this.label_precioOferta.Size = new System.Drawing.Size(85, 13);
+            this.label_precioOferta.TabIndex = 9;
+            this.label_precioOferta.Text = "Precio de oferta:";
+            // 
+            // label_cantDisp
+            // 
+            this.label_cantDisp.AutoSize = true;
+            this.label_cantDisp.Location = new System.Drawing.Point(40, 209);
+            this.label_cantDisp.Name = "label_cantDisp";
+            this.label_cantDisp.Size = new System.Drawing.Size(102, 13);
+            this.label_cantDisp.TabIndex = 10;
+            this.label_cantDisp.Text = "Cantidad disponible:";
+            // 
+            // label_maxPorCliente
+            // 
+            this.label_maxPorCliente.AutoSize = true;
+            this.label_maxPorCliente.Location = new System.Drawing.Point(18, 243);
+            this.label_maxPorCliente.Name = "label_maxPorCliente";
+            this.label_maxPorCliente.Size = new System.Drawing.Size(142, 13);
+            this.label_maxPorCliente.TabIndex = 11;
+            this.label_maxPorCliente.Text = "Cantidad máxima por cliente:";
+            // 
+            // textBox_precioLista
+            // 
+            this.textBox_precioLista.Location = new System.Drawing.Point(164, 154);
+            this.textBox_precioLista.Name = "textBox_precioLista";
+            this.textBox_precioLista.Size = new System.Drawing.Size(100, 20);
+            this.textBox_precioLista.TabIndex = 12;
+            // 
+            // textBox_precioOferta
+            // 
+            this.textBox_precioOferta.Location = new System.Drawing.Point(164, 180);
+            this.textBox_precioOferta.Name = "textBox_precioOferta";
+            this.textBox_precioOferta.Size = new System.Drawing.Size(100, 20);
+            this.textBox_precioOferta.TabIndex = 13;
+            // 
+            // textBox_cantDisp
+            // 
+            this.textBox_cantDisp.Location = new System.Drawing.Point(164, 206);
+            this.textBox_cantDisp.Name = "textBox_cantDisp";
+            this.textBox_cantDisp.Size = new System.Drawing.Size(100, 20);
+            this.textBox_cantDisp.TabIndex = 14;
+            // 
+            // textBox_cantMaxPorCliente
+            // 
+            this.textBox_cantMaxPorCliente.Location = new System.Drawing.Point(164, 240);
+            this.textBox_cantMaxPorCliente.Name = "textBox_cantMaxPorCliente";
+            this.textBox_cantMaxPorCliente.Size = new System.Drawing.Size(100, 20);
+            this.textBox_cantMaxPorCliente.TabIndex = 15;
+            // 
             // CrearOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.textBox_cantMaxPorCliente);
+            this.Controls.Add(this.textBox_cantDisp);
+            this.Controls.Add(this.textBox_precioOferta);
+            this.Controls.Add(this.textBox_precioLista);
+            this.Controls.Add(this.label_maxPorCliente);
+            this.Controls.Add(this.label_cantDisp);
+            this.Controls.Add(this.label_precioOferta);
+            this.Controls.Add(this.label_precioLista);
+            this.Controls.Add(this.label_fechaVenc);
+            this.Controls.Add(this.dateTimePicker_venc);
+            this.Controls.Add(this.label_fechaPubli);
+            this.Controls.Add(this.dateTimePicker_publi);
             this.Controls.Add(this.btn_seleccionarProveedor);
             this.Controls.Add(this.textBox_proveedor);
             this.Controls.Add(this.label_proveedor);
@@ -94,5 +214,17 @@
         private System.Windows.Forms.Label label_proveedor;
         private System.Windows.Forms.Button btn_seleccionarProveedor;
         private System.Windows.Forms.TextBox textBox_proveedor;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_publi;
+        private System.Windows.Forms.Label label_fechaPubli;
+        private System.Windows.Forms.Label label_fechaVenc;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_venc;
+        private System.Windows.Forms.Label label_precioLista;
+        private System.Windows.Forms.Label label_precioOferta;
+        private System.Windows.Forms.Label label_cantDisp;
+        private System.Windows.Forms.Label label_maxPorCliente;
+        private System.Windows.Forms.TextBox textBox_precioLista;
+        private System.Windows.Forms.TextBox textBox_precioOferta;
+        private System.Windows.Forms.TextBox textBox_cantDisp;
+        private System.Windows.Forms.TextBox textBox_cantMaxPorCliente;
     }
 }
