@@ -44,6 +44,8 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol', 'P') IS NOT NULL
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[eliminar_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_cliente];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_cliente];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_credito', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_credito];
+
 
 --borrar esta linea
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].buscar_cliente', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[buscar_cliente];
@@ -492,10 +494,10 @@ BEGIN
 	declare @id numeric(18,0)
 	if @dni_nuevo in (select dni from Cliente)
 		return -1 --Cliente ya existe
-	Insert into Cliente (nombre, apellido, dni, mail, telefono, direccion, ciudad, cod_postal, fecha_nac)
+	Insert into Cliente (nombre, apellido, dni, mail, telefono, direccion, ciudad, cod_postal, fecha_nac, saldo)
 	values(@nombre_nuevo, @apellido_nuevo, @dni_nuevo,
 		@mail, @telefono, @direccion, @ciudad,
-		@cod_postal, @fecha_nac)
+		@cod_postal, @fecha_nac, 200)
 	if @@ERROR = 0
 		return (select id from Cliente where dni = @dni_nuevo)
 	else
@@ -522,6 +524,17 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_credito(@id_cliente numeric(18,0), @nombre_titular varchar(255), 
+																@numero_tarjeta numeric(18,0), @monto numeric(18,0), 
+																@tipo_pago tinyint, @fecha datetime)
+AS
+BEGIN
+	if @@ERROR = 0
+		return 0
+	else
+		return -2 --error al cargar nuevos datos
+END
+GO
 
 -- Funciones
 
