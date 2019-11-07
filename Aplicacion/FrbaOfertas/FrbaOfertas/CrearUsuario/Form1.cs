@@ -20,14 +20,17 @@ namespace FrbaOfertas.CrearUsuario
             InitializeComponent();
 
             var conexion = ConexionDB.getConexion();
-            SqlCommand rolQuery = new SqlCommand("SELECT nombre FROM SELECT_THISGROUP_FROM_APROBADOS.Rol", conexion);
+            SqlCommand rolQuery = new SqlCommand("SELECT nombre FROM SELECT_THISGROUP_FROM_APROBADOS.Rol where habilitado = 1", conexion);
 
             conexion.Open();
             using (SqlDataReader reader = rolQuery.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    rolComboBox.Items.Add(reader["nombre"].ToString());
+                    //No se puede crear usuario para Administrador General puede que tampoco administrativo
+                    string rol = reader["nombre"].ToString();
+                    if (!rol.Equals("Administrador General"))
+                        rolComboBox.Items.Add(rol);
                 }
                 reader.Close();
             }
@@ -111,7 +114,7 @@ namespace FrbaOfertas.CrearUsuario
 
                         break;
                     }
-                default: //Administrador o Rol creado
+                default: //Rol creado
                     {
                         //nuevo usuario
                         comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario", conexion);
