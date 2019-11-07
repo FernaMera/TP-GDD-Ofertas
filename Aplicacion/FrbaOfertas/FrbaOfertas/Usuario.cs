@@ -30,6 +30,11 @@ namespace FrbaOfertas
             return rol.TieneFuncion(unaFunc);
         }
 
+        internal bool esCliente()
+        {
+            return rol.nombre == "Cliente";
+        }
+
         public bool esProveedor()
         {
             return rol.nombre == "Proveedor";
@@ -46,7 +51,27 @@ namespace FrbaOfertas
             return reg["cuit"].ToString();
         }
 
+        public int GetUsuarioId()
+        {
+            return id;
+        }
 
+        public int GetClienteId()
+        {
+            var conexion = ConexionDB.getConexion();
 
+            SqlCommand comando = new SqlCommand(@"select C.id from SELECT_THISGROUP_FROM_APROBADOS.Cliente C ,SELECT_THISGROUP_FROM_APROBADOS.Usuario U
+                                                    where C.id_usuario = " + usuario.GetUsuarioId(), conexion);
+
+            conexion.Open();
+            SqlDataReader reader = comando.ExecuteReader();
+            reader.Read();
+
+            int id = (int)reader.GetDecimal(reader.GetOrdinal("id"));
+
+            reader.Close();
+            conexion.Close();
+            return id;
+        }
     }
 }
