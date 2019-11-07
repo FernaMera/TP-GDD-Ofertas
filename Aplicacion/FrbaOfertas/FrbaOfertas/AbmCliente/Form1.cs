@@ -28,15 +28,16 @@ namespace FrbaOfertas.AbmCliente
             string condicion1 = "1=1";
             string condicion2 = "1=1";
             string condicion3 = "1=1";
+            string condicion4 = "1=1";
 
             if (!string.IsNullOrEmpty(nombreBox.Text))
             {
-                condicion1 = "nombre LIKE '" + nombreBox.Text + "'";
+                condicion1 = "nombre LIKE '%" + nombreBox.Text + "%'";
             }
 
             if (!string.IsNullOrEmpty(apellidoBox.Text))
             {
-                condicion2 = "apellido LIKE '" + apellidoBox.Text + "'";
+                condicion2 = "apellido LIKE '%" + apellidoBox.Text + "%'";
             }
 
             if (!string.IsNullOrEmpty(dniBox.Text))
@@ -44,7 +45,12 @@ namespace FrbaOfertas.AbmCliente
                 condicion3 = "dni = " + dniBox.Text;
             }
 
-            where = where + condicion1 + " AND " + condicion2 + " AND " + condicion3;
+            if (!string.IsNullOrEmpty(mailBox.Text))
+            {
+                condicion2 = "mail LIKE '%" + mailBox.Text + "%'";
+            }
+
+            where = where + condicion1 + " AND " + condicion2 + " AND " + condicion3 + " AND " + condicion4;
 
             BuscarClientes();
         }
@@ -57,7 +63,6 @@ namespace FrbaOfertas.AbmCliente
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
             modificarButton.Hide();
-            eliminarButton.Hide();
             habilitarButton.Hide();
             where = "";
         }
@@ -77,7 +82,6 @@ namespace FrbaOfertas.AbmCliente
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             modificarButton.Show();
-            eliminarButton.Show();
             habilitarButton.Show();
 
             var conexion = ConexionDB.getConexion();
@@ -133,7 +137,17 @@ namespace FrbaOfertas.AbmCliente
                 //habilitar
                 habilitar = 1;
             }
-            
+
+            if (habilitar == 0)
+            {
+                var confirmResult = MessageBox.Show("Esta seguro que desea Inhabilitar el Cliente?", "Precaucion",
+                                MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             var conexion = ConexionDB.getConexion();
             SqlCommand command = new SqlCommand(@"Update SELECT_THISGROUP_FROM_APROBADOS.Cliente
                                                     set habilitado = " + habilitar + 

@@ -56,7 +56,6 @@ namespace FrbaOfertas.AbmRol
             guardarModButton.Hide();
             inhabilitarButton.Enabled = false;
             button2.Enabled = false;
-            button3.Enabled = false;
             estadoRolLabel.Text = "Si";
             //listBox1.SetSelected(listBox1.SelectedIndex, false);
             LimpiarFunciones();
@@ -70,7 +69,6 @@ namespace FrbaOfertas.AbmRol
             guardarButton.Hide();
             guardarModButton.Hide();
             button2.Enabled = true;
-            button3.Enabled = true;
             inhabilitarButton.Enabled = true;
             panelRol.Show();
 
@@ -278,37 +276,6 @@ namespace FrbaOfertas.AbmRol
             MessageBox.Show("Cambios guardados con éxito", "");
         }
 
-        //Eliminar ROL
-        private void button3_Click(object sender, EventArgs e)
-        {
-            var confirmResult = MessageBox.Show("Esta seguro que desea eliminar el Rol: "+ listBox1.SelectedItem.ToString() + "?", "Precaucion",
-                                MessageBoxButtons.YesNo);
-            if (confirmResult == DialogResult.Yes)
-            {
-                //Eliminar en Rol_Funcionalidad
-                var conexion = ConexionDB.getConexion();
-
-                SqlCommand comando = new SqlCommand(@"DELETE FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol_Funcionalidad WHERE
-                                                    id_rol = " + idRol, conexion);
-
-                conexion.Open();
-                SqlDataReader reader = comando.ExecuteReader();
-                conexion.Close();
-
-                //Eliminar en Rol
-                conexion = ConexionDB.getConexion();
-
-                comando = new SqlCommand(@"DELETE FROM [SELECT_THISGROUP_FROM_APROBADOS].Rol WHERE
-                                                    id = " + idRol, conexion);
-
-                conexion.Open();
-                reader = comando.ExecuteReader();
-                conexion.Close();
-
-                ActualizarListaRoles();
-            }
-        }
-
         //Habilitar/Inhabilitar Rol
         private void inhabilitarButton_Click(object sender, EventArgs e)
         {
@@ -324,7 +291,16 @@ namespace FrbaOfertas.AbmRol
             if(estadoRolLabel.Text.Equals("Si"))
             {
                 //inhabilitar
-                comando.Parameters["@estado_nuevo"].Value = 0;
+                var confirmResult = MessageBox.Show("Esta seguro que desea Inhabilitar el Rol: " + listBox1.SelectedItem.ToString() + "?", "Precaucion",
+                                MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    comando.Parameters["@estado_nuevo"].Value = 0;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {

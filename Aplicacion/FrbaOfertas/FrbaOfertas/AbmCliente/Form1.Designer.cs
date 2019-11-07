@@ -40,10 +40,11 @@
             this.buscarButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.LimpiarButton = new System.Windows.Forms.Button();
-            this.eliminarButton = new System.Windows.Forms.Button();
             this.modificarButton = new System.Windows.Forms.Button();
             this.habilitarButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mailBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -61,7 +62,7 @@
             // 
             // nuevoClienteButton
             // 
-            this.nuevoClienteButton.Location = new System.Drawing.Point(392, 3);
+            this.nuevoClienteButton.Location = new System.Drawing.Point(261, 3);
             this.nuevoClienteButton.Name = "nuevoClienteButton";
             this.nuevoClienteButton.Size = new System.Drawing.Size(121, 23);
             this.nuevoClienteButton.TabIndex = 2;
@@ -81,6 +82,8 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.dniBox, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.mailBox, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(18, 44);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -88,7 +91,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(189, 119);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(189, 106);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // nombreBox
@@ -96,7 +99,7 @@
             this.nombreBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.nombreBox.Location = new System.Drawing.Point(57, 3);
             this.nombreBox.Name = "nombreBox";
-            this.nombreBox.Size = new System.Drawing.Size(124, 20);
+            this.nombreBox.Size = new System.Drawing.Size(125, 20);
             this.nombreBox.TabIndex = 0;
             // 
             // apellidoBox
@@ -104,7 +107,7 @@
             this.apellidoBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.apellidoBox.Location = new System.Drawing.Point(57, 29);
             this.apellidoBox.Name = "apellidoBox";
-            this.apellidoBox.Size = new System.Drawing.Size(124, 20);
+            this.apellidoBox.Size = new System.Drawing.Size(125, 20);
             this.apellidoBox.TabIndex = 1;
             // 
             // label2
@@ -181,19 +184,9 @@
             this.LimpiarButton.UseVisualStyleBackColor = true;
             this.LimpiarButton.Click += new System.EventHandler(this.LimpiarButton_Click);
             // 
-            // eliminarButton
-            // 
-            this.eliminarButton.Location = new System.Drawing.Point(11, 3);
-            this.eliminarButton.Name = "eliminarButton";
-            this.eliminarButton.Size = new System.Drawing.Size(121, 23);
-            this.eliminarButton.TabIndex = 7;
-            this.eliminarButton.Text = "Eliminar Cliente";
-            this.eliminarButton.UseVisualStyleBackColor = true;
-            this.eliminarButton.Visible = false;
-            // 
             // modificarButton
             // 
-            this.modificarButton.Location = new System.Drawing.Point(138, 3);
+            this.modificarButton.Location = new System.Drawing.Point(7, 3);
             this.modificarButton.Name = "modificarButton";
             this.modificarButton.Size = new System.Drawing.Size(121, 23);
             this.modificarButton.TabIndex = 8;
@@ -204,7 +197,7 @@
             // 
             // habilitarButton
             // 
-            this.habilitarButton.Location = new System.Drawing.Point(265, 3);
+            this.habilitarButton.Location = new System.Drawing.Point(134, 3);
             this.habilitarButton.Name = "habilitarButton";
             this.habilitarButton.Size = new System.Drawing.Size(121, 23);
             this.habilitarButton.TabIndex = 9;
@@ -219,13 +212,30 @@
             this.flowLayoutPanel1.Controls.Add(this.nuevoClienteButton);
             this.flowLayoutPanel1.Controls.Add(this.habilitarButton);
             this.flowLayoutPanel1.Controls.Add(this.modificarButton);
-            this.flowLayoutPanel1.Controls.Add(this.eliminarButton);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(213, 318);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(344, 318);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(521, 30);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(390, 30);
             this.flowLayoutPanel1.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 85);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Mail";
+            // 
+            // mailBox
+            // 
+            this.mailBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.mailBox.Location = new System.Drawing.Point(56, 82);
+            this.mailBox.Name = "mailBox";
+            this.mailBox.Size = new System.Drawing.Size(126, 20);
+            this.mailBox.TabIndex = 7;
             // 
             // Form1
             // 
@@ -264,9 +274,10 @@
         private System.Windows.Forms.Button buscarButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button LimpiarButton;
-        private System.Windows.Forms.Button eliminarButton;
         private System.Windows.Forms.Button modificarButton;
         private System.Windows.Forms.Button habilitarButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox mailBox;
     }
 }
