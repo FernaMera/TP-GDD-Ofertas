@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.CargaCredito
 {
-    partial class Form1
+    partial class CargaCredito
     {
         /// <summary>
         /// Required designer variable.
@@ -34,25 +34,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.panelCredito = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.panelDebito = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.clienteBox = new System.Windows.Forms.TextBox();
+            this.panelTarjeta = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.numeroBox = new System.Windows.Forms.TextBox();
+            this.fechaVencimientoBox = new System.Windows.Forms.TextBox();
+            this.codigoBox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.titularBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panelCredito.SuspendLayout();
-            this.panelDebito.SuspendLayout();
+            this.panelTarjeta.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,13 +72,16 @@
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.clienteBox, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 50);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(277, 54);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(277, 82);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // textBox1
@@ -124,108 +124,57 @@
             this.comboBox1.TabIndex = 3;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // panelCredito
+            // label10
             // 
-            this.panelCredito.ColumnCount = 2;
-            this.panelCredito.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.27103F));
-            this.panelCredito.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.72897F));
-            this.panelCredito.Controls.Add(this.label4, 0, 0);
-            this.panelCredito.Controls.Add(this.label5, 0, 1);
-            this.panelCredito.Controls.Add(this.label6, 0, 2);
-            this.panelCredito.Controls.Add(this.textBox2, 1, 0);
-            this.panelCredito.Controls.Add(this.textBox3, 1, 1);
-            this.panelCredito.Controls.Add(this.textBox4, 1, 2);
-            this.panelCredito.Location = new System.Drawing.Point(3, 88);
-            this.panelCredito.Name = "panelCredito";
-            this.panelCredito.RowCount = 3;
-            this.panelCredito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelCredito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelCredito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelCredito.Size = new System.Drawing.Size(428, 79);
-            this.panelCredito.TabIndex = 2;
-            this.panelCredito.Visible = false;
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(28, 61);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(39, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Cliente";
             // 
-            // label4
+            // clienteBox
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 6);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Numero Credito";
+            this.clienteBox.Enabled = false;
+            this.clienteBox.Location = new System.Drawing.Point(98, 56);
+            this.clienteBox.Name = "clienteBox";
+            this.clienteBox.Size = new System.Drawing.Size(176, 20);
+            this.clienteBox.TabIndex = 5;
             // 
-            // label5
+            // panelTarjeta
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 32);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(113, 13);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Fecha de Vencimiento";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(20, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 13);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Cod. Seguridad";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(124, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(301, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(124, 29);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(301, 20);
-            this.textBox3.TabIndex = 4;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(124, 55);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(301, 20);
-            this.textBox4.TabIndex = 5;
-            // 
-            // panelDebito
-            // 
-            this.panelDebito.ColumnCount = 2;
-            this.panelDebito.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.27103F));
-            this.panelDebito.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.72897F));
-            this.panelDebito.Controls.Add(this.label7, 0, 0);
-            this.panelDebito.Controls.Add(this.label8, 0, 1);
-            this.panelDebito.Controls.Add(this.label9, 0, 2);
-            this.panelDebito.Controls.Add(this.textBox5, 1, 0);
-            this.panelDebito.Controls.Add(this.textBox6, 1, 1);
-            this.panelDebito.Controls.Add(this.textBox7, 1, 2);
-            this.panelDebito.Location = new System.Drawing.Point(3, 3);
-            this.panelDebito.Name = "panelDebito";
-            this.panelDebito.RowCount = 3;
-            this.panelDebito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelDebito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelDebito.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.panelDebito.Size = new System.Drawing.Size(428, 79);
-            this.panelDebito.TabIndex = 3;
-            this.panelDebito.Visible = false;
+            this.panelTarjeta.ColumnCount = 2;
+            this.panelTarjeta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.27103F));
+            this.panelTarjeta.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.72897F));
+            this.panelTarjeta.Controls.Add(this.label7, 0, 0);
+            this.panelTarjeta.Controls.Add(this.label8, 0, 1);
+            this.panelTarjeta.Controls.Add(this.label9, 0, 2);
+            this.panelTarjeta.Controls.Add(this.numeroBox, 1, 0);
+            this.panelTarjeta.Controls.Add(this.fechaVencimientoBox, 1, 1);
+            this.panelTarjeta.Controls.Add(this.codigoBox, 1, 2);
+            this.panelTarjeta.Controls.Add(this.label11, 0, 3);
+            this.panelTarjeta.Controls.Add(this.titularBox, 1, 3);
+            this.panelTarjeta.Location = new System.Drawing.Point(3, 3);
+            this.panelTarjeta.Name = "panelTarjeta";
+            this.panelTarjeta.RowCount = 4;
+            this.panelTarjeta.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.panelTarjeta.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.panelTarjeta.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.panelTarjeta.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.panelTarjeta.Size = new System.Drawing.Size(428, 104);
+            this.panelTarjeta.TabIndex = 3;
+            this.panelTarjeta.Visible = false;
             // 
             // label7
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 6);
+            this.label7.Location = new System.Drawing.Point(20, 6);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(80, 13);
             this.label7.TabIndex = 0;
-            this.label7.Text = "Numero Debito";
+            this.label7.Text = "Numero Tarjeta";
             // 
             // label8
             // 
@@ -241,32 +190,32 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(20, 59);
+            this.label9.Location = new System.Drawing.Point(20, 58);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(80, 13);
             this.label9.TabIndex = 2;
             this.label9.Text = "Cod. Seguridad";
             // 
-            // textBox5
+            // numeroBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(124, 3);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(301, 20);
-            this.textBox5.TabIndex = 3;
+            this.numeroBox.Location = new System.Drawing.Point(124, 3);
+            this.numeroBox.Name = "numeroBox";
+            this.numeroBox.Size = new System.Drawing.Size(301, 20);
+            this.numeroBox.TabIndex = 3;
             // 
-            // textBox6
+            // fechaVencimientoBox
             // 
-            this.textBox6.Location = new System.Drawing.Point(124, 29);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(301, 20);
-            this.textBox6.TabIndex = 4;
+            this.fechaVencimientoBox.Location = new System.Drawing.Point(124, 29);
+            this.fechaVencimientoBox.Name = "fechaVencimientoBox";
+            this.fechaVencimientoBox.Size = new System.Drawing.Size(301, 20);
+            this.fechaVencimientoBox.TabIndex = 4;
             // 
-            // textBox7
+            // codigoBox
             // 
-            this.textBox7.Location = new System.Drawing.Point(124, 55);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(301, 20);
-            this.textBox7.TabIndex = 5;
+            this.codigoBox.Location = new System.Drawing.Point(124, 55);
+            this.codigoBox.Name = "codigoBox";
+            this.codigoBox.Size = new System.Drawing.Size(301, 20);
+            this.codigoBox.TabIndex = 5;
             // 
             // button1
             // 
@@ -274,36 +223,61 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
-            this.button1.Text = "Confirmar";
+            this.button1.Text = "Cargar";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.panelDebito);
-            this.flowLayoutPanel1.Controls.Add(this.panelCredito);
+            this.flowLayoutPanel1.Controls.Add(this.panelTarjeta);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(296, 50);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(438, 171);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(438, 262);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
-            // Form1
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(149, 138);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Seleccionar";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(22, 84);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(76, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Nombre Titular";
+            // 
+            // titularBox
+            // 
+            this.titularBox.Location = new System.Drawing.Point(124, 81);
+            this.titularBox.Name = "titularBox";
+            this.titularBox.Size = new System.Drawing.Size(301, 20);
+            this.titularBox.TabIndex = 7;
+            // 
+            // CargaCredito
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "CargaCredito";
             this.Text = "Form1";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.panelCredito.ResumeLayout(false);
-            this.panelCredito.PerformLayout();
-            this.panelDebito.ResumeLayout(false);
-            this.panelDebito.PerformLayout();
+            this.panelTarjeta.ResumeLayout(false);
+            this.panelTarjeta.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -318,21 +292,19 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TableLayoutPanel panelCredito;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TableLayoutPanel panelDebito;
+        private System.Windows.Forms.TableLayoutPanel panelTarjeta;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox numeroBox;
+        private System.Windows.Forms.TextBox fechaVencimientoBox;
+        private System.Windows.Forms.TextBox codigoBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox clienteBox;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox titularBox;
     }
 }
