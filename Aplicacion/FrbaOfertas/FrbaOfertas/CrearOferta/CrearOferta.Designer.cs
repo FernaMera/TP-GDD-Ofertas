@@ -40,15 +40,21 @@
             this.label_precioOferta = new System.Windows.Forms.Label();
             this.label_cantDisp = new System.Windows.Forms.Label();
             this.label_maxPorCliente = new System.Windows.Forms.Label();
-            this.textBox_precioLista = new System.Windows.Forms.TextBox();
-            this.textBox_precioOferta = new System.Windows.Forms.TextBox();
-            this.textBox_cantDisp = new System.Windows.Forms.TextBox();
-            this.textBox_cantMaxPorCliente = new System.Windows.Forms.TextBox();
+            this.btn_crearOferta = new System.Windows.Forms.Button();
+            this.btn_limpiar = new System.Windows.Forms.Button();
+            this.numericUpDown_precioLista = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_precioOferta = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_cantDisp = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_cantMax = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioLista)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioOferta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantDisp)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantMax)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox_proveedor
             // 
-            this.textBox_proveedor.Location = new System.Drawing.Point(83, 59);
+            this.textBox_proveedor.Location = new System.Drawing.Point(164, 63);
             this.textBox_proveedor.Name = "textBox_proveedor";
             this.textBox_proveedor.ReadOnly = true;
             this.textBox_proveedor.Size = new System.Drawing.Size(100, 20);
@@ -67,7 +73,7 @@
             // label_proveedor
             // 
             this.label_proveedor.AutoSize = true;
-            this.label_proveedor.Location = new System.Drawing.Point(18, 62);
+            this.label_proveedor.Location = new System.Drawing.Point(54, 66);
             this.label_proveedor.Name = "label_proveedor";
             this.label_proveedor.Size = new System.Drawing.Size(59, 13);
             this.label_proveedor.TabIndex = 1;
@@ -75,7 +81,7 @@
             // 
             // btn_seleccionarProveedor
             // 
-            this.btn_seleccionarProveedor.Location = new System.Drawing.Point(189, 57);
+            this.btn_seleccionarProveedor.Location = new System.Drawing.Point(270, 61);
             this.btn_seleccionarProveedor.Name = "btn_seleccionarProveedor";
             this.btn_seleccionarProveedor.Size = new System.Drawing.Size(75, 23);
             this.btn_seleccionarProveedor.TabIndex = 3;
@@ -89,6 +95,7 @@
             this.dateTimePicker_publi.Name = "dateTimePicker_publi";
             this.dateTimePicker_publi.Size = new System.Drawing.Size(215, 20);
             this.dateTimePicker_publi.TabIndex = 4;
+            this.dateTimePicker_publi.Value = new System.DateTime(2019, 11, 5, 0, 0, 0, 0);
             // 
             // label_fechaPubli
             // 
@@ -136,7 +143,7 @@
             // label_cantDisp
             // 
             this.label_cantDisp.AutoSize = true;
-            this.label_cantDisp.Location = new System.Drawing.Point(40, 209);
+            this.label_cantDisp.Location = new System.Drawing.Point(40, 212);
             this.label_cantDisp.Name = "label_cantDisp";
             this.label_cantDisp.Size = new System.Drawing.Size(102, 13);
             this.label_cantDisp.TabIndex = 10;
@@ -151,43 +158,117 @@
             this.label_maxPorCliente.TabIndex = 11;
             this.label_maxPorCliente.Text = "Cantidad máxima por cliente:";
             // 
-            // textBox_precioLista
+            // btn_crearOferta
             // 
-            this.textBox_precioLista.Location = new System.Drawing.Point(164, 154);
-            this.textBox_precioLista.Name = "textBox_precioLista";
-            this.textBox_precioLista.Size = new System.Drawing.Size(100, 20);
-            this.textBox_precioLista.TabIndex = 12;
+            this.btn_crearOferta.Location = new System.Drawing.Point(271, 303);
+            this.btn_crearOferta.Name = "btn_crearOferta";
+            this.btn_crearOferta.Size = new System.Drawing.Size(75, 23);
+            this.btn_crearOferta.TabIndex = 16;
+            this.btn_crearOferta.Text = "Crear oferta";
+            this.btn_crearOferta.UseVisualStyleBackColor = true;
+            this.btn_crearOferta.Click += new System.EventHandler(this.btn_crearOferta_Click);
             // 
-            // textBox_precioOferta
+            // btn_limpiar
             // 
-            this.textBox_precioOferta.Location = new System.Drawing.Point(164, 180);
-            this.textBox_precioOferta.Name = "textBox_precioOferta";
-            this.textBox_precioOferta.Size = new System.Drawing.Size(100, 20);
-            this.textBox_precioOferta.TabIndex = 13;
+            this.btn_limpiar.Location = new System.Drawing.Point(352, 303);
+            this.btn_limpiar.Name = "btn_limpiar";
+            this.btn_limpiar.Size = new System.Drawing.Size(75, 23);
+            this.btn_limpiar.TabIndex = 17;
+            this.btn_limpiar.Text = "Limpiar todo";
+            this.btn_limpiar.UseVisualStyleBackColor = true;
+            this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
             // 
-            // textBox_cantDisp
+            // numericUpDown_precioLista
             // 
-            this.textBox_cantDisp.Location = new System.Drawing.Point(164, 206);
-            this.textBox_cantDisp.Name = "textBox_cantDisp";
-            this.textBox_cantDisp.Size = new System.Drawing.Size(100, 20);
-            this.textBox_cantDisp.TabIndex = 14;
+            this.numericUpDown_precioLista.DecimalPlaces = 2;
+            this.numericUpDown_precioLista.Location = new System.Drawing.Point(165, 155);
+            this.numericUpDown_precioLista.Maximum = new decimal(new int[] {
+            -1486618625,
+            232830643,
+            0,
+            0});
+            this.numericUpDown_precioLista.Name = "numericUpDown_precioLista";
+            this.numericUpDown_precioLista.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_precioLista.TabIndex = 18;
+            this.numericUpDown_precioLista.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
-            // textBox_cantMaxPorCliente
+            // numericUpDown_precioOferta
             // 
-            this.textBox_cantMaxPorCliente.Location = new System.Drawing.Point(164, 240);
-            this.textBox_cantMaxPorCliente.Name = "textBox_cantMaxPorCliente";
-            this.textBox_cantMaxPorCliente.Size = new System.Drawing.Size(100, 20);
-            this.textBox_cantMaxPorCliente.TabIndex = 15;
+            this.numericUpDown_precioOferta.DecimalPlaces = 2;
+            this.numericUpDown_precioOferta.Location = new System.Drawing.Point(165, 181);
+            this.numericUpDown_precioOferta.Maximum = new decimal(new int[] {
+            -1486618625,
+            232830643,
+            0,
+            0});
+            this.numericUpDown_precioOferta.Name = "numericUpDown_precioOferta";
+            this.numericUpDown_precioOferta.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_precioOferta.TabIndex = 19;
+            this.numericUpDown_precioOferta.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown_cantDisp
+            // 
+            this.numericUpDown_cantDisp.Location = new System.Drawing.Point(165, 210);
+            this.numericUpDown_cantDisp.Maximum = new decimal(new int[] {
+            -1486618625,
+            232830643,
+            0,
+            0});
+            this.numericUpDown_cantDisp.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_cantDisp.Name = "numericUpDown_cantDisp";
+            this.numericUpDown_cantDisp.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_cantDisp.TabIndex = 20;
+            this.numericUpDown_cantDisp.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown_cantMax
+            // 
+            this.numericUpDown_cantMax.Location = new System.Drawing.Point(165, 240);
+            this.numericUpDown_cantMax.Maximum = new decimal(new int[] {
+            -1486618625,
+            232830643,
+            0,
+            0});
+            this.numericUpDown_cantMax.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_cantMax.Name = "numericUpDown_cantMax";
+            this.numericUpDown_cantMax.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_cantMax.TabIndex = 21;
+            this.numericUpDown_cantMax.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // CrearOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
-            this.Controls.Add(this.textBox_cantMaxPorCliente);
-            this.Controls.Add(this.textBox_cantDisp);
-            this.Controls.Add(this.textBox_precioOferta);
-            this.Controls.Add(this.textBox_precioLista);
+            this.Controls.Add(this.numericUpDown_cantMax);
+            this.Controls.Add(this.numericUpDown_cantDisp);
+            this.Controls.Add(this.numericUpDown_precioOferta);
+            this.Controls.Add(this.numericUpDown_precioLista);
+            this.Controls.Add(this.btn_limpiar);
+            this.Controls.Add(this.btn_crearOferta);
             this.Controls.Add(this.label_maxPorCliente);
             this.Controls.Add(this.label_cantDisp);
             this.Controls.Add(this.label_precioOferta);
@@ -203,6 +284,10 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CrearOferta";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioLista)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioOferta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantDisp)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantMax)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,9 +307,11 @@
         private System.Windows.Forms.Label label_precioOferta;
         private System.Windows.Forms.Label label_cantDisp;
         private System.Windows.Forms.Label label_maxPorCliente;
-        private System.Windows.Forms.TextBox textBox_precioLista;
-        private System.Windows.Forms.TextBox textBox_precioOferta;
-        private System.Windows.Forms.TextBox textBox_cantDisp;
-        private System.Windows.Forms.TextBox textBox_cantMaxPorCliente;
+        private System.Windows.Forms.Button btn_crearOferta;
+        private System.Windows.Forms.Button btn_limpiar;
+        private System.Windows.Forms.NumericUpDown numericUpDown_precioLista;
+        private System.Windows.Forms.NumericUpDown numericUpDown_precioOferta;
+        private System.Windows.Forms.NumericUpDown numericUpDown_cantDisp;
+        private System.Windows.Forms.NumericUpDown numericUpDown_cantMax;
     }
 }
