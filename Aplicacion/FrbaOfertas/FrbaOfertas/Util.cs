@@ -43,5 +43,9 @@ namespace FrbaOfertas
             MessageBox.Show(mensaje, "Error " + contexto);
         }
 
+        public static bool esDecimalValido(string input)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(input, "^[0-9]*,[0-9][0-9]$");
+        }
     }
 }

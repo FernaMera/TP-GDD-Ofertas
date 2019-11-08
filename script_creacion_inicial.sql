@@ -44,7 +44,8 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].habilitar_rol', 'P') IS NOT NULL
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].eliminar_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[eliminar_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_cliente];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_cliente];
-IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_credito', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_credito];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_tarjeta', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_tarjeta];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_efectivo];
 
 
 --borrar esta linea
@@ -524,16 +525,63 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_credito(@id_cliente numeric(18,0), @nombre_titular varchar(255), 
-																@numero_tarjeta numeric(18,0), @monto numeric(18,0), 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_tarjeta(@id_cliente numeric(18,0), @nombre_titular varchar(255), 
+																@numero_tarjeta numeric(18,0), @monto numeric(18,2), 
 																@tipo_pago tinyint, @fecha datetime)
-AS
-BEGIN
-	if @@ERROR = 0
-		return 0
-	else
-		return -2 --error al cargar nuevos datos
-END
+AS 
+BEGIN Transaction
+	update Cliente
+	set saldo = saldo + @monto
+	where @id_cliente = id
+	if @@ERROR != 0
+	begin
+		rollback
+		return -1 --no se encontro cliente
+	end
+
+	insert Datos_Tarjeta (nombre, numero, id_tipoPago)
+	values(@nombre_titular, @numero_tarjeta, @tipo_pago)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -2 --no se pudo insertar datos de tarjeta
+	end
+
+	insert Carga (id_cliente, fecha, monto, id_tipoPago)
+	values (@id_cliente, @fecha, @monto, @tipo_pago)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -3 --no se pudo insertar datos de la carga
+	end
+
+	commit
+GO
+
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo(@id_cliente numeric(18,0), @monto numeric(18,2), @fecha datetime)
+AS 
+BEGIN Transaction
+	update Cliente
+	set saldo = saldo + @monto
+	where @id_cliente = id
+	if @@ERROR != 0
+	begin
+		rollback
+		return -1 --no se encontro cliente
+	end
+
+	declare @tipo_pago tinyint
+	set @tipo_pago = (select id from Tipo_Pago where descripcion Like 'Efectivo')
+
+	insert Carga (id_cliente, fecha, monto, id_tipoPago)
+	values (@id_cliente, @fecha, @monto, @tipo_pago)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -2 --no se pudo insertar datos de la carga
+	end
+
+	commit
 GO
 
 -- Funciones
