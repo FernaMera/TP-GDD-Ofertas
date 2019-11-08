@@ -36,11 +36,20 @@ namespace FrbaOfertas.CrearUsuario
         //nuevo cliente
         private void button1_Click(object sender, EventArgs e)
         {
+            int id_cliente;
+            int id_usuario;
             var conexion = ConexionDB.getConexion();
+            conexion.Open();
 
+            SqlCommand comando = conexion.CreateCommand();
+
+            SqlTransaction transaccion = conexion.BeginTransaction("Crear_Usuario_Cliente");
+            
+            comando.Connection = conexion;
+            comando.Transaction = transaccion;
+            
             //nuevo cliente
-            SqlCommand comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente", conexion);
-
+            comando.CommandText = "[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente";
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.Add("@nombre_nuevo", SqlDbType.VarChar);
@@ -71,11 +80,11 @@ namespace FrbaOfertas.CrearUsuario
             comando.Parameters["@fecha_nac"].Value = fechaNac.Value;
             comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
             comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
-
-            conexion.Open();
-            SqlDataReader reader = comando.ExecuteReader();
-            int id_cliente = (int)comando.Parameters["@ReturnVal"].Value;
-            reader.Close();
+            
+            using (SqlDataReader reader = comando.ExecuteReader())
+            {
+                id_cliente = (int)comando.Parameters["@ReturnVal"].Value;
+            }
 
             switch(id_cliente)
             {
@@ -88,14 +97,17 @@ namespace FrbaOfertas.CrearUsuario
                 case -2:
                     {
                         MessageBox.Show("Error al actualizar datos", "ERROR");
+                        transaccion.Rollback();
                         conexion.Close();
                         this.Close();
                         break;
                     }
                 default:
                     {
+                        comando.Parameters.Clear();
+
                         //nuevo usuario
-                        comando = new SqlCommand("[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario", conexion);
+                        comando.CommandText = "[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario";
 
                         comando.CommandType = CommandType.StoredProcedure;
 
@@ -106,29 +118,35 @@ namespace FrbaOfertas.CrearUsuario
                         comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
                         comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
 
-                        //conexion.Open();
-                        reader = comando.ExecuteReader();
-                        int id_usuario = (int)comando.Parameters["@ReturnVal"].Value;
-                        reader.Close();
+                        using (SqlDataReader reader = comando.ExecuteReader())
+                        {
+                            id_usuario = (int)comando.Parameters["@ReturnVal"].Value;
+                        }
+
                         if (id_usuario < 0)
                         {
                             MessageBox.Show("Error");
+                            transaccion.Rollback();
                             conexion.Close();
                             this.Close();
                         }
+
                         //asociar usuario con cliente
-                        comando = new SqlCommand(@"UPDATE SELECT_THISGROUP_FROM_APROBADOS.Cliente
-                                                    SET id_usuario = " + id_usuario + "WHERE id = " + id_cliente, conexion);
+                        comando.CommandText = @"UPDATE SELECT_THISGROUP_FROM_APROBADOS.Cliente
+                                  SET id_usuario = " + id_usuario + "WHERE id = " + id_cliente;
+                        comando.CommandType = CommandType.Text;
+                        comando.Parameters.Clear();
 
                         if (comando.ExecuteNonQuery() != 1)
                         {
                             MessageBox.Show("Error al asociar usuario y cliente");
+                            transaccion.Rollback();
                             conexion.Close();
                             this.Close();
                         }
 
                         //asociar usuario con su rol
-                        comando = new SqlCommand(@"[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario", conexion);
+                        comando.CommandText = @"[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario";
 
                         comando.CommandType = CommandType.StoredProcedure;
 
@@ -139,14 +157,24 @@ namespace FrbaOfertas.CrearUsuario
                         comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
                         comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
                         
-                        reader = comando.ExecuteReader();
-                        conexion.Close();
+                        int resultado;
+                        using (SqlDataReader reader = comando.ExecuteReader())
+                        {
+                            resultado = (int)comando.Parameters["@ReturnVal"].Value;
+                        }
 
-                        int resultado = (int)comando.Parameters["@ReturnVal"].Value;
                         if (resultado == 0)
+                        {
+                            transaccion.Commit();
                             MessageBox.Show("Cliente creado con éxito", "Nuevo Cliente");
+                        }
                         else
+                        {
+                            transaccion.Rollback();
                             MessageBox.Show("Error al cargar Datos");
+                        }
+                        
+                        conexion.Close();
                         this.Close();
                         break;
                     }
