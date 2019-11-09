@@ -72,57 +72,57 @@ namespace FrbaOfertas.CrearOferta
             if (dateTimePicker_publi.Value > dateTimePicker_venc.Value)
                 errores.Add("La fecha de publicación no puede ser después de la fecha de vencimiento");
 
-            string nuevaOferta = "INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Oferta (cuit_prov, descripcion, fec_public, fec_venc, precio_oferta, precio_lista, cantidad_disponible, max_por_cliente) VALUES (@cuitProv, @desc, @fecPub, @fecVenc, @precioOf, @precioLista, @cantDisp, @cantMaxCliente)";
-
-            SqlConnection conexion = ConexionDB.getConexion();
-            SqlCommand comando = new SqlCommand(nuevaOferta, conexion);
-
-            comando.Parameters.Add("@cuitProv", SqlDbType.Char);
-            comando.Parameters["@cuitProv"].Value = textBox_proveedor.Text;
-
-            comando.Parameters.Add("@desc", SqlDbType.VarChar);
-            comando.Parameters["@desc"].Value = richTextBox_descripcion.Text;
-
-            comando.Parameters.Add("@fecPub", SqlDbType.DateTime);
-            comando.Parameters["@fecPub"].Value = dateTimePicker_publi.Value;
-
-            comando.Parameters.Add("@fecVenc", SqlDbType.DateTime);
-            comando.Parameters["@fecVenc"].Value = dateTimePicker_venc.Value;
-
-            comando.Parameters.Add("@precioOf", SqlDbType.Decimal);
-            comando.Parameters["@precioOf"].Value = numericUpDown_precioOferta.Value;
-
-            comando.Parameters.Add("@precioLista", SqlDbType.Decimal);
-            comando.Parameters["@precioLista"].Value = numericUpDown_precioLista.Value;
-
-            comando.Parameters.Add("@cantDisp", SqlDbType.Int);
-            comando.Parameters["@cantDisp"].Value = numericUpDown_cantDisp.Value;
-
-            comando.Parameters.Add("@cantMaxCliente", SqlDbType.Int);
-            comando.Parameters["@cantMaxCliente"].Value = numericUpDown_cantMax.Value;
-
             if (errores.Count == 0)
             {
+                string nuevaOferta = "INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Oferta (cuit_prov, descripcion, fec_public, fec_venc, precio_oferta, precio_lista, cantidad_disponible, max_por_cliente) VALUES (@cuitProv, @desc, @fecPub, @fecVenc, @precioOf, @precioLista, @cantDisp, @cantMaxCliente)";
+
+                SqlConnection conexion = ConexionDB.getConexion();
+                SqlCommand comando = new SqlCommand(nuevaOferta, conexion);
+
+                comando.Parameters.Add("@cuitProv", SqlDbType.Char);
+                comando.Parameters["@cuitProv"].Value = textBox_proveedor.Text;
+
+                comando.Parameters.Add("@desc", SqlDbType.VarChar);
+                comando.Parameters["@desc"].Value = richTextBox_descripcion.Text;
+
+                comando.Parameters.Add("@fecPub", SqlDbType.DateTime);
+                comando.Parameters["@fecPub"].Value = dateTimePicker_publi.Value;
+
+                comando.Parameters.Add("@fecVenc", SqlDbType.DateTime);
+                comando.Parameters["@fecVenc"].Value = dateTimePicker_venc.Value;
+
+                comando.Parameters.Add("@precioOf", SqlDbType.Decimal);
+                comando.Parameters["@precioOf"].Value = numericUpDown_precioOferta.Value;
+
+                comando.Parameters.Add("@precioLista", SqlDbType.Decimal);
+                comando.Parameters["@precioLista"].Value = numericUpDown_precioLista.Value;
+
+                comando.Parameters.Add("@cantDisp", SqlDbType.Int);
+                comando.Parameters["@cantDisp"].Value = numericUpDown_cantDisp.Value;
+
+                comando.Parameters.Add("@cantMaxCliente", SqlDbType.Int);
+                comando.Parameters["@cantMaxCliente"].Value = numericUpDown_cantMax.Value;
                 conexion.Open();
+               
                 try
                 {
                     if (comando.ExecuteNonQuery() == 1)
                     {
                         MessageBox.Show("Oferta creada con éxito!");
+                        conexion.Close();
                         this.Close();
                     }
                 }
                 catch (SqlException exc)
                 {
                         MessageBox.Show("No se pudo realizar el alta: " + exc.Message);
+                        conexion.Close();
                 }
             }
             else
             {
                 Util.mostrarListaErrores(errores, "Creación de Oferta");
             }
-
-            conexion.Close();
 
         }
 
