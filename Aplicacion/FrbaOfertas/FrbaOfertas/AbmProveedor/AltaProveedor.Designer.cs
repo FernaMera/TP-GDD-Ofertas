@@ -54,6 +54,7 @@
             // textBox_cp
             // 
             this.textBox_cp.Location = new System.Drawing.Point(192, 312);
+            this.textBox_cp.MaxLength = 100;
             this.textBox_cp.Name = "textBox_cp";
             this.textBox_cp.Size = new System.Drawing.Size(100, 20);
             this.textBox_cp.TabIndex = 37;
@@ -70,6 +71,7 @@
             // textBox_ciudad
             // 
             this.textBox_ciudad.Location = new System.Drawing.Point(192, 275);
+            this.textBox_ciudad.MaxLength = 255;
             this.textBox_ciudad.Name = "textBox_ciudad";
             this.textBox_ciudad.Size = new System.Drawing.Size(100, 20);
             this.textBox_ciudad.TabIndex = 35;
@@ -86,6 +88,7 @@
             // textBox_direccion
             // 
             this.textBox_direccion.Location = new System.Drawing.Point(192, 240);
+            this.textBox_direccion.MaxLength = 255;
             this.textBox_direccion.Name = "textBox_direccion";
             this.textBox_direccion.Size = new System.Drawing.Size(100, 20);
             this.textBox_direccion.TabIndex = 33;
@@ -102,6 +105,7 @@
             // textBox_mail
             // 
             this.textBox_mail.Location = new System.Drawing.Point(192, 204);
+            this.textBox_mail.MaxLength = 255;
             this.textBox_mail.Name = "textBox_mail";
             this.textBox_mail.Size = new System.Drawing.Size(100, 20);
             this.textBox_mail.TabIndex = 31;
@@ -143,6 +147,7 @@
             // textBox_nombreContacto
             // 
             this.textBox_nombreContacto.Location = new System.Drawing.Point(192, 100);
+            this.textBox_nombreContacto.MaxLength = 255;
             this.textBox_nombreContacto.Name = "textBox_nombreContacto";
             this.textBox_nombreContacto.Size = new System.Drawing.Size(100, 20);
             this.textBox_nombreContacto.TabIndex = 25;
@@ -159,6 +164,7 @@
             // textBox_rs
             // 
             this.textBox_rs.Location = new System.Drawing.Point(192, 66);
+            this.textBox_rs.MaxLength = 255;
             this.textBox_rs.Name = "textBox_rs";
             this.textBox_rs.Size = new System.Drawing.Size(100, 20);
             this.textBox_rs.TabIndex = 23;
@@ -175,6 +181,7 @@
             // textBox_cuit
             // 
             this.textBox_cuit.Location = new System.Drawing.Point(192, 31);
+            this.textBox_cuit.MaxLength = 13;
             this.textBox_cuit.Name = "textBox_cuit";
             this.textBox_cuit.Size = new System.Drawing.Size(100, 20);
             this.textBox_cuit.TabIndex = 21;

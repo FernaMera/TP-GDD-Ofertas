@@ -46,6 +46,9 @@
             this.numericUpDown_precioOferta = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_cantDisp = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_cantMax = new System.Windows.Forms.NumericUpDown();
+            this.richTextBox_descripcion = new System.Windows.Forms.RichTextBox();
+            this.label_descripcion = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioLista)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioOferta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantDisp)).BeginInit();
@@ -160,7 +163,7 @@
             // 
             // btn_crearOferta
             // 
-            this.btn_crearOferta.Location = new System.Drawing.Point(271, 303);
+            this.btn_crearOferta.Location = new System.Drawing.Point(270, 291);
             this.btn_crearOferta.Name = "btn_crearOferta";
             this.btn_crearOferta.Size = new System.Drawing.Size(75, 23);
             this.btn_crearOferta.TabIndex = 16;
@@ -170,7 +173,7 @@
             // 
             // btn_limpiar
             // 
-            this.btn_limpiar.Location = new System.Drawing.Point(352, 303);
+            this.btn_limpiar.Location = new System.Drawing.Point(351, 291);
             this.btn_limpiar.Name = "btn_limpiar";
             this.btn_limpiar.Size = new System.Drawing.Size(75, 23);
             this.btn_limpiar.TabIndex = 17;
@@ -258,11 +261,42 @@
             0,
             0});
             // 
+            // richTextBox_descripcion
+            // 
+            this.richTextBox_descripcion.Location = new System.Drawing.Point(436, 79);
+            this.richTextBox_descripcion.MaxLength = 255;
+            this.richTextBox_descripcion.Name = "richTextBox_descripcion";
+            this.richTextBox_descripcion.Size = new System.Drawing.Size(240, 181);
+            this.richTextBox_descripcion.TabIndex = 23;
+            this.richTextBox_descripcion.Text = "";
+            // 
+            // label_descripcion
+            // 
+            this.label_descripcion.AutoSize = true;
+            this.label_descripcion.Location = new System.Drawing.Point(433, 63);
+            this.label_descripcion.Name = "label_descripcion";
+            this.label_descripcion.Size = new System.Drawing.Size(66, 13);
+            this.label_descripcion.TabIndex = 24;
+            this.label_descripcion.Text = "Descripción:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(226, 331);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(247, 13);
+            this.label10.TabIndex = 42;
+            this.label10.Text = "Todos los campos en esta pantalla son obligatorios";
+            // 
             // CrearOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label_descripcion);
+            this.Controls.Add(this.richTextBox_descripcion);
             this.Controls.Add(this.numericUpDown_cantMax);
             this.Controls.Add(this.numericUpDown_cantDisp);
             this.Controls.Add(this.numericUpDown_precioOferta);
@@ -283,7 +317,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CrearOferta";
-            this.Text = "Form1";
+            this.Text = "Descripción:";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioLista)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_precioOferta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_cantDisp)).EndInit();
@@ -313,5 +347,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_precioOferta;
         private System.Windows.Forms.NumericUpDown numericUpDown_cantDisp;
         private System.Windows.Forms.NumericUpDown numericUpDown_cantMax;
+        private System.Windows.Forms.RichTextBox richTextBox_descripcion;
+        private System.Windows.Forms.Label label_descripcion;
+        private System.Windows.Forms.Label label10;
     }
 }
