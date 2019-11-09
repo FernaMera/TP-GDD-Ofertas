@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrbaOfertas.ListadoFuncionalidades
@@ -23,6 +17,7 @@ namespace FrbaOfertas.ListadoFuncionalidades
             botones.Add(comprarOfertaButton);
             botones.Add(cargarCreditoButton);
             botones.Add(crearOfertaButton);
+            botones.Add(consumirOfertaButton);
             botones.Add(listadoEstadisticoButton);
             botones.Add(facturacionButton);
 
@@ -72,6 +67,11 @@ namespace FrbaOfertas.ListadoFuncionalidades
         private void crearOfertaButton_Click(object sender, EventArgs e)
         {
             AbrirFormEnPanel(new CrearOferta.CrearOferta());
+        }
+
+        private void comprarOfertaButton_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new ComprarOferta.Form1());
         }
     }
 }

@@ -41,13 +41,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.facturacionButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.consumirOfertaButton = new System.Windows.Forms.Button();
             this.panelFunciones.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // abmClienteButton
             // 
-            this.abmClienteButton.Location = new System.Drawing.Point(13, 45);
+            this.abmClienteButton.Location = new System.Drawing.Point(13, 40);
             this.abmClienteButton.Name = "abmClienteButton";
             this.abmClienteButton.Size = new System.Drawing.Size(95, 23);
             this.abmClienteButton.TabIndex = 0;
@@ -57,7 +58,7 @@
             // 
             // abmProveedorButton
             // 
-            this.abmProveedorButton.Location = new System.Drawing.Point(13, 74);
+            this.abmProveedorButton.Location = new System.Drawing.Point(13, 69);
             this.abmProveedorButton.Name = "abmProveedorButton";
             this.abmProveedorButton.Size = new System.Drawing.Size(95, 23);
             this.abmProveedorButton.TabIndex = 1;
@@ -67,7 +68,7 @@
             // 
             // abmRolButton
             // 
-            this.abmRolButton.Location = new System.Drawing.Point(13, 103);
+            this.abmRolButton.Location = new System.Drawing.Point(13, 98);
             this.abmRolButton.Name = "abmRolButton";
             this.abmRolButton.Size = new System.Drawing.Size(95, 23);
             this.abmRolButton.TabIndex = 2;
@@ -77,7 +78,7 @@
             // 
             // cargarCreditoButton
             // 
-            this.cargarCreditoButton.Location = new System.Drawing.Point(13, 161);
+            this.cargarCreditoButton.Location = new System.Drawing.Point(13, 156);
             this.cargarCreditoButton.Name = "cargarCreditoButton";
             this.cargarCreditoButton.Size = new System.Drawing.Size(95, 23);
             this.cargarCreditoButton.TabIndex = 3;
@@ -105,16 +106,17 @@
             // 
             // comprarOfertaButton
             // 
-            this.comprarOfertaButton.Location = new System.Drawing.Point(13, 132);
+            this.comprarOfertaButton.Location = new System.Drawing.Point(13, 127);
             this.comprarOfertaButton.Name = "comprarOfertaButton";
             this.comprarOfertaButton.Size = new System.Drawing.Size(95, 23);
             this.comprarOfertaButton.TabIndex = 4;
             this.comprarOfertaButton.Text = "Comprar Oferta";
             this.comprarOfertaButton.UseVisualStyleBackColor = true;
+            this.comprarOfertaButton.Click += new System.EventHandler(this.comprarOfertaButton_Click);
             // 
             // crearOfertaButton
             // 
-            this.crearOfertaButton.Location = new System.Drawing.Point(13, 190);
+            this.crearOfertaButton.Location = new System.Drawing.Point(13, 185);
             this.crearOfertaButton.Name = "crearOfertaButton";
             this.crearOfertaButton.Size = new System.Drawing.Size(95, 23);
             this.crearOfertaButton.TabIndex = 5;
@@ -124,7 +126,7 @@
             // 
             // listadoEstadisticoButton
             // 
-            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 248);
+            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 272);
             this.listadoEstadisticoButton.Name = "listadoEstadisticoButton";
             this.listadoEstadisticoButton.Size = new System.Drawing.Size(95, 37);
             this.listadoEstadisticoButton.TabIndex = 6;
@@ -141,13 +143,14 @@
             this.flowLayoutPanel1.Controls.Add(this.comprarOfertaButton);
             this.flowLayoutPanel1.Controls.Add(this.cargarCreditoButton);
             this.flowLayoutPanel1.Controls.Add(this.crearOfertaButton);
+            this.flowLayoutPanel1.Controls.Add(this.consumirOfertaButton);
             this.flowLayoutPanel1.Controls.Add(this.facturacionButton);
             this.flowLayoutPanel1.Controls.Add(this.listadoEstadisticoButton);
             this.flowLayoutPanel1.Controls.Add(this.button1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 15, 10, 0);
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(120, 355);
             this.flowLayoutPanel1.TabIndex = 7;
             // 
@@ -156,7 +159,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Showcard Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(13, 15);
+            this.label1.Location = new System.Drawing.Point(13, 10);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.label1.Size = new System.Drawing.Size(65, 27);
@@ -166,7 +169,7 @@
             // 
             // facturacionButton
             // 
-            this.facturacionButton.Location = new System.Drawing.Point(13, 219);
+            this.facturacionButton.Location = new System.Drawing.Point(13, 243);
             this.facturacionButton.Name = "facturacionButton";
             this.facturacionButton.Size = new System.Drawing.Size(95, 23);
             this.facturacionButton.TabIndex = 9;
@@ -175,12 +178,21 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 291);
+            this.button1.Location = new System.Drawing.Point(13, 315);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 35);
             this.button1.TabIndex = 8;
             this.button1.Text = "Configuracion de Usuario";
             this.button1.UseVisualStyleBackColor = true;
+            // 
+            // consumirOfertaButton
+            // 
+            this.consumirOfertaButton.Location = new System.Drawing.Point(13, 214);
+            this.consumirOfertaButton.Name = "consumirOfertaButton";
+            this.consumirOfertaButton.Size = new System.Drawing.Size(95, 23);
+            this.consumirOfertaButton.TabIndex = 10;
+            this.consumirOfertaButton.Text = "Consumir Oferta";
+            this.consumirOfertaButton.UseVisualStyleBackColor = true;
             // 
             // Ofertas
             // 
@@ -215,5 +227,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button facturacionButton;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button consumirOfertaButton;
     }
 }

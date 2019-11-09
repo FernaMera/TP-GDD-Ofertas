@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.CargaCredito
+namespace FrbaOfertas.Clases.Forms
 {
     public partial class BuscarCliente : Form
     {
@@ -70,7 +70,7 @@ namespace FrbaOfertas.CargaCredito
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            seleccionarButton.Show();
+            seleccionarButton.Enabled = true;
 
             var conexion = ConexionDB.getConexion();
             string nombre = dataGridView1.SelectedCells[0].Value.ToString();

@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas.CargaCredito
+﻿namespace FrbaOfertas.Clases.Forms
 {
     partial class BuscarCliente
     {
@@ -190,6 +190,7 @@
             // 
             // seleccionarButton
             // 
+            this.seleccionarButton.Enabled = false;
             this.seleccionarButton.Location = new System.Drawing.Point(45, 279);
             this.seleccionarButton.Name = "seleccionarButton";
             this.seleccionarButton.Size = new System.Drawing.Size(123, 23);

@@ -63,7 +63,7 @@ namespace FrbaOfertas.CargaCredito
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var buscarCliente = new BuscarCliente(clienteBox);
+            var buscarCliente = new Clases.Forms.BuscarCliente(clienteBox);
             buscarCliente.Show();
         }
 
