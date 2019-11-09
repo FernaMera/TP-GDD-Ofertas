@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmCliente
@@ -20,6 +15,8 @@ namespace FrbaOfertas.AbmCliente
         public ClienteForm()
         {
             InitializeComponent();
+
+            fechaNac.MaxDate = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
         }
 
         public ClienteForm(string modo, int idCliente)
