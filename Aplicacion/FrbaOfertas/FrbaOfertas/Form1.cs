@@ -60,6 +60,8 @@ namespace FrbaOfertas
             else
             {
                 Usuario.usuario.crear_usuario(retorno);
+                if (Usuario.usuario.esCliente())
+                    Clases.Cliente.cliente.Crear_Cliente(retorno);
                 this.Hide();
                 var form = new ListadoFuncionalidades.Ofertas();
                 form.Closed += (s, args) => this.Close();

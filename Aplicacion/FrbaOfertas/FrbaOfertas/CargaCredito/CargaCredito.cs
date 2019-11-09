@@ -1,41 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrbaOfertas.CargaCredito
 {
     public partial class CargaCredito : Form
     {
-        private DateTime fechaCarga = Convert.ToDateTime(Configuracion.Default.Fecha_Sistema);
+        private DateTime fechaCarga = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
         private bool nonNumberEntered;
         private enum TipoPago
         {   //ordenados segun aparecen en la base de datos
-            Error,
+            Ninguno,
             Debito,
             Credito,
             Efectivo
         }
-        private TipoPago tipoPago = TipoPago.Error;
+        private TipoPago tipoPago = TipoPago.Ninguno;
 
         public CargaCredito()
         {
             InitializeComponent();
             if(Usuario.usuario.esCliente())
             {
-                clienteBox.Text = Usuario.usuario.GetClienteId().ToString();
+                clienteBox.Text = Clases.Cliente.cliente.id.ToString();
                 clienteBox.Hide();
                 clienteLabel.Hide();
                 button2.Hide();
             }
 
-            fechaVencimientoPicker.Value = Convert.ToDateTime(Configuracion.Default.Fecha_Sistema);
+            fechaVencimientoPicker.Value = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -74,7 +69,7 @@ namespace FrbaOfertas.CargaCredito
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(tipoPago == TipoPago.Error)
+            if(tipoPago == TipoPago.Ninguno)
             {
                 MessageBox.Show("Seleccione un metodo de pago");
                 return;
