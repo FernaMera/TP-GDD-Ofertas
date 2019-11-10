@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FrbaOfertas.ComprarOferta
@@ -15,6 +10,7 @@ namespace FrbaOfertas.ComprarOferta
     {
         private int id_cliente = 0;
         private decimal saldo;
+        private DateTime fechaCompra = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
 
         public Form1()
         {
@@ -38,7 +34,33 @@ namespace FrbaOfertas.ComprarOferta
 
         private void MostrarOfertas()
         {
-            //
+            string query = "Select * from [SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles(@fecha)";
+            
+            DataTable dataTable;
+            SqlDataAdapter dataAdapter;
+
+            SqlConnection conexion = ConexionDB.getConexion();
+            SqlCommand comando = conexion.CreateCommand();
+            comando.CommandText = query;
+            comando.Parameters.Add("@fecha", SqlDbType.DateTime);
+            comando.Parameters["@fecha"].Value = fechaCompra;
+
+            try
+            {
+                dataAdapter = new SqlDataAdapter(comando);
+                dataTable = new DataTable();
+
+                dataGridView1.DataSource = dataTable;
+                dataAdapter.Fill(dataTable);
+                dataAdapter.Dispose();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error:\n" + e.Message);
+
+            }
+            conexion.Dispose();
+            conexion.Close();
         }
 
         private void ActualizarSaldo()
@@ -73,6 +95,77 @@ namespace FrbaOfertas.ComprarOferta
         {
             id_cliente = Convert.ToInt32(clienteBox.Text);
             ActualizarSaldo();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            panelComprar.Show();
+        }
+
+        private void comprarButton_Click(object sender, EventArgs e)
+        {
+            if(clienteBox.Text.Equals(""))
+            {
+                MessageBox.Show("Seleccione un Cliente");
+                return;
+            }
+
+            var conexion = ConexionDB.getConexion();
+
+            SqlCommand comando = conexion.CreateCommand();
+            comando.CommandText = "[SELECT_THISGROUP_FROM_APROBADOS].nueva_compra";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Add("@id_cliente", SqlDbType.VarChar);
+            comando.Parameters["@id_cliente"].Value = clienteBox.Text;
+            comando.Parameters.Add("@id_oferta", SqlDbType.Int);
+            comando.Parameters["@id_oferta"].Value = Convert.ToInt32(dataGridView1.SelectedCells[0].Value);
+            comando.Parameters.Add("@fecha", SqlDbType.DateTime);
+            comando.Parameters["@fecha"].Value = fechaCompra;
+            comando.Parameters.Add("@cantidad", SqlDbType.Decimal);
+            comando.Parameters["@cantidad"].Value = cantidad.Value;
+            comando.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            comando.Parameters["@ReturnVal"].Direction = ParameterDirection.ReturnValue;
+
+            conexion.Open();
+
+            comando.ExecuteReader();
+
+            int resultado = (int)comando.Parameters["@ReturnVal"].Value;
+
+            switch (resultado)
+            {
+                case -1:
+                    {
+                        MessageBox.Show("Cantidad maxima por cliente superada");
+                        break;
+                    }
+                case -2:
+                case -4:
+                    {
+                        MessageBox.Show("Error al cargar datos", "Error");
+                        break;
+                    }
+                case -3:
+                    {
+                        MessageBox.Show("Saldo insuficiente");
+                        break;
+                    }
+                case -5:
+                    {
+                        MessageBox.Show("No puede comprar la misma oferta");
+                        break;
+                    }
+                default:
+                    {
+                        MessageBox.Show("Compra realizada con éxito");
+                        break;
+                    }
+            }
+
+            conexion.Close();
+            ActualizarSaldo();
+            MostrarOfertas();
         }
     }
 }

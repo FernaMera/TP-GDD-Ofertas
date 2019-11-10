@@ -46,7 +46,9 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_cliente', 'P') IS NOT NULL
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[mod_cliente];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_tarjeta', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_tarjeta];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_efectivo];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_compra', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_compra];
 
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[ofertas_disponibles];
 
 /* Esquema */
 
@@ -110,7 +112,7 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cliente](
     [ciudad] [varchar](255) NOT NULL,
     [cod_postal] [smallint],
     [fecha_nac] [datetime] NOT NULL,
-    [saldo] [numeric](18,2) NOT NULL DEFAULT 0,
+    [saldo] [numeric](18,2) NOT NULL DEFAULT 0 CHECK ([saldo] >= 0),
     [habilitado] [bit] NOT NULL DEFAULT 1, -- 1 habilitado, 0 inhabilitado
     PRIMARY KEY (id)
 )
@@ -191,9 +193,9 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Oferta](
 GO
 
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cupon](
-    [codigo_cupon] [numeric](18,0),
+    [codigo_cupon] [numeric](18,0) IDENTITY,
     [id_oferta] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Oferta(id),
-    [cod_compra] [numeric](18,0) NOT NULL,
+    [cod_compra] [numeric](18,0), -- se le asigna en el stored procedure de compra
     [id_entrega] [numeric](18,0), -- puede haber cupon sin entregar aun
     [fecha_vencimiento] [datetime] NOT NULL,
     [cantidad] [int] NOT NULL,
@@ -581,8 +583,123 @@ BEGIN Transaction
 	commit
 GO
 
+--Nueva Compra
+---Controla que la cantidad comprada no sea mayor a la cantidad maxima por cliente
+---Controla que la cantidad comprada no sea mayor a la cantidad disponible
+---Controla que el saldo del cliente sea suficiente por Constraint
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_compra(@id_cliente numeric(18,0), @id_oferta numeric(18,0),
+																 @cantidad numeric(18,0), @fecha datetime)
+AS 
+BEGIN Transaction
+	if(@id_cliente in (select id_cliente_compra from SELECT_THISGROUP_FROM_APROBADOS.Compra 
+						join SELECT_THISGROUP_FROM_APROBADOS.Cupon on cod_compra = codigo_compra
+						join SELECT_THISGROUP_FROM_APROBADOS.Oferta on id = id_oferta
+						where id = @id_oferta))
+	begin
+		rollback
+		return -5 --cliente ya compro esta oferta
+	end
+
+	Select precio_oferta, cantidad_disponible, max_por_cliente, fec_venc
+	Into #oferta_temp
+	from Oferta
+	where id = @id_oferta
+
+	declare @cant_maxima numeric (18,2)
+	declare @cant_disponible numeric (18,2)
+	declare @fecha_vencimiento datetime
+
+	set @cant_maxima = (select max_por_cliente from #oferta_temp)
+	set @cant_disponible = (select cantidad_disponible from #oferta_temp)
+	set @fecha_vencimiento = (select fec_venc from #oferta_temp)
+
+	if(@cantidad > @cant_maxima OR @cantidad > @cant_disponible)
+	begin
+		rollback
+		return -1 --no se puede comprar porque supera el limite
+	end
+
+	declare @monto numeric(18,2)
+	set @monto = (select precio_oferta * @cantidad from #oferta_temp)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -2 --no se encontro oferta
+	end
+
+	update Cliente
+	set saldo = saldo - @monto
+	where @id_cliente = id
+	if @@ERROR != 0
+	begin
+		rollback
+		return -3 --cliente no posee suficiente saldo
+	end
+
+	declare @cupon table(id numeric(18,0))
+	
+	insert Cupon(id_oferta, fecha_vencimiento, cantidad)
+	output inserted.codigo_cupon into @cupon
+	values (@id_oferta, @fecha_vencimiento, @cantidad)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -4 --no se pudo insertar datos de la compra
+	end
+
+	declare @id_cupon numeric(18,0)
+	set @id_cupon = (select id from @cupon)
+
+	declare @compra table(id numeric(18,0))
+
+	insert Compra(id_cliente_compra, fecha_compra, cod_cupon)
+	output inserted.codigo_compra into @compra
+	values (@id_cliente, @fecha, @id_cupon)
+	if @@ERROR != 0
+	begin
+		rollback
+		return -4 --no se pudo insertar datos de la compra
+	end
+
+	declare @id_compra numeric(18,0)
+	set @id_compra = (select id from @compra)
+	
+	update Cupon
+	set cod_compra = @id_compra
+	where codigo_cupon = @id_cupon
+	if @@ERROR != 0
+	begin
+		rollback
+		return -4 --no se pudo insertar datos de la compra
+	end
+
+	update Oferta
+	set cantidad_disponible = cantidad_disponible - @cantidad
+	where id = @id_oferta
+	if @@ERROR != 0
+	begin
+		rollback
+		return -4 --no se pudo insertar datos de la compra
+	end
+
+	commit
+	return @id_compra
+GO
+
 -- Funciones
 
+CREATE FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles (@fecha_sistema datetime)
+RETURNS @Ofertas TABLE (codigo varchar(255), descripcion varchar(255), 
+						fecha_vencimiento datetime, precio_lista numeric(18,2),
+						precio_oferta numeric(18,2), cantidad_disponible numeric(18,0),
+						cantidad_maxima numeric(18,0))
+AS Begin
+	insert @Ofertas(codigo, descripcion, fecha_vencimiento, precio_lista, precio_oferta, cantidad_disponible, cantidad_maxima)
+	select id, descripcion, fec_venc, precio_lista, precio_oferta, cantidad_disponible, max_por_cliente
+	from Oferta where fec_venc >= convert(datetime, @fecha_sistema)
+	return
+End
+Go
 
 -- Triggers
 
@@ -614,3 +731,5 @@ WHERE cuit = '11-22445103-2'
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario(id_rol, id_usuario)
 VALUES (3, 2)
 GO
+
+
