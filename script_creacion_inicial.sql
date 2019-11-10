@@ -627,14 +627,15 @@ BEGIN Transaction
 		return -2 --no se encontro oferta
 	end
 
-	update Cliente
-	set saldo = saldo - @monto
-	where @id_cliente = id
-	if @@ERROR != 0
-	begin
+	begin try
+		update Cliente
+		set saldo = saldo - @monto
+		where @id_cliente = id
+	end try
+	begin catch
 		rollback
 		return -3 --cliente no posee suficiente saldo
-	end
+	end catch
 
 	declare @cupon table(id numeric(18,0))
 	
