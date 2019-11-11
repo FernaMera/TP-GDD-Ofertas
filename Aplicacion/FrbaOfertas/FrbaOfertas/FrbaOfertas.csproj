@@ -81,6 +81,18 @@
     <Compile Include="AbmRol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="CambiarContrasena\CambiarContrasena.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambiarContrasena\CambiarContrasena.Designer.cs">
+      <DependentUpon>CambiarContrasena.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CambiarContrasena\SeleccionarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambiarContrasena\SeleccionarUsuario.Designer.cs">
+      <DependentUpon>SeleccionarUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clases\Forms\BuscarClienteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +191,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CambiarContrasena\CambiarContrasena.resx">
+      <DependentUpon>CambiarContrasena.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CambiarContrasena\SeleccionarUsuario.resx">
+      <DependentUpon>SeleccionarUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CargaCredito\CargaCredito.resx">
       <DependentUpon>CargaCredito.cs</DependentUpon>

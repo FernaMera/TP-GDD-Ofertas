@@ -39,9 +39,9 @@
             this.listadoEstadisticoButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.consumirOfertaButton = new System.Windows.Forms.Button();
             this.facturacionButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.consumirOfertaButton = new System.Windows.Forms.Button();
             this.panelFunciones.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -167,6 +167,15 @@
             this.label1.Text = "Ofertas";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // consumirOfertaButton
+            // 
+            this.consumirOfertaButton.Location = new System.Drawing.Point(13, 214);
+            this.consumirOfertaButton.Name = "consumirOfertaButton";
+            this.consumirOfertaButton.Size = new System.Drawing.Size(95, 23);
+            this.consumirOfertaButton.TabIndex = 10;
+            this.consumirOfertaButton.Text = "Consumir Oferta";
+            this.consumirOfertaButton.UseVisualStyleBackColor = true;
+            // 
             // facturacionButton
             // 
             this.facturacionButton.Location = new System.Drawing.Point(13, 243);
@@ -184,15 +193,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Configuracion de Usuario";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // consumirOfertaButton
-            // 
-            this.consumirOfertaButton.Location = new System.Drawing.Point(13, 214);
-            this.consumirOfertaButton.Name = "consumirOfertaButton";
-            this.consumirOfertaButton.Size = new System.Drawing.Size(95, 23);
-            this.consumirOfertaButton.TabIndex = 10;
-            this.consumirOfertaButton.Text = "Consumir Oferta";
-            this.consumirOfertaButton.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Ofertas
             // 

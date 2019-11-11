@@ -39,6 +39,11 @@ namespace FrbaOfertas
         {
             return rol.nombre == "Proveedor";
         }
+        
+        internal bool esAdministradorGeneral()
+        {
+            return rol.nombre == "Administrador General";
+        }
 
         public string cuitUsuario()
         {

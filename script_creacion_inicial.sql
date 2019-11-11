@@ -35,6 +35,7 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].Rubro', 'U') IS NOT NULL DROP TA
 -- Drop SP
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_validar_login', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_validar_login];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_usuario', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_usuario];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].cambiar_contrasena', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[cambiar_contrasena];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol_usuario];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nuevo_rol];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].agregar_funcionalidad', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[agregar_funcionalidad];
@@ -402,6 +403,27 @@ AS
  END
 GO
 
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].cambiar_contrasena(@id_usuario numeric(18,0), @nueva_pass varchar(255),
+																		@vieja_pass varchar(255))
+AS
+BEGIN
+	DECLARE @hash_pass_nueva varchar(255)
+	DECLARE @hash_pass_vieja varchar(255)
+
+	SET @hash_pass_nueva = HASHBYTES('SHA2_256', @nueva_pass)
+	SET @hash_pass_vieja = HASHBYTES('SHA2_256', @vieja_pass)
+
+	UPDATE Usuario
+	SET password = @hash_pass_nueva
+	WHERE id = @id_usuario and password = @hash_pass_vieja
+
+	if @@ROWCOUNT = 0
+	 return -1 -- contraseña no es correcta
+	else
+	 return 0
+END
+GO
+
 CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nuevo_rol_usuario(@id_user numeric(18,0), @id_rol numeric(18,0))
 AS
  BEGIN
@@ -729,8 +751,5 @@ GO
 UPDATE [SELECT_THISGROUP_FROM_APROBADOS].[Proveedor] SET [id_usuario] = 2
 WHERE cuit = '11-22445103-2'
 
-INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Rol_Usuario(id_rol, id_usuario)
-VALUES (3, 2)
-GO
 
 
