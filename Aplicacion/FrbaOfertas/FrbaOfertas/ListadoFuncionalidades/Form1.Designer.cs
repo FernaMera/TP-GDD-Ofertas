@@ -175,6 +175,7 @@
             this.consumirOfertaButton.TabIndex = 10;
             this.consumirOfertaButton.Text = "Consumir Oferta";
             this.consumirOfertaButton.UseVisualStyleBackColor = true;
+            this.consumirOfertaButton.Click += new System.EventHandler(this.consumirOfertaButton_Click);
             // 
             // facturacionButton
             // 

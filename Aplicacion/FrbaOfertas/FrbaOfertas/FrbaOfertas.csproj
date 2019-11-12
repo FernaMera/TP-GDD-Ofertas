@@ -115,6 +115,12 @@
     <Compile Include="CargaCredito\CargaCredito.Designer.cs">
       <DependentUpon>CargaCredito.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsumirOferta\ConsumirOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumirOferta\ConsumirOferta.Designer.cs">
+      <DependentUpon>ConsumirOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="CrearOferta\SeleccionarProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumirOferta\ConsumirOferta.resx">
+      <DependentUpon>ConsumirOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CrearOferta\SeleccionarProveedor.resx">
       <DependentUpon>SeleccionarProveedor.cs</DependentUpon>

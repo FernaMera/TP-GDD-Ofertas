@@ -78,5 +78,10 @@ namespace FrbaOfertas.ListadoFuncionalidades
         {
             AbrirFormEnPanel(new CambiarContraseña.CambiarContrasena());
         }
+
+        private void consumirOfertaButton_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new ConsumirOferta.ConsumirOferta());
+        }
     }
 }
