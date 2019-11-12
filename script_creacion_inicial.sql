@@ -182,7 +182,8 @@ GO
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Oferta](
     [id] [numeric](18,0) IDENTITY,
     [cuit_prov] [char](13) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(cuit),
-    [descripcion] [varchar](255) NOT NULL,
+    [codigo] [varchar](255), --para poder migrar los datos
+	[descripcion] [varchar](255) NOT NULL,
     [fec_public] [datetime] NOT NULL,
     [fec_venc] [datetime] NOT NULL,
     [precio_oferta] [numeric](18,2) NOT NULL,
@@ -216,7 +217,7 @@ GO
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Compra](
     [codigo_compra] [numeric](18,0) IDENTITY,
     [id_cliente_compra] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cliente(id),
-    [cod_cupon] [numeric](18,0) UNIQUE NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cupon(codigo_cupon),
+    [cod_cupon] [numeric](18,0) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Cupon(codigo_cupon),
     [fecha_compra] [datetime] NOT NULL,
     PRIMARY KEY (codigo_compra)
 )
@@ -347,11 +348,80 @@ WHERE Carga_Credito IS NOT NULL
 GO
 
 
--- Actualizar saldo del unico cliente que realizo cargas - VER
+-- Actualizar saldo del unico cliente que realizo cargas
+UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Cliente
+SET saldo = (SELECT SUM(monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Carga)
+WHERE id = 140
+GO
 
 -- Migrar Facturación
 
+-- Migrar Ofertas
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Oferta(
+	cuit_prov,
+	codigo,
+	descripcion,
+	fec_public,
+	fec_venc,
+	precio_oferta,
+	precio_lista,
+	cantidad_disponible,
+	max_por_cliente
+) SELECT
+	Provee_CUIT,
+	Oferta_Codigo,
+	Oferta_Descripcion,
+	Oferta_Fecha,
+	Oferta_Fecha_Venc,
+	Oferta_Precio,
+	Oferta_Precio_Ficticio,
+	Oferta_Cantidad,
+	Oferta_Cantidad -- no hay datos en tabla maestra sobre cantidad maxima por cliente
+FROM gd_esquema.Maestra
+WHERE Oferta_Codigo is not null
+GROUP BY Provee_CUIT, Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio, Oferta_Cantidad
+GO
+
+-- Migrar Cupones
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Cupon(
+	id_oferta,
+	--cod_compra, Actualizar luego de insertar compras
+	--entrega, Actualizar luego de insertar entregas
+	fecha_vencimiento,
+	cantidad --No hay datos en tabla maestra sobre cuanto compro el cliente
+) SELECT
+	id,
+	fec_venc,
+	Oferta_Cantidad 
+FROM gd_esquema.Maestra, [SELECT_THISGROUP_FROM_APROBADOS].Oferta
+WHERE Oferta_Fecha_Compra is not null and codigo = Oferta_Codigo and Factura_Fecha is not null
+GO
+
+-- Migrar Compras
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Compra(
+	cod_cupon,
+	id_cliente_compra,
+	fecha_compra
+) SELECT
+	codigo_cupon,
+	(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = Cli_Dni),
+	Oferta_Fecha_Compra
+FROM gd_esquema.Maestra, [SELECT_THISGROUP_FROM_APROBADOS].Cupon C, [SELECT_THISGROUP_FROM_APROBADOS].Oferta O 
+WHERE Oferta_Fecha_Compra is not null and codigo = Oferta_Codigo and C.id_oferta = O.id and Factura_Fecha is not null
+GO
+
 -- Migrar Entregas
+--INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Entrega(
+--	fecha_consumo,
+--	id_cliente,
+--	cupon
+--) SELECT
+--	Oferta_Entregado_Fecha,
+--	(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = Cli_Dni) as id_cliente,
+--	(SELECT 1)
+--FROM gd_esquema.Maestra
+--WHERE Oferta_Entregado_Fecha is not null
+--GO
 
 -- Stored Procedures
 -- sp_validar_login
