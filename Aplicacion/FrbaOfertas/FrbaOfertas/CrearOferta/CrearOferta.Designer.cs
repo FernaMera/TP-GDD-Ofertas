@@ -62,6 +62,7 @@
             this.textBox_proveedor.ReadOnly = true;
             this.textBox_proveedor.Size = new System.Drawing.Size(100, 20);
             this.textBox_proveedor.TabIndex = 2;
+            this.textBox_proveedor.TextChanged += new System.EventHandler(this.textBox_proveedor_TextChanged);
             // 
             // label1
             // 
@@ -81,6 +82,7 @@
             this.label_proveedor.Size = new System.Drawing.Size(59, 13);
             this.label_proveedor.TabIndex = 1;
             this.label_proveedor.Text = "Proveedor:";
+            this.label_proveedor.Click += new System.EventHandler(this.label_proveedor_Click);
             // 
             // btn_seleccionarProveedor
             // 
@@ -99,6 +101,7 @@
             this.dateTimePicker_publi.Size = new System.Drawing.Size(215, 20);
             this.dateTimePicker_publi.TabIndex = 4;
             this.dateTimePicker_publi.Value = new System.DateTime(2019, 11, 5, 0, 0, 0, 0);
+            this.dateTimePicker_publi.ValueChanged += new System.EventHandler(this.dateTimePicker_publi_ValueChanged);
             // 
             // label_fechaPubli
             // 
@@ -108,6 +111,7 @@
             this.label_fechaPubli.Size = new System.Drawing.Size(112, 13);
             this.label_fechaPubli.TabIndex = 5;
             this.label_fechaPubli.Text = "Fecha de publicación:";
+            this.label_fechaPubli.Click += new System.EventHandler(this.label_fechaPubli_Click);
             // 
             // label_fechaVenc
             // 
@@ -117,6 +121,7 @@
             this.label_fechaVenc.Size = new System.Drawing.Size(115, 13);
             this.label_fechaVenc.TabIndex = 7;
             this.label_fechaVenc.Text = "Fecha de vencimiento:";
+            this.label_fechaVenc.Click += new System.EventHandler(this.label_fechaVenc_Click);
             // 
             // dateTimePicker_venc
             // 
@@ -124,6 +129,7 @@
             this.dateTimePicker_venc.Name = "dateTimePicker_venc";
             this.dateTimePicker_venc.Size = new System.Drawing.Size(215, 20);
             this.dateTimePicker_venc.TabIndex = 6;
+            this.dateTimePicker_venc.ValueChanged += new System.EventHandler(this.dateTimePicker_venc_ValueChanged);
             // 
             // label_precioLista
             // 

@@ -83,5 +83,10 @@ namespace FrbaOfertas.ListadoFuncionalidades
         {
             AbrirFormEnPanel(new ConsumirOferta.ConsumirOferta());
         }
+
+        private void facturacionButton_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new Facturar.Facturar());
+        }
     }
 }

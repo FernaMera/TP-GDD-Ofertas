@@ -15,6 +15,7 @@ namespace FrbaOfertas.CrearOferta
 {
     public partial class CrearOferta : Form
     {
+        DateTime fechaConfig = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
 
         public CrearOferta()
         {
@@ -25,7 +26,7 @@ namespace FrbaOfertas.CrearOferta
                 textBox_proveedor.Text = Usuario.usuario.cuitUsuario();
             }
 
-            DateTime fechaConfig = Convert.ToDateTime(ConfigurationManager.AppSettings["fecha"]);
+
             dateTimePicker_publi.Value = fechaConfig;
             dateTimePicker_venc.Value = fechaConfig.AddDays(1);
             dateTimePicker_publi.MinDate = fechaConfig;
@@ -48,8 +49,8 @@ namespace FrbaOfertas.CrearOferta
             numericUpDown_cantMax.Value = numericUpDown_cantMax.Minimum;
             numericUpDown_precioLista.Value = numericUpDown_precioLista.Minimum;
             numericUpDown_precioOferta.Value = numericUpDown_precioOferta.Minimum;
-            dateTimePicker_publi.Value = DateTime.Today;
-            dateTimePicker_venc.Value = DateTime.Today.AddDays(1);
+            dateTimePicker_publi.Value = fechaConfig;
+            dateTimePicker_venc.Value = fechaConfig.AddDays(1);
             richTextBox_descripcion.Clear();
 
             if (!Usuario.usuario.esProveedor())
@@ -64,7 +65,7 @@ namespace FrbaOfertas.CrearOferta
                 errores.Add("Todos los campos deben estar completos");
 
             if (numericUpDown_precioOferta.Value >= numericUpDown_precioLista.Value)
-                errores.Add("El precio de oferta es mayor que el precio de lista");
+                errores.Add("El precio de oferta es mayor o igual que el precio de lista");
 
             if (numericUpDown_cantMax.Value > numericUpDown_cantDisp.Value)
                 errores.Add("La cantidad total ofrecida es menor que la cantidad ofrecida por cliente");
@@ -123,6 +124,36 @@ namespace FrbaOfertas.CrearOferta
             {
                 Util.mostrarListaErrores(errores, "Creación de Oferta");
             }
+
+        }
+
+        private void dateTimePicker_venc_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_fechaPubli_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker_publi_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_fechaVenc_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox_proveedor_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_proveedor_Click(object sender, EventArgs e)
+        {
 
         }
 
