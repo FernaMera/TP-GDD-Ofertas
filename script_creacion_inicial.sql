@@ -228,14 +228,14 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Compra](
 GO
 
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Detalle_Facturacion](
+	[id] [numeric](18,0) IDENTITY,
 	[numero_factura] [numeric](18,0) FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Facturacion(numero_factura),
 	[id_oferta] [numeric](18,0) FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Oferta(id),
 	[cantidad] int NOT NULL,
 	[monto] [numeric](18,0) NOT NULL,
-	PRIMARY KEY (numero_factura, id_oferta)
+	PRIMARY KEY (id)
 )
 GO
-
 
 -- Agregar FK faltantes de Cupon (no se puede al crear la tabla porque no existen las otras tablas)
 ALTER TABLE [SELECT_THISGROUP_FROM_APROBADOS].Cupon ADD FOREIGN KEY (cod_compra) REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Compra(codigo_compra) 
