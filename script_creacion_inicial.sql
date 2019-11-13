@@ -50,6 +50,7 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo', 'P') IS N
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_compra', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_compra];
 
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[ofertas_disponibles];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].cupones_proveedor', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[cupones_proveedor];
 
 /* Esquema */
 
@@ -202,6 +203,7 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Cupon](
     [id_entrega] [numeric](18,0), -- puede haber cupon sin entregar aun
     [fecha_vencimiento] [datetime] NOT NULL,
     [cantidad] [int] NOT NULL,
+	[monto] [numeric](18,2)
     PRIMARY KEY (codigo_cupon)
 )
 GO
@@ -396,11 +398,13 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Cupon(
 	--cod_compra, Actualizar luego de insertar compras
 	--entrega, Actualizar luego de insertar entregas
 	fecha_vencimiento,
-	cantidad --No hay datos en tabla maestra sobre cuanto compro el cliente
+	cantidad, --No hay datos en tabla maestra sobre cuanto compro el cliente
+	monto
 ) SELECT
 	id,
 	fec_venc,
-	Oferta_Cantidad 
+	Oferta_Cantidad,
+	Oferta_Precio * Oferta_Cantidad
 FROM gd_esquema.Maestra, [SELECT_THISGROUP_FROM_APROBADOS].Oferta
 WHERE Oferta_Fecha_Compra is not null and codigo = Oferta_Codigo and Factura_Fecha is not null
 GO
@@ -739,9 +743,9 @@ BEGIN Transaction
 
 	declare @cupon table(id numeric(18,0))
 	
-	insert Cupon(id_oferta, fecha_vencimiento, cantidad)
+	insert Cupon(id_oferta, fecha_vencimiento, cantidad, monto)
 	output inserted.codigo_cupon into @cupon
-	values (@id_oferta, @fecha_vencimiento, @cantidad)
+	values (@id_oferta, @fecha_vencimiento, @cantidad, @monto)
 	if @@ERROR != 0
 	begin
 		rollback
@@ -787,8 +791,29 @@ BEGIN Transaction
 	return @id_compra
 GO
 
+--Consumir_Oferta:
+----SEGUN RESPUESTA DEL FORO: el cliente puede no ser el comprador del cupon
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].consumir_oferta (@fecha_sistema datetime, @cod_cupon numeric(18,0), @id_cliente numeric(18,0))
+AS BEGIN TRANSACTION
+	insert Entrega (fecha_consumo, cupon, id_cliente)
+	values (@fecha_sistema, @cod_cupon, @id_cliente)
+
+	if @@ERROR = 0
+	begin
+		commit
+		return 0
+	end
+	else
+	begin
+		rollback
+		return -1
+	end
+GO
+
 -- Funciones
 
+--Ofertas_Disponibles:
+----Retorna una tabla con todas las ofertas que no esten vencidas
 CREATE FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles (@fecha_sistema datetime)
 RETURNS @Ofertas TABLE (codigo varchar(255), descripcion varchar(255), 
 						fecha_vencimiento datetime, precio_lista numeric(18,2),
@@ -798,6 +823,22 @@ AS Begin
 	insert @Ofertas(codigo, descripcion, fecha_vencimiento, precio_lista, precio_oferta, cantidad_disponible, cantidad_maxima)
 	select id, descripcion, fec_venc, precio_lista, precio_oferta, cantidad_disponible, max_por_cliente
 	from Oferta where fec_venc >= convert(datetime, @fecha_sistema)
+	return
+End
+Go
+
+--Cupones_Proveedor:
+----Retorna una tabla con los cupones de el proveedor con @cuit, que no esten vencidos ni entregados
+CREATE FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].cupones_proveedor (@cuit char(13), @fecha_sistema datetime)
+RETURNS @Cupones TABLE (id_cupon numeric(12,0), codigo_oferta varchar(255), descripcion varchar(255), 
+						fecha_vencimiento datetime, total numeric(18,2))
+AS Begin
+	insert @Cupones(id_cupon, codigo_oferta, descripcion, fecha_vencimiento, total)
+	select codigo_cupon, id, descripcion, fecha_vencimiento, monto
+	from Cupon Join Oferta on id_oferta = id
+	where fecha_vencimiento >= convert(datetime, @fecha_sistema) 
+		and codigo_cupon not in (Select cupon from Entrega)
+		and cuit_prov = @cuit
 	return
 End
 Go

@@ -40,7 +40,6 @@ namespace FrbaOfertas.CrearOferta
                 if (selProv.ShowDialog() == DialogResult.OK)
                     textBox_proveedor.Text = selProv.proveedorSeleccionado;
             }
-
         }
 
         private void btn_limpiar_Click(object sender, EventArgs e)
