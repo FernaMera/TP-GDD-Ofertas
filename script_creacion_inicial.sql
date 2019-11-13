@@ -48,6 +48,7 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].mod_cliente', 'P') IS NOT NULL D
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_tarjeta', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_tarjeta];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_efectivo];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_compra', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_compra];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].consumir_oferta', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[consumir_oferta];
 
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[ofertas_disponibles];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].cupones_proveedor', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[cupones_proveedor];
@@ -695,14 +696,17 @@ CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].nueva_compra(@id_cliente nume
 																 @cantidad numeric(18,0), @fecha datetime)
 AS 
 BEGIN Transaction
-	if(@id_cliente in (select id_cliente_compra from SELECT_THISGROUP_FROM_APROBADOS.Compra 
-						join SELECT_THISGROUP_FROM_APROBADOS.Cupon on cod_compra = codigo_compra
-						join SELECT_THISGROUP_FROM_APROBADOS.Oferta on id = id_oferta
-						where id = @id_oferta))
-	begin
-		rollback
-		return -5 --cliente ya compro esta oferta
-	end
+	declare @cant_comprada numeric(18,0)
+	set @cant_comprada = (select sum(cantidad) from Cupon where id_oferta = @id_oferta)
+	
+	--if(@id_cliente in (select id_cliente_compra from SELECT_THISGROUP_FROM_APROBADOS.Compra 
+	--					join SELECT_THISGROUP_FROM_APROBADOS.Cupon on cod_compra = codigo_compra
+	--					join SELECT_THISGROUP_FROM_APROBADOS.Oferta on id = id_oferta
+	--					where id = @id_oferta))
+	--begin
+	--	rollback
+	--	return -5 --cliente ya compro esta oferta
+	--end
 
 	Select precio_oferta, cantidad_disponible, max_por_cliente, fec_venc
 	Into #oferta_temp
@@ -717,7 +721,7 @@ BEGIN Transaction
 	set @cant_disponible = (select cantidad_disponible from #oferta_temp)
 	set @fecha_vencimiento = (select fec_venc from #oferta_temp)
 
-	if(@cantidad > @cant_maxima OR @cantidad > @cant_disponible)
+	if(@cantidad + @cant_comprada > @cant_maxima OR @cantidad + @cant_comprada > @cant_disponible)
 	begin
 		rollback
 		return -1 --no se puede comprar porque supera el limite
@@ -795,19 +799,30 @@ GO
 ----SEGUN RESPUESTA DEL FORO: el cliente puede no ser el comprador del cupon
 CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].consumir_oferta (@fecha_sistema datetime, @cod_cupon numeric(18,0), @id_cliente numeric(18,0))
 AS BEGIN TRANSACTION
+	declare @entrega table(id_entrega numeric(18,0))
+
 	insert Entrega (fecha_consumo, cupon, id_cliente)
+	output inserted.id into @entrega
 	values (@fecha_sistema, @cod_cupon, @id_cliente)
 
-	if @@ERROR = 0
-	begin
-		commit
-		return 0
-	end
-	else
+	if @@ERROR != 0
 	begin
 		rollback
 		return -1
 	end
+
+	update Cupon
+	set id_entrega = (select id_entrega from @entrega)
+	where codigo_cupon = @cod_cupon
+
+	if @@ERROR != 0
+	begin
+		rollback
+		return -1
+	end
+
+	commit
+	return 0
 GO
 
 -- Funciones
@@ -837,7 +852,7 @@ AS Begin
 	select codigo_cupon, id, descripcion, fecha_vencimiento, monto
 	from Cupon Join Oferta on id_oferta = id
 	where fecha_vencimiento >= convert(datetime, @fecha_sistema) 
-		and codigo_cupon not in (Select cupon from Entrega)
+		and id_entrega is null
 		and cuit_prov = @cuit
 	return
 End

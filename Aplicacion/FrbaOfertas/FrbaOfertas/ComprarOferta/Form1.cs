@@ -151,11 +151,6 @@ namespace FrbaOfertas.ComprarOferta
                         MessageBox.Show("Saldo insuficiente");
                         break;
                     }
-                case -5:
-                    {
-                        MessageBox.Show("No puede comprar la misma oferta");
-                        break;
-                    }
                 default:
                     {
                         MessageBox.Show("Compra realizada con éxito");

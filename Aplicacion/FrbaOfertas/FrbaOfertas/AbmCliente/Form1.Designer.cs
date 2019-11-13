@@ -37,14 +37,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dniBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mailBox = new System.Windows.Forms.TextBox();
             this.buscarButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.LimpiarButton = new System.Windows.Forms.Button();
             this.modificarButton = new System.Windows.Forms.Button();
             this.habilitarButton = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.mailBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -150,6 +150,24 @@
             this.dniBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dniBox_KeyDown);
             this.dniBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dniBox_KeyPress);
             // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 85);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Mail";
+            // 
+            // mailBox
+            // 
+            this.mailBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.mailBox.Location = new System.Drawing.Point(56, 82);
+            this.mailBox.Name = "mailBox";
+            this.mailBox.Size = new System.Drawing.Size(126, 20);
+            this.mailBox.TabIndex = 7;
+            // 
             // buscarButton
             // 
             this.buscarButton.Location = new System.Drawing.Point(116, 169);
@@ -164,11 +182,14 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(213, 44);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(521, 268);
             this.dataGridView1.TabIndex = 5;
@@ -218,24 +239,6 @@
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(390, 30);
             this.flowLayoutPanel1.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 85);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(26, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Mail";
-            // 
-            // mailBox
-            // 
-            this.mailBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.mailBox.Location = new System.Drawing.Point(56, 82);
-            this.mailBox.Name = "mailBox";
-            this.mailBox.Size = new System.Drawing.Size(126, 20);
-            this.mailBox.TabIndex = 7;
             // 
             // Form1
             // 
