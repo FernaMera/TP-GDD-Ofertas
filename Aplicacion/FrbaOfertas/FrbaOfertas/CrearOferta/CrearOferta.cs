@@ -127,36 +127,6 @@ namespace FrbaOfertas.CrearOferta
 
         }
 
-        private void dateTimePicker_venc_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_fechaPubli_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker_publi_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_fechaVenc_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox_proveedor_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label_proveedor_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }
 
