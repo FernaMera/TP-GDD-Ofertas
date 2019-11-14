@@ -49,9 +49,14 @@ IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_tarjeta', 'P') IS NO
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_carga_efectivo', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_carga_efectivo];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].nueva_compra', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[nueva_compra];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].consumir_oferta', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[consumir_oferta];
+IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].sp_facturar', 'P') IS NOT NULL DROP PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].[sp_facturar];
 
+-- Drop Funciones
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].ofertas_disponibles', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[ofertas_disponibles];
 IF OBJECT_ID('[SELECT_THISGROUP_FROM_APROBADOS].cupones_proveedor', 'TF') IS NOT NULL DROP FUNCTION [SELECT_THISGROUP_FROM_APROBADOS].[cupones_proveedor];
+
+-- Drop Triggers
+IF OBJECT_ID('tr_actualizarTotalFactura') IS NOT NULL DROP TRIGGER [SELECT_THISGROUP_FROM_APROBADOS].[tr_actualizarTotalFactura];
 
 /* Esquema */
 
@@ -146,7 +151,7 @@ GO
 
 
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Facturacion](
-    [numero_factura] [numeric](18,0),
+    [numero_factura] [numeric](18,0) IDENTITY,
     [fecha_desde] [datetime] NOT NULL,
     [fecha_hasta] [datetime] NOT NULL,
     [cuit_proveedor] [char](13) NOT NULL FOREIGN KEY REFERENCES [SELECT_THISGROUP_FROM_APROBADOS].Proveedor(cuit),
@@ -154,6 +159,7 @@ CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Facturacion](
     PRIMARY KEY (numero_factura)
 )
 GO
+SET IDENTITY_INSERT [SELECT_THISGROUP_FROM_APROBADOS].[Facturacion] ON  
 
 CREATE TABLE [SELECT_THISGROUP_FROM_APROBADOS].[Tipo_Pago](
     [id] [tinyint] IDENTITY,
@@ -365,8 +371,6 @@ SET saldo = (SELECT SUM(monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Carga)
 WHERE id = 140
 GO
 
--- Migrar Facturación
-
 -- Migrar Ofertas
 INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Oferta(
 	cuit_prov,
@@ -435,6 +439,61 @@ GO
 --FROM gd_esquema.Maestra
 --WHERE Oferta_Entregado_Fecha is not null
 --GO
+
+-- Migrar Facturación
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion(
+	numero_factura,
+	fecha_desde,
+	fecha_hasta,
+	cuit_proveedor,
+	total
+) SELECT DISTINCT
+	factura_Nro, 
+	Factura_Fecha,
+	Factura_Fecha,
+	provee_cuit,
+	0
+FROM gd_esquema.Maestra 
+WHERE Factura_Fecha is not null
+GO
+
+-- Trigger para que el monto de las facturas se actualice solo
+CREATE TRIGGER tr_actualizarTotalFactura ON [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+	DECLARE @monto DECIMAL(12,2)
+	DECLARE @numeroFact NUMERIC(18,0)
+	
+	DECLARE unCursor CURSOR FOR (SELECT (cantidad * monto), numero_factura FROM inserted UNION SELECT (cantidad * monto), numero_factura FROM deleted)
+	OPEN unCursor
+	FETCH unCursor INTO @monto, @numeroFact
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		UPDATE Facturacion SET total += @monto WHERE numero_factura = @numeroFact 
+	FETCH unCursor INTO @monto, @numeroFact
+	END
+	CLOSE unCursor
+	DEALLOCATE unCursor
+END
+GO
+
+-- Migrar Detalle_Facturacion:
+INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion(
+	numero_factura,
+	id_oferta,
+	cantidad,
+	monto
+) SELECT 
+	Factura_Nro,
+	id,
+	Oferta_Cantidad,
+	Oferta_Precio 
+FROM gd_esquema.Maestra
+JOIN [SELECT_THISGROUP_FROM_APROBADOS].Oferta ON codigo = Oferta_Codigo
+WHERE Factura_Nro IS NOT NULL
+GO
+
 
 -- Stored Procedures
 -- sp_validar_login
@@ -824,6 +883,45 @@ AS BEGIN TRANSACTION
 	commit
 	return 0
 GO
+
+-- sp_facturar
+CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].sp_facturar(@cuitProveedor char(13), @fechaDesde datetime, @fechaHasta datetime,
+@numeroFact NUMERIC OUTPUT, @importeTotal NUMERIC OUTPUT)
+AS
+ BEGIN
+    IF ((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND fecha_desde = @fechaDesde AND fecha_hasta = @fechaHasta) > 0)
+		BEGIN
+			SELECT @numeroFact = numero_factura, @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND fecha_desde = @fechaDesde AND fecha_hasta = @fechaHasta
+			RETURN
+		END
+	
+	DECLARE @nuevaFactura NUMERIC
+	-- Si llegó acá no existe una factura para ese proveedor en ese período.
+	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) OUTPUT inserted.numero_factura VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
+	SET @nuevaFactura = SCOPE_IDENTITY()
+	
+	DECLARE @mont NUMERIC
+	DECLARE @cant INT
+	DECLARE @oferta NUMERIC
+
+	DECLARE unCursor CURSOR FOR (SELECT cantidad, monto, id_oferta FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon 
+	WHERE id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
+	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE fecha_compra >= @fechaDesde AND fecha_compra <= @fechaHasta))
+
+	OPEN unCursor
+
+	FETCH unCursor INTO @cant, @mont, @oferta
+	
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN
+		INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion (numero_factura, id_oferta, cantidad, monto) VALUES (@nuevaFactura, @oferta, @cant, @mont)
+		FETCH unCursor INTO @cant, @mont
+	END
+	CLOSE unCursor
+	DEALLOCATE unCursor
+ END
+GO
+
 
 -- Funciones
 
