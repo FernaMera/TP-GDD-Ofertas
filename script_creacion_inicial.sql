@@ -397,35 +397,59 @@ WHERE Oferta_Codigo is not null
 GROUP BY Provee_CUIT, Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio, Oferta_Cantidad
 GO
 
--- Migrar Cupones
-INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Cupon(
-	id_oferta,
-	--cod_compra, Actualizar luego de insertar compras
-	--entrega, Actualizar luego de insertar entregas
-	fecha_vencimiento,
-	cantidad, --No hay datos en tabla maestra sobre cuanto compro el cliente
-	monto
-) SELECT
-	id,
-	fec_venc,
-	Oferta_Cantidad,
-	Oferta_Precio * Oferta_Cantidad
-FROM gd_esquema.Maestra, [SELECT_THISGROUP_FROM_APROBADOS].Oferta
-WHERE Oferta_Fecha_Compra is not null and codigo = Oferta_Codigo and Factura_Fecha is not null
-GO
+declare un_cursor CURSOR 
+STATIC READ_ONLY FORWARD_ONLY
+for (SELECT Oferta_Codigo, Oferta_Cantidad, Oferta_Precio, Cli_Dni, Oferta_Fecha_Compra FROM gd_esquema.Maestra WHERE Oferta_Fecha_Compra is not null and Factura_Fecha is null and Oferta_Entregado_Fecha is null)
 
--- Migrar Compras
-INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Compra(
-	cod_cupon,
-	id_cliente_compra,
-	fecha_compra
-) SELECT
-	codigo_cupon,
-	(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = Cli_Dni),
-	Oferta_Fecha_Compra
-FROM gd_esquema.Maestra, [SELECT_THISGROUP_FROM_APROBADOS].Cupon C, [SELECT_THISGROUP_FROM_APROBADOS].Oferta O 
-WHERE Oferta_Fecha_Compra is not null and codigo = Oferta_Codigo and C.id_oferta = O.id and Factura_Fecha is not null
-GO
+open un_cursor
+
+declare @cupon_temp table(id_cupon numeric(18,0))
+declare @compra_temp table(id_compra numeric(18,0))
+declare @codigo_oferta varchar(255)
+declare @cantidad_oferta_comprada numeric(18,0)
+declare @oferta_precio numeric(18,2)
+declare @dni numeric(18,0)
+declare @fecha_compra datetime
+
+fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra
+while @@FETCH_STATUS = 0
+begin
+	insert into [SELECT_THISGROUP_FROM_APROBADOS].Cupon(
+	id_oferta,
+	fecha_vencimiento,
+	cantidad,
+	monto)
+	output inserted.codigo_cupon into @cupon_temp
+	values (
+		(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE codigo = @codigo_oferta),
+		(SELECT fec_venc FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE codigo = @codigo_oferta),
+		@cantidad_oferta_comprada,
+		@cantidad_oferta_comprada * @oferta_precio
+	 )
+
+	insert into [SELECT_THISGROUP_FROM_APROBADOS].Compra(
+		id_cliente_compra,
+		cod_cupon,
+		fecha_compra
+	) output inserted.codigo_compra into @compra_temp
+	values(
+		(SELECT id from [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = @dni),
+		(SELECT id_cupon FROM @cupon_temp),
+		@fecha_compra
+	)
+
+	UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Cupon
+	SET cod_compra = (SELECT id_compra FROM @compra_temp) 
+	WHERE codigo_cupon = (SELECT id_cupon FROM @cupon_temp)
+
+	DELETE @compra_temp 
+	DELETE @cupon_temp
+
+	fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra
+end
+
+close un_cursor
+deallocate un_cursor
 
 -- Migrar Entregas
 --INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Entrega(
@@ -435,7 +459,11 @@ GO
 --) SELECT
 --	Oferta_Entregado_Fecha,
 --	(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Cliente WHERE dni = Cli_Dni) as id_cliente,
---	(SELECT 1)
+--	(SELECT codigo_cupon FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon Cupon 
+--		JOIN [SELECT_THISGROUP_FROM_APROBADOS].Compra Compra on Compra.cod_cupon = Cupon.codigo_cupon
+--		JOIN [SELECT_THISGROUP_FROM_APROBADOS].Cliente Cliente on Cliente.id = Compra.id_cliente_compra, 
+--		[SELECT_THISGROUP_FROM_APROBADOS].Oferta Oferta
+--		WHERE Cupon.id_oferta = Oferta.id and Oferta_Codigo = codigo and Cliente.dni = Cli_Dni) as cupon
 --FROM gd_esquema.Maestra
 --WHERE Oferta_Entregado_Fecha is not null
 --GO
