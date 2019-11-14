@@ -397,9 +397,12 @@ WHERE Oferta_Codigo is not null
 GROUP BY Provee_CUIT, Oferta_Codigo, Oferta_Descripcion, Oferta_Fecha, Oferta_Fecha_Venc, Oferta_Precio, Oferta_Precio_Ficticio, Oferta_Cantidad
 GO
 
+CREATE INDEX oferta_codigo ON [SELECT_THISGROUP_FROM_APROBADOS].Oferta(codigo)
+go
+
 declare un_cursor CURSOR 
 STATIC READ_ONLY FORWARD_ONLY
-for (SELECT Oferta_Codigo, Oferta_Cantidad, Oferta_Precio, Cli_Dni, Oferta_Fecha_Compra FROM gd_esquema.Maestra WHERE Oferta_Fecha_Compra is not null and Factura_Fecha is null and Oferta_Entregado_Fecha is null)
+for (SELECT Oferta_Codigo, Oferta_Cantidad, Oferta_Precio, Cli_Dni, Oferta_Fecha_Compra, Oferta_Fecha_Venc FROM gd_esquema.Maestra WHERE Oferta_Fecha_Compra is not null and Factura_Fecha is null and Oferta_Entregado_Fecha is null)
 
 open un_cursor
 
@@ -410,10 +413,14 @@ declare @cantidad_oferta_comprada numeric(18,0)
 declare @oferta_precio numeric(18,2)
 declare @dni numeric(18,0)
 declare @fecha_compra datetime
+declare @fecha_venc datetime
+declare @id_oferta numeric(18,0)
 
-fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra
+fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra, @fecha_venc
 while @@FETCH_STATUS = 0
 begin
+	set @id_oferta = (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE codigo = @codigo_oferta)
+
 	insert into [SELECT_THISGROUP_FROM_APROBADOS].Cupon(
 	id_oferta,
 	fecha_vencimiento,
@@ -421,8 +428,8 @@ begin
 	monto)
 	output inserted.codigo_cupon into @cupon_temp
 	values (
-		(SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE codigo = @codigo_oferta),
-		(SELECT fec_venc FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE codigo = @codigo_oferta),
+		@id_oferta,
+		@fecha_venc,
 		@cantidad_oferta_comprada,
 		@cantidad_oferta_comprada * @oferta_precio
 	 )
@@ -445,7 +452,7 @@ begin
 	DELETE @compra_temp 
 	DELETE @cupon_temp
 
-	fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra
+	fetch un_cursor into @codigo_oferta, @cantidad_oferta_comprada, @oferta_precio, @dni, @fecha_compra, @fecha_venc
 end
 
 close un_cursor
