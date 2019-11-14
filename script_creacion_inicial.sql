@@ -895,10 +895,9 @@ AS
 			RETURN
 		END
 	
-	DECLARE @nuevaFactura NUMERIC
 	-- Si llegó acá no existe una factura para ese proveedor en ese período.
 	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) OUTPUT inserted.numero_factura VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
-	SET @nuevaFactura = SCOPE_IDENTITY()
+	SET @numeroFact = SCOPE_IDENTITY()
 	
 	DECLARE @mont NUMERIC
 	DECLARE @cant INT
@@ -914,11 +913,14 @@ AS
 	
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
-		INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion (numero_factura, id_oferta, cantidad, monto) VALUES (@nuevaFactura, @oferta, @cant, @mont)
+		INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion (numero_factura, id_oferta, cantidad, monto) VALUES (@numeroFact, @oferta, @cant, @mont)
 		FETCH unCursor INTO @cant, @mont
 	END
 	CLOSE unCursor
 	DEALLOCATE unCursor
+
+	SELECT @importeTotal = total FROM Facturacion WHERE numero_factura = @numeroFact
+
  END
 GO
 
