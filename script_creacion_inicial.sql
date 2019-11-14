@@ -947,7 +947,7 @@ AS
 	DECLARE @cant INT
 	DECLARE @oferta NUMERIC
 
-	DECLARE unCursor CURSOR FOR (SELECT cantidad, monto, id_oferta FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon 
+	DECLARE unCursor CURSOR LOCAL FOR (SELECT cantidad, monto, id_oferta FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon 
 	WHERE id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
 	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(date, fecha_compra) >= @fechaDesde AND CONVERT(date, fecha_compra) <= @fechaHasta))
 
@@ -958,13 +958,14 @@ AS
 	WHILE(@@FETCH_STATUS = 0)
 	BEGIN
 		INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion (numero_factura, id_oferta, cantidad, monto) VALUES (@numeroFact, @oferta, @cant, @mont)
-		FETCH unCursor INTO @cant, @mont
+		FETCH unCursor INTO @cant, @mont, @oferta
 	END
 	CLOSE unCursor
 	DEALLOCATE unCursor
 
-	SELECT @importeTotal = total FROM Facturacion WHERE numero_factura = @numeroFact
+	SET @importeTotal = (SELECT total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE numero_factura = @numeroFact)
 
+	RETURN
  END
 GO
 
