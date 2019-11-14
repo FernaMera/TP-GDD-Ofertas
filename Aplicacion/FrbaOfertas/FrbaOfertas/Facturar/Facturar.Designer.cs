@@ -36,9 +36,13 @@
             this.btn_seleccionarProveedor = new System.Windows.Forms.Button();
             this.textBox_proveedor = new System.Windows.Forms.TextBox();
             this.label_proveedor = new System.Windows.Forms.Label();
-            this.dataGridView_ofertasAdquiridas = new System.Windows.Forms.DataGridView();
             this.btn_facturar = new System.Windows.Forms.Button();
             this.button_limpiar = new System.Windows.Forms.Button();
+            this.dataGridView_ofertasAdquiridas = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox_factura = new System.Windows.Forms.TextBox();
+            this.textBox_importeTotal = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ofertasAdquiridas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -112,14 +116,6 @@
             this.label_proveedor.TabIndex = 8;
             this.label_proveedor.Text = "Proveedor:";
             // 
-            // dataGridView_ofertasAdquiridas
-            // 
-            this.dataGridView_ofertasAdquiridas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_ofertasAdquiridas.Location = new System.Drawing.Point(387, 12);
-            this.dataGridView_ofertasAdquiridas.Name = "dataGridView_ofertasAdquiridas";
-            this.dataGridView_ofertasAdquiridas.Size = new System.Drawing.Size(347, 329);
-            this.dataGridView_ofertasAdquiridas.TabIndex = 15;
-            // 
             // btn_facturar
             // 
             this.btn_facturar.Location = new System.Drawing.Point(92, 265);
@@ -128,6 +124,7 @@
             this.btn_facturar.TabIndex = 16;
             this.btn_facturar.Text = "Facturar";
             this.btn_facturar.UseVisualStyleBackColor = true;
+            this.btn_facturar.Click += new System.EventHandler(this.btn_facturar_Click);
             // 
             // button_limpiar
             // 
@@ -137,12 +134,67 @@
             this.button_limpiar.TabIndex = 17;
             this.button_limpiar.Text = "Limpiar todo";
             this.button_limpiar.UseVisualStyleBackColor = true;
+            this.button_limpiar.Click += new System.EventHandler(this.button_limpiar_Click);
+            // 
+            // dataGridView_ofertasAdquiridas
+            // 
+            this.dataGridView_ofertasAdquiridas.AllowUserToAddRows = false;
+            this.dataGridView_ofertasAdquiridas.AllowUserToDeleteRows = false;
+            this.dataGridView_ofertasAdquiridas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ofertasAdquiridas.Location = new System.Drawing.Point(387, 40);
+            this.dataGridView_ofertasAdquiridas.Name = "dataGridView_ofertasAdquiridas";
+            this.dataGridView_ofertasAdquiridas.ReadOnly = true;
+            this.dataGridView_ofertasAdquiridas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_ofertasAdquiridas.Size = new System.Drawing.Size(347, 280);
+            this.dataGridView_ofertasAdquiridas.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(386, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Factura:";
+            // 
+            // textBox_factura
+            // 
+            this.textBox_factura.Cursor = System.Windows.Forms.Cursors.No;
+            this.textBox_factura.Location = new System.Drawing.Point(438, 12);
+            this.textBox_factura.Name = "textBox_factura";
+            this.textBox_factura.ReadOnly = true;
+            this.textBox_factura.Size = new System.Drawing.Size(100, 20);
+            this.textBox_factura.TabIndex = 19;
+            // 
+            // textBox_importeTotal
+            // 
+            this.textBox_importeTotal.Cursor = System.Windows.Forms.Cursors.No;
+            this.textBox_importeTotal.Location = new System.Drawing.Point(634, 328);
+            this.textBox_importeTotal.Name = "textBox_importeTotal";
+            this.textBox_importeTotal.ReadOnly = true;
+            this.textBox_importeTotal.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.textBox_importeTotal.Size = new System.Drawing.Size(100, 20);
+            this.textBox_importeTotal.TabIndex = 21;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(556, 331);
+            this.label3.Name = "label3";
+            this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label3.Size = new System.Drawing.Size(72, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Importe Total:";
             // 
             // Facturar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(746, 353);
+            this.Controls.Add(this.textBox_importeTotal);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBox_factura);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button_limpiar);
             this.Controls.Add(this.btn_facturar);
             this.Controls.Add(this.dataGridView_ofertasAdquiridas);
@@ -172,9 +224,13 @@
         private System.Windows.Forms.Button btn_seleccionarProveedor;
         private System.Windows.Forms.TextBox textBox_proveedor;
         private System.Windows.Forms.Label label_proveedor;
-        private System.Windows.Forms.DataGridView dataGridView_ofertasAdquiridas;
         private System.Windows.Forms.Button btn_facturar;
         private System.Windows.Forms.Button button_limpiar;
+        private System.Windows.Forms.DataGridView dataGridView_ofertasAdquiridas;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBox_factura;
+        private System.Windows.Forms.TextBox textBox_importeTotal;
+        private System.Windows.Forms.Label label3;
 
     }
 }

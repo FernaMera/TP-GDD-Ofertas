@@ -884,18 +884,27 @@ AS BEGIN TRANSACTION
 	return 0
 GO
 
--- sp_facturar
+-- SP para Facturar: sp_facturar
 CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].sp_facturar(@cuitProveedor char(13), @fechaDesde datetime, @fechaHasta datetime,
 @numeroFact NUMERIC OUTPUT, @importeTotal NUMERIC OUTPUT)
 AS
  BEGIN
-    IF ((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND fecha_desde = @fechaDesde AND fecha_hasta = @fechaHasta) > 0)
+    IF ((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(date,fecha_desde) = @fechaDesde AND CONVERT(date,fecha_hasta) = @fechaHasta) > 0)
 		BEGIN
-			SELECT @numeroFact = numero_factura, @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND fecha_desde = @fechaDesde AND fecha_hasta = @fechaHasta
+			SELECT @numeroFact = numero_factura, @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(date, fecha_desde) = @fechaDesde AND CONVERT(date, fecha_hasta) = @fechaHasta
 			RETURN
 		END
 	
-	-- Si llegó acá no existe una factura para ese proveedor en ese período.
+	-- pregunto si existe algún registro para ese proveedor en esas fecha, en cuyo caso regreso valores que interpretará la aplicación pero no generara ninguna oferta
+	IF((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon WHERE id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
+	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(date, fecha_compra) >= @fechaDesde AND CONVERT(date, fecha_compra) <= @fechaHasta)) < 1)
+		BEGIN
+			SET @numeroFact = -1
+			SET @importeTotal = -1
+			RETURN
+		END
+	
+	-- Si llegó acá no existe una factura para ese proveedor en ese período, y hay cosas para facturar
 	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) OUTPUT inserted.numero_factura VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
 	SET @numeroFact = SCOPE_IDENTITY()
 	
@@ -905,7 +914,7 @@ AS
 
 	DECLARE unCursor CURSOR FOR (SELECT cantidad, monto, id_oferta FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon 
 	WHERE id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
-	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE fecha_compra >= @fechaDesde AND fecha_compra <= @fechaHasta))
+	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(date, fecha_compra) >= @fechaDesde AND CONVERT(date, fecha_compra) <= @fechaHasta))
 
 	OPEN unCursor
 
