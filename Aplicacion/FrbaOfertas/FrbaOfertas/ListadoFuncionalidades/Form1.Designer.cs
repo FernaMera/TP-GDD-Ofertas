@@ -48,7 +48,7 @@
             // 
             // abmClienteButton
             // 
-            this.abmClienteButton.Location = new System.Drawing.Point(13, 40);
+            this.abmClienteButton.Location = new System.Drawing.Point(13, 39);
             this.abmClienteButton.Name = "abmClienteButton";
             this.abmClienteButton.Size = new System.Drawing.Size(95, 23);
             this.abmClienteButton.TabIndex = 0;
@@ -58,7 +58,7 @@
             // 
             // abmProveedorButton
             // 
-            this.abmProveedorButton.Location = new System.Drawing.Point(13, 69);
+            this.abmProveedorButton.Location = new System.Drawing.Point(13, 68);
             this.abmProveedorButton.Name = "abmProveedorButton";
             this.abmProveedorButton.Size = new System.Drawing.Size(95, 23);
             this.abmProveedorButton.TabIndex = 1;
@@ -68,7 +68,7 @@
             // 
             // abmRolButton
             // 
-            this.abmRolButton.Location = new System.Drawing.Point(13, 98);
+            this.abmRolButton.Location = new System.Drawing.Point(13, 97);
             this.abmRolButton.Name = "abmRolButton";
             this.abmRolButton.Size = new System.Drawing.Size(95, 23);
             this.abmRolButton.TabIndex = 2;
@@ -78,7 +78,7 @@
             // 
             // cargarCreditoButton
             // 
-            this.cargarCreditoButton.Location = new System.Drawing.Point(13, 156);
+            this.cargarCreditoButton.Location = new System.Drawing.Point(13, 155);
             this.cargarCreditoButton.Name = "cargarCreditoButton";
             this.cargarCreditoButton.Size = new System.Drawing.Size(95, 23);
             this.cargarCreditoButton.TabIndex = 3;
@@ -97,16 +97,16 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Showcard Gothic", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(290, 62);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 33);
+            this.label2.Size = new System.Drawing.Size(148, 31);
             this.label2.TabIndex = 0;
             this.label2.Text = "Bienvenido";
             // 
             // comprarOfertaButton
             // 
-            this.comprarOfertaButton.Location = new System.Drawing.Point(13, 127);
+            this.comprarOfertaButton.Location = new System.Drawing.Point(13, 126);
             this.comprarOfertaButton.Name = "comprarOfertaButton";
             this.comprarOfertaButton.Size = new System.Drawing.Size(95, 23);
             this.comprarOfertaButton.TabIndex = 4;
@@ -116,7 +116,7 @@
             // 
             // crearOfertaButton
             // 
-            this.crearOfertaButton.Location = new System.Drawing.Point(13, 185);
+            this.crearOfertaButton.Location = new System.Drawing.Point(13, 184);
             this.crearOfertaButton.Name = "crearOfertaButton";
             this.crearOfertaButton.Size = new System.Drawing.Size(95, 23);
             this.crearOfertaButton.TabIndex = 5;
@@ -126,12 +126,13 @@
             // 
             // listadoEstadisticoButton
             // 
-            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 272);
+            this.listadoEstadisticoButton.Location = new System.Drawing.Point(13, 271);
             this.listadoEstadisticoButton.Name = "listadoEstadisticoButton";
             this.listadoEstadisticoButton.Size = new System.Drawing.Size(95, 37);
             this.listadoEstadisticoButton.TabIndex = 6;
             this.listadoEstadisticoButton.Text = "Listado Estadistico";
             this.listadoEstadisticoButton.UseVisualStyleBackColor = true;
+            this.listadoEstadisticoButton.Click += new System.EventHandler(this.listadoEstadisticoButton_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -157,19 +158,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Showcard Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(13, 10);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.label1.Size = new System.Drawing.Size(65, 27);
+            this.label1.Size = new System.Drawing.Size(51, 26);
             this.label1.TabIndex = 7;
             this.label1.Text = "Ofertas";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // consumirOfertaButton
             // 
-            this.consumirOfertaButton.Location = new System.Drawing.Point(13, 214);
+            this.consumirOfertaButton.Location = new System.Drawing.Point(13, 213);
             this.consumirOfertaButton.Name = "consumirOfertaButton";
             this.consumirOfertaButton.Size = new System.Drawing.Size(95, 23);
             this.consumirOfertaButton.TabIndex = 10;
@@ -179,7 +180,7 @@
             // 
             // facturacionButton
             // 
-            this.facturacionButton.Location = new System.Drawing.Point(13, 243);
+            this.facturacionButton.Location = new System.Drawing.Point(13, 242);
             this.facturacionButton.Name = "facturacionButton";
             this.facturacionButton.Size = new System.Drawing.Size(95, 23);
             this.facturacionButton.TabIndex = 9;
@@ -189,7 +190,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 315);
+            this.button1.Location = new System.Drawing.Point(13, 314);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 35);
             this.button1.TabIndex = 8;

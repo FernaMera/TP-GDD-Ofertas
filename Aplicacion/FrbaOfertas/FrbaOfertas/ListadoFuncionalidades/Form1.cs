@@ -88,5 +88,10 @@ namespace FrbaOfertas.ListadoFuncionalidades
         {
             AbrirFormEnPanel(new Facturar.Facturar());
         }
+
+        private void listadoEstadisticoButton_Click(object sender, EventArgs e)
+        {
+            AbrirFormEnPanel(new ListadoEstadistico.ListadoEstadistico());
+        }
     }
 }
