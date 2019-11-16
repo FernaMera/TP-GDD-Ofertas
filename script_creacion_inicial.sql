@@ -502,15 +502,16 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion(
 	Factura_Nro,
 	id,
 	Oferta_Cantidad,
-	Oferta_Precio 
+	Oferta_Precio*Oferta_Cantidad 
 FROM gd_esquema.Maestra
 JOIN [SELECT_THISGROUP_FROM_APROBADOS].Oferta ON codigo = Oferta_Codigo
 WHERE Factura_Nro IS NOT NULL
 GO
 
 -- Actualizo Total de cada factura:
+-- Observación importante: El monto ya es cantidad*precio, no multiplicar de vuelta!
 UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Facturacion
-SET  total = (SELECT SUM(cantidad * monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion WHERE f.numero_factura = numero_factura)
+SET  total = (SELECT SUM(monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion WHERE f.numero_factura = numero_factura)
 FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion f
 JOIN [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion df ON f.numero_factura = df.numero_factura
 GO
@@ -906,6 +907,7 @@ AS BEGIN TRANSACTION
 GO
 
 -- SP para Facturar: sp_facturar
+-- Observación importante: El monto en los cupones ya es cantidad*precio, así que si se toma el valor de ahí, no repetir la multiplicación porque da cualquier cosa.
 CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].sp_facturar(@cuitProveedor char(13), @fechaDesde datetime, @fechaHasta datetime,
 @numeroFact NUMERIC OUTPUT, @importeTotal NUMERIC OUTPUT)
 AS
@@ -941,7 +943,7 @@ AS
 
 	-- actualizo total nueva factura
 	UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Facturacion
-	SET  total = (SELECT SUM(cantidad * monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion WHERE numero_factura = @numeroFact)
+	SET  total = (SELECT SUM(monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion df WHERE df.numero_factura = @numeroFact)
 	WHERE numero_factura = @numeroFact
 
 	SELECT @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE numero_factura = @numeroFact
