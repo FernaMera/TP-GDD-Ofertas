@@ -490,6 +490,7 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion(
 	0
 FROM gd_esquema.Maestra m1
 WHERE Factura_Fecha is not null
+
 GO
 
 -- Migrar Detalle_Facturacion:
@@ -498,7 +499,7 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion(
 	id_oferta,
 	cantidad,
 	monto
-) SELECT 
+) SELECT
 	Factura_Nro,
 	id,
 	Oferta_Cantidad,
@@ -930,7 +931,7 @@ AS
 	-- Si llegó acá no existe una factura para ese proveedor en ese período, y hay cosas para facturar
 	
 	-- inserto factura
-	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) OUTPUT inserted.numero_factura VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
+	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
 	SET @numeroFact = SCOPE_IDENTITY()
 
 	-- inserto detalle

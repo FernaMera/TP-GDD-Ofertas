@@ -90,12 +90,13 @@ namespace FrbaOfertas.Facturar
                 catch (SqlException exc)
                 {
                     MessageBox.Show("No se pudo realizar la facturación: " + exc.Message);
-                    conexion.Close();
                 }
+
+                conexion.Close();
             }
             else
             {
-                Util.mostrarListaErrores(errores, "Facturación");
+                Util.mostrarListaErrores(errores, "Error al facturar");
             }
 
         }
