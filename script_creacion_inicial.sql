@@ -483,34 +483,13 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion(
 	cuit_proveedor,
 	total
 ) SELECT DISTINCT
-	factura_Nro, 
-	Factura_Fecha,
-	Factura_Fecha,
+	m1.factura_Nro, 
+	(SELECT MIN(Oferta_Fecha_Compra) FROM gd_esquema.Maestra m2 WHERE m2.Factura_Nro = m1.factura_Nro),
+	(SELECT MAX(Oferta_Fecha_Compra) FROM gd_esquema.Maestra m2 WHERE m2.Factura_Nro = m1.factura_Nro),
 	provee_cuit,
 	0
-FROM gd_esquema.Maestra 
+FROM gd_esquema.Maestra m1
 WHERE Factura_Fecha is not null
-GO
-
--- Trigger para que el monto de las facturas se actualice solo
-CREATE TRIGGER tr_actualizarTotalFactura ON [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion
-AFTER INSERT, UPDATE, DELETE
-AS
-BEGIN
-	DECLARE @monto DECIMAL(12,2)
-	DECLARE @numeroFact NUMERIC(18,0)
-	
-	DECLARE unCursor CURSOR FOR (SELECT (cantidad * monto), numero_factura FROM inserted UNION SELECT (cantidad * monto), numero_factura FROM deleted)
-	OPEN unCursor
-	FETCH unCursor INTO @monto, @numeroFact
-	WHILE(@@FETCH_STATUS = 0)
-	BEGIN
-		UPDATE Facturacion SET total += @monto WHERE numero_factura = @numeroFact 
-	FETCH unCursor INTO @monto, @numeroFact
-	END
-	CLOSE unCursor
-	DEALLOCATE unCursor
-END
 GO
 
 -- Migrar Detalle_Facturacion:
@@ -527,6 +506,13 @@ INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion(
 FROM gd_esquema.Maestra
 JOIN [SELECT_THISGROUP_FROM_APROBADOS].Oferta ON codigo = Oferta_Codigo
 WHERE Factura_Nro IS NOT NULL
+GO
+
+-- Actualizo Total de cada factura:
+UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Facturacion
+SET  total = (SELECT SUM(cantidad * monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion WHERE f.numero_factura = numero_factura)
+FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion f
+JOIN [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion df ON f.numero_factura = df.numero_factura
 GO
 
 
@@ -924,15 +910,15 @@ CREATE PROCEDURE [SELECT_THISGROUP_FROM_APROBADOS].sp_facturar(@cuitProveedor ch
 @numeroFact NUMERIC OUTPUT, @importeTotal NUMERIC OUTPUT)
 AS
  BEGIN
-    IF ((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(date,fecha_desde) = @fechaDesde AND CONVERT(date,fecha_hasta) = @fechaHasta) > 0)
+    IF ((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(datetime,fecha_desde) = @fechaDesde AND CONVERT(datetime,fecha_hasta) = @fechaHasta) > 0)
 		BEGIN
-			SELECT @numeroFact = numero_factura, @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(date, fecha_desde) = @fechaDesde AND CONVERT(date, fecha_hasta) = @fechaHasta
+			SELECT @numeroFact = numero_factura, @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE cuit_proveedor = @cuitProveedor AND CONVERT(datetime, fecha_desde) = @fechaDesde AND CONVERT(datetime, fecha_hasta) = @fechaHasta
 			RETURN
 		END
 	
 	-- pregunto si existe algún registro para ese proveedor en esas fecha, en cuyo caso regreso valores que interpretará la aplicación pero no generara ninguna oferta
 	IF((SELECT COUNT(*) FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon WHERE id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
-	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(date, fecha_compra) >= @fechaDesde AND CONVERT(date, fecha_compra) <= @fechaHasta)) < 1)
+	AND cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(datetime, fecha_compra) >= @fechaDesde AND CONVERT(datetime, fecha_compra) <= @fechaHasta)) < 1)
 		BEGIN
 			SET @numeroFact = -1
 			SET @importeTotal = -1
@@ -940,15 +926,23 @@ AS
 		END
 	
 	-- Si llegó acá no existe una factura para ese proveedor en ese período, y hay cosas para facturar
+	
+	-- inserto factura
 	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Facturacion (fecha_desde, fecha_hasta, cuit_proveedor, total) OUTPUT inserted.numero_factura VALUES (@fechaDesde, @fechaHasta, @cuitProveedor, 0)
 	SET @numeroFact = SCOPE_IDENTITY()
 
-
+	-- inserto detalle
 	INSERT INTO [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion (numero_factura, id_oferta, cantidad, monto) 
-	SELECT @numeroFact,	id_oferta, cantidad, monto FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon 
-	WHERE	id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta WHERE cuit_prov = @cuitProveedor)
+	SELECT @numeroFact, id_oferta, cantidad, monto FROM [SELECT_THISGROUP_FROM_APROBADOS].Cupon cup
+	WHERE	cup.id_oferta IN (SELECT id FROM [SELECT_THISGROUP_FROM_APROBADOS].Oferta o WHERE o.cuit_prov = @cuitProveedor)
 			AND 
-			cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra WHERE CONVERT(date, fecha_compra) >= @fechaDesde AND CONVERT(date, fecha_compra) <= @fechaHasta)	
+			cup.cod_compra IN (SELECT codigo_compra FROM [SELECT_THISGROUP_FROM_APROBADOS].Compra c WHERE CONVERT(datetime, c.fecha_compra) >= @fechaDesde AND CONVERT(datetime, c.fecha_compra) <= @fechaHasta)	
+	
+
+	-- actualizo total nueva factura
+	UPDATE [SELECT_THISGROUP_FROM_APROBADOS].Facturacion
+	SET  total = (SELECT SUM(cantidad * monto) FROM [SELECT_THISGROUP_FROM_APROBADOS].Detalle_Facturacion WHERE numero_factura = @numeroFact)
+	WHERE numero_factura = @numeroFact
 
 	SELECT @importeTotal = total FROM [SELECT_THISGROUP_FROM_APROBADOS].Facturacion WHERE numero_factura = @numeroFact
 	
